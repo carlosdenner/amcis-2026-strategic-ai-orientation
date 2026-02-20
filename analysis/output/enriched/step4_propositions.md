@@ -111,7 +111,7 @@ This proposition could be falsified by empirical studies demonstrating that orga
 
 ### Rationale (Evidence-Grounded)
 
-The conversion of AI orientation into realized, production-scale value is critically contingent upon an organization’s integration readiness, which encompasses modular architecture, orchestration protocols, and operational lifecycle management (Teece, 2007; Ross, Weill, & Robertson, 2006). Dynamic capabilities theory posits that the ability to reconfigure and deploy IT resources underpins competitive advantage, particularly in rapidly evolving technological domains such as AI (Teece, Peteraf, & Leih, 2016). Our analysis demonstrates that integration readiness not only enables the scalable and sustainable deployment of AI solutions but also mitigates the risk of technical debt and shadow IT, thereby accelerating time-to-value (Byrd & Turner, 2001; Chen et al., 2010). The empirical evidence from both crosswalk and incident validation substantiates the mediating and moderating role of integration readiness in the AI orientation–value relationship, aligning with prior findings on the importance of IT infrastructure flexibility and enterprise architecture maturity (Zhang, Tansuhaj, & McCullough, 2009; Sia et al., 2016).
+The conversion of AI orientation into realized, production-scale value is critically contingent upon an organization’s integration readiness, which encompasses modular architecture, orchestration protocols, and operational lifecycle management (Teece, 2007; Ross, Weill, & Robertson, 2006). Dynamic capabilities theory posits that the ability to reconfigure and deploy IT resources underpins competitive advantage, particularly in rapidly evolving technological domains such as AI (Teece, Peteraf, & Leih, 2016). Our analysis demonstrates that integration readiness not only enables the scalable and sustainable deployment of AI solutions but also mitigates the risk of technical debt and shadow IT, thereby accelerating time-to-value (Byrd & Turner, 2001; Chen et al., 2010). The empirical evidence from both crosswalk and incident validation substantiates the mediating and moderating role of integration readiness in the AI orientation–value relationship, aligning with prior findings on the importance of IT infrastructure flexibility and enterprise architecture maturity (Sia et al., 2016).
 
 ### Crosswalk Evidence (Step 2)
 
@@ -131,7 +131,6 @@ This proposition could be falsified by demonstrating, through longitudinal or cr
 - Ross, J. W., Weill, P., & Robertson, D. C. (2006). Enterprise Architecture as Strategy: Creating a Foundation for Business Execution. Harvard Business School Press.
 - Byrd, T. A., & Turner, D. E. (2001). An exploratory analysis of the value of the skills of IT personnel: Their relationship to IS infrastructure and competitive advantage. Decision Sciences, 32(1), 21-54.
 - Chen, D. Q., Mocker, M., Preston, D. S., & Teubner, A. (2010). Information systems strategy: Reconceptualization, measurement, and implications. MIS Quarterly, 34(2), 233-259.
-- Zhang, M. J., Tansuhaj, P., & McCullough, J. (2009). International entrepreneurial capability: The measurement and a comparison between born global firms and traditional exporters in China. Journal of International Entrepreneurship, 7(4), 292-322.
 - Sia, S. K., Soh, C., & Weill, P. (2016). How DBS Bank Pursued a Digital Business Strategy. MIS Quarterly Executive, 15(2), 105-121.
 - Teece, D. J., Peteraf, M., & Leih, S. (2016). Dynamic capabilities and organizational agility: Risk, uncertainty, and strategy in the innovation economy. California Management Review, 58(4), 13-35.
 
@@ -187,7 +186,7 @@ This proposition could be falsified by identifying empirical contexts where high
 
 ### Rationale (Evidence-Grounded)
 
-Institutional theory posits that regulatory mandates exert coercive isomorphic pressures on organizations, compelling them to align internal practices with external expectations (DiMaggio & Powell, 1983). In the context of AI governance, emergent regulations such as the EU AI Act elevate trust readiness from a compliance concern to a strategic imperative, directly influencing the agenda of CIOs and boards. The computed evidence demonstrates that trust readiness is not merely an operational artifact but a salient, multidimensional construct encompassing risk policy, accountability, and regulatory translation capabilities. This strategic salience is further amplified by the prevalence of trust-related governance requirements and incident patterns, supporting the proposition that regulatory pressure acts as a boundary condition moderating the prioritization of trust readiness within AI orientation agendas (Wiener et al., 2023; Berente et al., 2021).
+Institutional theory posits that regulatory mandates exert coercive isomorphic pressures on organizations, compelling them to align internal practices with external expectations (DiMaggio & Powell, 1983). In the context of AI governance, emergent regulations such as the EU AI Act elevate trust readiness from a compliance concern to a strategic imperative, directly influencing the agenda of CIOs and boards. The computed evidence demonstrates that trust readiness is not merely an operational artifact but a salient, multidimensional construct encompassing risk policy, accountability, and regulatory translation capabilities. This strategic salience is further amplified by the prevalence of trust-related governance requirements and incident patterns, supporting the proposition that regulatory pressure acts as a boundary condition moderating the prioritization of trust readiness within AI orientation agendas (Berente et al., 2021).
 
 ### Crosswalk Evidence (Step 2)
 
@@ -204,7 +203,6 @@ This proposition could be falsified by longitudinal or comparative studies demon
 ### Grounding Sources
 
 - DiMaggio, P. J., & Powell, W. W. (1983). The iron cage revisited: Institutional isomorphism and collective rationality in organizational fields. American Sociological Review, 48(2), 147-160.
-- Wiener, M., Saunders, C., & Marabelli, M. (2023). Regulatory pressure and digital innovation: The role of compliance as a strategic capability. MIS Quarterly, 47(1), 123-145.
 - Berente, N., Gu, B., Recker, J., & Santhanam, R. (2021). Managing artificial intelligence. MIS Quarterly, 45(3), 1433-1450.
 - European Union. (2024). Regulation (EU) 2024/XXXX of the European Parliament and of the Council on Artificial Intelligence (EU AI Act).
 - NIST. (2023). AI Risk Management Framework (AI RMF 1.0). National Institute of Standards and Technology.
