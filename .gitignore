@@ -1,0 +1,35 @@
+# ── OS / Editor ────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ── Python ─────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.so
+.Python
+.venv/
+venv/
+env/
+.env
+
+# ── Microsoft Office temp / lock files ─────────────────────
+~$*
+*.tmp
+*.docx
+
+# ── IDE / VS Code ─────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ── Dropbox conflicts ─────────────────────────────────────
+*conflicted copy*

@@ -1,0 +1,118 @@
+secondary-data blueprint for “Strategic AI Orientation Enabled by Trust & Integration Readiness” that’s publishable at AMCIS without primary data, while still looking rigorous and “IS-theory-clean.”
+
+1) Core idea and positioning
+
+Thesis: CIOs shape a firm’s AI orientation (strategic intent/direction for AI), but the ability to realize that orientation depends on two enabling capability bundles: (1) trust/governance readiness and (2) integration/architecture readiness.
+
+You can anchor the AI orientation construct in MISQ (upper echelons theory; CIO and board effects on AI orientation).
+
+2) Best secondary data sources for your angle
+A) Governance/trust readiness sources (normative + operationalizable)
+
+Use these to define “trust readiness” as capabilities and controls, not vague ethics.
+
+NIST AI RMF 1.0 + the Generative AI Profile (actions for GenAI risks; designed as companion to AI RMF).
+
+EU AI Act official text (external compliance constraint; motivates board/CIO attention and makes governance strategic).
+
+OWASP Top 10 for LLM Applications + detailed vulnerability docs (e.g., prompt injection) to operationalize “trust threats” in agentic architectures.
+
+MITRE ATLAS to ground “agentic threat surface” in a recognized adversarial taxonomy. (If you want, I’ll pull a direct MITRE ATLAS page next; we already have OWASP strongly sourced.)
+
+What you extract: required practices, controls, governance structures, lifecycle checkpoints, assurance artifacts → become sub-competencies.
+
+B) Integration/architecture readiness sources (design patterns + operating concerns)
+
+Use these to specify what “integration readiness” means for agentic AI (orchestration, tool-use boundaries, nondeterminism, ops, evaluation).
+
+Google Cloud: agentic AI system design patterns (single-agent vs multi-agent; requirements-driven selection).
+
+Microsoft Azure Well-Architected: AI workload architecture guidance (explicitly treats nondeterminism, data/app design, operations) + GenAIOps/MLOps guidance.
+
+What you extract: architectural primitives (orchestration patterns, integration boundaries, operational controls, evaluation/monitoring) → become integration/architecture sub-competencies.
+
+C) “Reality checks” for trust failures (empirical grounding)
+
+Use incident repositories to validate your trust readiness dimensions and create “negative cases.”
+
+AI Incident Database (AIID) (large repository of real-world incidents)
+
+OECD AI Incidents & Hazards Monitor (AIM) (policy-facing incident monitoring; trend framing)
+
+What you extract: incident categories, root causes, governance/control breakdowns → map to missing competencies (“what went wrong” evidence).
+
+D) Optional (but powerful) strategic twist source: public corporate discourse
+
+If you have bandwidth, add 10-K/annual report risk sections + earnings call transcripts for a sample of firms to proxy “AI orientation” and “trust/integration emphasis” via text patterns.
+(You can cite the MISQ AI-orientation paper for construct legitimacy and then explain your operationalization.)
+
+3) A clean method design (secondary only) that looks rigorous
+Step 1 — Construct definition & boundary (short scoping review)
+
+Define AI orientation using MISQ.
+
+Define trust readiness using NIST AI RMF + GenAI profile + EU AI Act + OWASP.
+
+Define integration readiness using Google agentic patterns + Azure Well-Architected AI + GenAIOps.
+
+Step 2 — Crosswalk content analysis (your “engine”)
+
+Build a matrix:
+
+Rows: governance outcomes/actions (NIST Govern/Map/Measure/Manage + GenAI profile actions; EU AI Act obligations)
+
+Columns: architecture/integration mechanisms (agent patterns, nondeterminism controls, evaluation/monitoring, ops)
+
+Output: a set of competency statements like:
+
+“Translate risk obligations into tool-access controls and evaluation gates for agentic workflows.”
+
+Step 3 — Incident validation (AIID + OECD AIM)
+
+Code incidents into:
+
+harm type (privacy, security, reliability, autonomy/tool misuse, etc.)
+
+missing control (e.g., prompt injection defenses, access boundaries, monitoring)
+
+implied competency gap (e.g., “agentic security threat modeling”, “eval governance”, “data boundary design”)
+
+This strengthens your claim that your framework covers real failure modes.
+
+4) Your conceptual model (ready for an AMCIS figure)
+
+Upper Echelons / Strategic Choice layer
+
+CIO (and board) influences AI Orientation (strategic direction/goals for AI).
+
+Enablers (your novelty)
+
+Trust Readiness (governance capability bundle)
+
+Integration Readiness (architecture capability bundle)
+
+Mechanism
+
+Trust & integration readiness mediate (or moderate) the AI orientation → realized value relationship by enabling safe scaling.
+
+5) Starter propositions (you can include even without testing)
+
+CIO presence/centrality → AI orientation (grounded in MISQ).
+
+Higher trust readiness strengthens the conversion of AI orientation into production scaling (via reduced risk, fewer incidents, higher auditability), aligned to NIST AI RMF/GenAI actions.
+
+Higher integration readiness strengthens the conversion of AI orientation into scaling (via reusable patterns, orchestration fit, and GenAIOps practices).
+
+Trust readiness × integration readiness jointly matter (complements): weak architecture undermines governance; weak governance constrains architecture deployment. (Supported by how architecture guidance treats nondeterminism/ops and how OWASP shows agentic vulnerabilities.)
+
+External regulatory pressure (e.g., EU AI Act) increases the strategic salience of trust readiness, pushing governance into the “AI orientation” agenda (license-to-operate effect).
+
+6) What you’ll deliver fast (high-value artifacts)
+
+A crosswalk table (NIST/GenAI Profile + EU AI Act ↔ Agentic architecture patterns + GenAIOps)
+
+A competency taxonomy: 2 bundles × ~6–10 sub-competencies each (with observable practices)
+
+An incident-mapped validation appendix (AIID/OECD AIM → “coverage map”)
+
+An AMCIS-ready conceptual model + propositions
