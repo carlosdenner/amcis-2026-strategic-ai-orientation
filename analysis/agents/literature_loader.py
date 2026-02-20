@@ -1,24 +1,37 @@
-"""
-Literature loader — reads HTML and Markdown source files,
+"""Literature loader -- reads HTML, Markdown, and PDF source files,
 extracts clean text, and chunks them for LLM processing.
+PDF extraction via PyMuPDF (fitz) with page-number tracking.
 """
 
 import os, re
+try:
+    import fitz  # PyMuPDF
+    HAS_FITZ = True
+except ImportError:
+    HAS_FITZ = False
 from bs4 import BeautifulSoup
 from . import config
+
+# ── Source quality thresholds ────────────────────────────────────────────────
+QUALITY_THRESHOLDS = {
+    "full":    5_000,   # >= 5K chars: full document
+    "partial": 1_000,   # 1K–5K chars: partial/summary
+    # < 1K chars: stub (paywalled abstract or minimal placeholder)
+}
+MIN_USEFUL_CHARS = 200  # below this, warn and flag as unusable
 
 
 def load_file(source_id: str) -> dict | None:
     """Load a single literature file by its source ID (e.g. '#01').
-    Returns dict with keys: id, label, type, text, char_count.
-    Returns None for PDF files (not machine-readable)."""
+    Returns dict with keys: id, label, type, text, char_count, quality_tier, pages.
+    Now supports PDF extraction via PyMuPDF."""
     meta = config.LITERATURE_FILES.get(source_id)
     if not meta:
         return None
-    if meta["type"] == "pdf":
+    if meta["type"] == "pdf" and not HAS_FITZ:
         return {"id": source_id, "label": meta["label"], "type": "pdf",
-                "text": None, "char_count": 0,
-                "note": "PDF — requires manual extraction"}
+                "text": None, "char_count": 0, "quality_tier": "unavailable",
+                "note": "PDF -- install pymupdf for extraction"}
 
     filepath = os.path.join(config.LIT_DIR, meta["file"])
     if not os.path.exists(filepath):
@@ -26,16 +39,28 @@ def load_file(source_id: str) -> dict | None:
                 "text": None, "char_count": 0,
                 "note": f"File not found: {meta['file']}"}
 
-    with open(filepath, "r", encoding="utf-8", errors="replace") as f:
-        raw = f.read()
+    if meta["type"] == "pdf":
+        text, pages = _extract_pdf(filepath)
+    else:
+        with open(filepath, "r", encoding="utf-8", errors="replace") as f:
+            raw = f.read()
+        if meta["type"] == "html":
+            text = _extract_html(raw)
+        else:  # md
+            text = _clean_markdown(raw)
+        pages = None
 
-    if meta["type"] == "html":
-        text = _extract_html(raw)
-    else:  # md
-        text = _clean_markdown(raw)
+    char_count = len(text) if text else 0
+    quality_tier = _assess_quality(char_count)
 
-    return {"id": source_id, "label": meta["label"], "type": meta["type"],
-            "text": text, "char_count": len(text)}
+    if char_count < MIN_USEFUL_CHARS:
+        print(f"    WARNING: {source_id} has only {char_count} chars -- likely a stub/paywall")
+
+    result = {"id": source_id, "label": meta["label"], "type": meta["type"],
+              "text": text, "char_count": char_count, "quality_tier": quality_tier}
+    if pages is not None:
+        result["pages"] = pages
+    return result
 
 
 def load_sources(source_ids: list[str]) -> list[dict]:
@@ -49,9 +74,13 @@ def load_sources(source_ids: list[str]) -> list[dict]:
 
 
 def load_all_readable() -> list[dict]:
-    """Load all non-PDF literature files."""
-    return load_sources([sid for sid, meta in config.LITERATURE_FILES.items()
-                         if meta["type"] != "pdf"])
+    """Load all literature files (including PDFs if pymupdf is available)."""
+    all_ids = []
+    for sid, meta in config.LITERATURE_FILES.items():
+        if meta["type"] == "pdf" and not HAS_FITZ:
+            continue  # skip PDFs only if we can't extract them
+        all_ids.append(sid)
+    return load_sources(all_ids)
 
 
 def chunk_text(text: str, max_chars: int = None) -> list[str]:
@@ -82,18 +111,37 @@ def chunk_text(text: str, max_chars: int = None) -> list[str]:
 
 
 def prepare_source_context(sources: list[dict],
-                           max_total_chars: int = 500_000) -> str:
+                           max_total_chars: int = 500_000,
+                           max_source_pct: float = 0.30) -> str:
     """Combine multiple sources into a single context string with headers.
-    Truncates individual sources if total would exceed budget."""
+    Applies quality-aware allocation: no single source exceeds max_source_pct
+    of total budget, preventing dominant sources from drowning out others."""
+    if not sources:
+        return "\n\n[No sources available]\n\n"
+
+    # Cap per-source allocation to prevent a single large doc dominating
+    max_per_source = int(max_total_chars * max_source_pct)
+    # Also ensure minimum allocation for each source
+    min_per_source = min(10_000, max_total_chars // max(len(sources), 1))
+    per_source_budget = max(min_per_source,
+                           min(max_per_source,
+                               max_total_chars // max(len(sources), 1)))
+
     parts = []
     total = 0
-    per_source_budget = max_total_chars // max(len(sources), 1)
 
-    for doc in sources:
+    # Sort by quality tier (full first, then partial, then stubs)
+    sorted_sources = sorted(sources,
+                           key=lambda d: (d.get('quality_tier','stub') != 'full',
+                                          d.get('quality_tier','stub') != 'partial',
+                                          -d.get('char_count', 0)))
+
+    for doc in sorted_sources:
         text = doc["text"]
+        quality = doc.get('quality_tier', 'unknown')
         if len(text) > per_source_budget:
             text = text[:per_source_budget] + "\n\n[... TRUNCATED ...]"
-        header = f"═══ SOURCE {doc['id']}: {doc['label']} ═══"
+        header = f"═══ SOURCE {doc['id']}: {doc['label']} [{quality}] ═══"
         part = f"{header}\n\n{text}"
         total += len(part)
         if total > max_total_chars:
@@ -139,9 +187,57 @@ def _extract_html(html: str) -> str:
 
 
 def _clean_markdown(md: str) -> str:
-    """Clean markdown text — normalize whitespace, remove HTML artifacts."""
+    """Clean markdown text -- normalize whitespace, remove HTML artifacts."""
     # Remove inline HTML tags that sometimes appear in MD files
     md = re.sub(r"</?[a-zA-Z][^>]*>", "", md)
     # Collapse excessive whitespace
     md = re.sub(r"\n{3,}", "\n\n", md)
     return md.strip()
+
+
+def _extract_pdf(filepath: str) -> tuple[str, int]:
+    """Extract text from a PDF file using PyMuPDF.
+    Returns (text, page_count). Preserves page boundaries for citation tracking.
+    Handles multi-column layouts, strips headers/footers, and cleans artifacts."""
+    if not HAS_FITZ:
+        return ("", 0)
+
+    doc = fitz.open(filepath)
+    pages = []
+    page_count = len(doc)
+
+    for page_num in range(page_count):
+        page = doc[page_num]
+        # Use "text" extraction mode for clean output
+        text = page.get_text("text")
+
+        # Clean common PDF artifacts
+        # Remove page numbers (standalone numbers at start/end of page)
+        text = re.sub(r"^\s*\d{1,3}\s*$", "", text, flags=re.MULTILINE)
+        # Remove form feed characters
+        text = text.replace("\x0c", "")
+        # Fix hyphenated line breaks (word- \n continuation)
+        text = re.sub(r"(\w)-\s*\n\s*(\w)", r"\1\2", text)
+        # Collapse excessive blank lines
+        text = re.sub(r"\n{3,}", "\n\n", text)
+
+        text = text.strip()
+        if text and len(text) > 20:  # skip near-empty pages
+            pages.append(f"[Page {page_num + 1}]\n{text}")
+
+    doc.close()
+
+    full_text = "\n\n".join(pages)
+    return (full_text, page_count)
+
+
+def _assess_quality(char_count: int) -> str:
+    """Assess source quality tier based on character count."""
+    if char_count >= QUALITY_THRESHOLDS["full"]:
+        return "full"
+    elif char_count >= QUALITY_THRESHOLDS["partial"]:
+        return "partial"
+    elif char_count >= MIN_USEFUL_CHARS:
+        return "stub"
+    else:
+        return "unusable"

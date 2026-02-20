@@ -106,8 +106,93 @@ LITERATURE_FILES = {
             "label": "Pinski & Benlian — AI Literacy and Human Competency", "type": "pdf"},
 }
 
+# Source type classification for triangulation checks
+# Each source is classified as academic, standard, or practitioner
+SOURCE_TYPES = {
+    "#01": "academic",    # Springer - CIO Role in DT
+    "#02": "academic",    # MISQ - AI Orientation
+    "#03": "academic",    # SAGE - Dynamic Managerial Capability
+    "#04": "academic",    # ScienceDirect - Responsible AI Governance
+    "#05": "academic",    # ScienceDirect - IS Article on AI Governance
+    "#06": "academic",    # Springer Book Chapter
+    "#07": "practitioner",  # Gartner CIO Agenda
+    "#08": "practitioner",  # HBR Gen AI Playbook
+    "#09": "practitioner",  # Deloitte Tech Trends
+    "#10": "practitioner",  # Bizzdesign EA & AI
+    "#11": "practitioner",  # Microsoft Learn LLMOps
+    "#12": "practitioner",  # IBM Data Governance
+    "#13": "practitioner",  # AWS Data Governance
+    "#14": "practitioner",  # MIT CISR Data as Product
+    "#15": "practitioner",  # McKinsey Agentic AI Safety
+    "#16": "practitioner",  # McKinsey Change Management
+    "#17": "practitioner",  # McKinsey Superagency
+    "#18": "practitioner",  # Bain Talent Gap
+    "#19": "practitioner",  # WEF Future of Jobs
+    "#20": "practitioner",  # BCG CIOs Role
+    "#21": "standard",     # NIST AI RMF 1.0
+    "#22": "standard",     # NIST GenAI Profile
+    "#23": "standard",     # ISO/IEC 42001
+    "#24": "standard",     # ISO/IEC 23894
+    "#25": "standard",     # ISACA COBIT for AI
+    "#26": "standard",     # EU AI Act
+    "#27": "standard",     # EU Parliament AI Briefing
+    "#28": "standard",     # EDPS GenAI Data Protection
+    "#29": "standard",     # OWASP Top 10 LLM
+    "#31": "practitioner",  # Callahan Chief AI Officer
+    "#32": "practitioner",  # McKinsey New CIO Mandate
+    "#33": "academic",     # MIT Sloan/WEF AI Ethicist
+    "#34": "academic",     # Pinski & Benlian AI Literacy
+}
+
 # Sources grouped by construct relevance (for targeted extraction)
-TRUST_SOURCES     = ["#22", "#26", "#29", "#25", "#28", "#23", "#24", "#04", "#05"]
-INTEGRATION_SOURCES = ["#09", "#10", "#11", "#12", "#13", "#20"]
-ORIENTATION_SOURCES = ["#01", "#02", "#06", "#08", "#18", "#20"]
-REGULATORY_SOURCES  = ["#26", "#28", "#22", "#25", "#23", "#24"]
+# Updated to include PDFs now that PyMuPDF extraction is available
+TRUST_SOURCES = [
+    "#22",  # NIST GenAI Profile
+    "#26",  # EU AI Act
+    "#29",  # OWASP Top 10 LLM
+    "#25",  # ISACA COBIT for AI
+    "#28",  # EDPS GenAI Data Protection
+    "#23",  # ISO/IEC 42001
+    "#24",  # ISO/IEC 23894
+    "#04",  # ScienceDirect Responsible AI Governance
+    "#05",  # ScienceDirect IS Article on AI Governance
+    "#21",  # NIST AI RMF 1.0 Full Document (PDF)
+    "#15",  # McKinsey Agentic AI Safety & Security (PDF)
+    "#27",  # EU Parliament AI Implementation Briefing (PDF)
+    "#33",  # MIT Sloan/WEF AI Ethicist (PDF)
+]
+INTEGRATION_SOURCES = [
+    "#09",  # Deloitte Tech Trends 2026 Agentic AI
+    "#10",  # Bizzdesign Enterprise Architecture & AI
+    "#11",  # Microsoft Learn LLMOps/GenAIOps
+    "#12",  # IBM Data Governance for AI
+    "#13",  # AWS Data Governance Age of GenAI
+    "#20",  # BCG CIOs Role in AI Transformation
+    "#15",  # McKinsey Agentic AI Safety & Security (PDF)
+    "#16",  # McKinsey Reconfiguring Work for GenAI (PDF)
+    "#34",  # Pinski & Benlian AI Literacy (PDF)
+]
+ORIENTATION_SOURCES = [
+    "#01",  # Springer CIO Role in Digital Transformation
+    "#02",  # MISQ Strategic Directions AI Role CIOs
+    "#06",  # Springer Book Chapter AI & Digital Transformation
+    "#08",  # HBR Gen AI Playbook
+    "#18",  # Bain Widening Talent Gap AI
+    "#20",  # BCG CIOs Role in AI Transformation
+    "#03",  # SAGE/Hossain Digital Leadership (PDF)
+    "#07",  # Gartner CIO Agenda 2026 (PDF)
+    "#17",  # McKinsey Superagency Workplace (PDF)
+    "#19",  # WEF Future of Jobs Report 2025 (PDF)
+    "#31",  # Callahan Rise of Chief AI Officer (PDF)
+    "#32",  # McKinsey New CIO Mandate (PDF)
+]
+REGULATORY_SOURCES = [
+    "#26",  # EU AI Act
+    "#28",  # EDPS GenAI Data Protection
+    "#22",  # NIST GenAI Profile
+    "#25",  # ISACA COBIT for AI
+    "#23",  # ISO/IEC 42001
+    "#24",  # ISO/IEC 23894
+    "#21",  # NIST AI RMF 1.0 Full Document (PDF)
+    "#27",  # EU Parliament AI Implementation Briefing (PDF)
+]

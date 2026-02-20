@@ -17,13 +17,38 @@ analysis for an AMCIS 2026 paper. You map governance requirements from \
 normative frameworks (NIST AI RMF, EU AI Act, OWASP) to architecture controls \
 from practitioner guidance (agentic AI patterns, GenAIOps, enterprise architecture).
 
+BUNDLE CLASSIFICATION CRITERIA -- apply these STRICTLY:
+
+TRUST READINESS: The PRIMARY capability demand is GOVERNANCE, POLICY, or RISK \
+MANAGEMENT. The requirement is about WHAT must be governed, WHO is accountable, \
+and UNDER WHAT RULES. Examples:
+  - Establishing accountability structures for AI risk
+  - Data governance policies and quality standards
+  - Regulatory compliance documentation
+  - Third-party/supply-chain risk oversight
+  - Human oversight authority and escalation policies
+
+INTEGRATION READINESS: The PRIMARY capability demand is ARCHITECTURE, \
+ENGINEERING, or TECHNICAL OPERATIONS. The requirement is about HOW systems \
+are built, deployed, and monitored. Examples:
+  - Implementing sandboxing or orchestration patterns
+  - Building evaluation/monitoring infrastructure
+  - Designing RAG pipelines with data grounding
+  - Setting up GenAIOps/MLOps lifecycle tooling
+  - Implementing prompt management and access controls
+
+DECISION RULE: If the requirement specifies what POLICY must exist, it is \
+Trust Readiness. If it specifies what TECHNICAL MECHANISM must be built, it is \
+Integration Readiness. Many requirements have BOTH aspects -- in that case, \
+classify based on which demand is PRIMARY (where should the CIO invest MORE \
+organizational effort: governance processes or engineering work?).
+
 Critical rules:
 1. Every mapping must cite a specific passage from the provided sources.
 2. If no source evidence supports a mapping, do NOT create it.
 3. Competency statements must be natural academic prose, not templates.
-4. Classify each competency into "Trust Readiness" or "Integration Readiness" \
-   based on whether the primary capability demand is governance/policy (Trust) \
-   or architecture/engineering (Integration).
+4. Always provide your reasoning for the bundle classification.
+5. Assign a confidence score based on evidence strength.
 """
 
 # ── Governance requirements from normative sources ───────────────────────────
@@ -99,19 +124,30 @@ ARCH_CONTROLS = [
 CROSSWALK_PROMPT = """\
 You are performing a crosswalk analysis for an IS research paper.
 
+THINK STEP-BY-STEP for each requirement:
+1. Read the governance requirement carefully.
+2. Search the literature sources for passages that discuss HOW organisations \
+   should address this kind of requirement.
+3. Based on the evidence found, select the most relevant architecture controls.
+4. Write a competency statement that captures the organisational capability needed.
+5. Classify as Trust or Integration Readiness using the criteria in your instructions.
+6. Rate your confidence based on evidence quality.
+
+CONFIDENCE SCORING:
+- "high": 2+ sources provide direct evidence for this mapping
+- "medium": 1 source provides direct evidence, or 2+ provide indirect evidence
+- "low": mapping is inferred from general principles, not directly supported
+
+COMPETENCY STATEMENT GUIDELINES:
+- Write VARIED, natural academic prose. Avoid repeating the same sentence patterns.
+- Each statement should capture the SPECIFIC capability, not a generic platitude.
+- Bad: "The organisation must ensure AI risk management is in place."
+- Good: "A firm requires dedicated AI risk governance committees with cross-functional \
+  membership empowered to halt deployments when risk thresholds are breached [#21]."
+
 Below are GOVERNANCE REQUIREMENTS from normative sources and a list of \
 ARCHITECTURE CONTROLS from practitioner guidance. Also provided are the \
 full texts of relevant literature sources.
-
-For each governance requirement, determine:
-1. Which architecture controls address it (select from the provided list ONLY)
-2. Cite specific evidence from the literature sources supporting each mapping
-3. Generate a natural-language competency statement (academic prose) that \
-   describes the organizational capability needed to satisfy this requirement \
-   through the identified controls
-4. Classify as "Trust Readiness" or "Integration Readiness" based on whether \
-   the PRIMARY capability demand is governance/policy (Trust) or \
-   architecture/engineering (Integration)
 
 Process requirements in this batch: {batch_ids}
 
@@ -131,7 +167,10 @@ Return JSON:
       "req_id": "...",
       "applicable_controls": ["control name", ...],
       "bundle": "Trust Readiness|Integration Readiness",
-      "competency_statement": "Natural-language competency statement (1-2 sentences)...",
+      "bundle_reasoning": "1-2 sentences explaining WHY this is Trust or Integration",
+      "confidence": "high|medium|low",
+      "competency_statement": "Natural-language competency statement (1-2 sentences, \
+with [#XX] source citations where supported)...",
       "evidence": [
         {{
           "control": "control name",
@@ -155,7 +194,10 @@ def run(step1_results: list = None):
     # Load governance + architecture literature sources
     all_source_ids = list(set(
         config.TRUST_SOURCES + config.INTEGRATION_SOURCES +
-        config.REGULATORY_SOURCES + ["#29", "#20", "#11"]
+        config.REGULATORY_SOURCES + [
+            "#29", "#20", "#11",
+            "#15", "#21", "#27", "#33",  # PDF sources with governance/architecture content
+        ]
     ))
     sources = load_sources(all_source_ids)
     print(f"Loaded {len(sources)} readable literature sources")
@@ -248,7 +290,9 @@ def _write_competency_statements(crosswalk: list):
             "competency_id": f"COMP-{i:02d}",
             "req_id": entry.get("req_id", ""),
             "bundle": entry.get("bundle", ""),
+            "confidence": entry.get("confidence", ""),
             "competency_statement": entry.get("competency_statement", ""),
+            "bundle_reasoning": entry.get("bundle_reasoning", ""),
             "applicable_controls": "; ".join(entry.get("applicable_controls", [])),
             "evidence_summary": evidence_summary,
         })

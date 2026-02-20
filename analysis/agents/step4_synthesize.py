@@ -16,6 +16,35 @@ You are an IS theory scholar composing grounded propositions for an AMCIS 2026 \
 paper. Each proposition must be supported by computed evidence from the \
 paper's own analysis (crosswalk statistics, incident coding frequencies) \
 AND literature citations. Write in rigorous academic IS prose.
+
+THEORETICAL SPINE (apply consistently):
+- Dynamic Managerial Capabilities (DMC): CIO competencies are micro-foundations \
+  enabling organisational AI capabilities.
+- Role Theory: The CIO role expands and becomes multi-dimensional in AI/DT contexts.
+- Governance-as-Capability: Responsible AI governance is a structured set of \
+  practices (structural, relational, procedural) with measurable effects.
+Use this tri-theory frame when composing rationale and discussing mechanisms.
+
+MCKINSEY SCALING CONSTRAINTS (practical anchor):
+CIO competencies are framed as removing scaling barriers (McKinsey 2026, Exhibit 5):
+  1. Talent/capability gaps (31%), 2. Integration complexity (29%),
+  3. Security/reliability/hallucinations (26%), 4. Regulatory/privacy (24%),
+  5. Data foundations (21%), 6. Use cases (18%), 7. ROI measurement (17%),
+  8. Change management (16%)
+When relevant, connect propositions to specific barriers they address.
+
+CRITICAL CITATION RULES:
+1. CORPUS SOURCES: Use [#XX] notation for sources in the paper's corpus. \
+   These are verified, traceable citations.
+2. THEORETICAL REFERENCES: When referencing foundational theories, name them \
+   by theory name (e.g., "Upper Echelons Theory", "Dynamic Capabilities framework") \
+   but do NOT fabricate author/year citations unless you are 100% certain of \
+   the exact citation. It is better to say "the dynamic capabilities literature" \
+   than to guess "Teece et al. (1997)" incorrectly.
+3. COMPUTED STATISTICS: Use the exact numbers provided in the statistics sections. \
+   Do NOT round, approximate, or invent different numbers.
+4. Be a CRITICAL SCHOLAR, not an advocate. If evidence is weak, say so. If a \
+   proposition rests on thin data, flag it. Intellectual honesty builds credibility.
 """
 
 PROPOSITION_SHELLS = [
@@ -118,14 +147,28 @@ STEP 3 STATISTICS (ATLAS Incident Validation):
 STEP 1 EVIDENCE (Construct Extraction Summary):
 {step1_summary}
 
+THINK STEP-BY-STEP:
+1. Identify which statistics from Steps 2-3 are most relevant to this proposition.
+2. Identify which corpus sources [#XX] provide the strongest support.
+3. Write the rationale integrating BOTH quantitative evidence and qualitative evidence.
+4. Then CHALLENGE your own argument (devil's advocate phase).
+5. Rate your confidence honestly.
+
 Compose:
 1. An evidence-grounded RATIONALE paragraph (3-5 sentences) integrating both \
-   literature citations and computed statistics from Steps 2-3.
+   corpus citations [#XX] and computed statistics from Steps 2-3.
 2. A CROSSWALK EVIDENCE paragraph citing specific Step 2 statistics.
 3. An ATLAS EVIDENCE paragraph citing specific Step 3 incident statistics.
-4. A FALSIFIABILITY note (2-3 sentences) explaining how this proposition could \
-   be tested or falsified.
-5. A list of GROUNDING SOURCES (literature references supporting this proposition).
+4. A DEVIL'S ADVOCATE section:
+   - counter_argument: The strongest argument AGAINST this proposition (2-3 sentences)
+   - weakest_evidence: Which piece of evidence is weakest and why
+   - alternative_explanation: An alternative theory that explains the same observations
+   - boundary_conditions: Under what conditions would this proposition NOT hold?
+5. A FALSIFIABILITY note (2-3 sentences) explaining how this proposition could \
+   be tested or falsified empirically.
+6. CONFIDENCE ASSESSMENT: high/medium/low with justification.
+7. GROUNDING SOURCES: ONLY list sources from the paper's corpus [#XX]. \
+   Do NOT add external references that are not in the corpus.
 
 Return JSON:
 {{
@@ -133,8 +176,16 @@ Return JSON:
   "rationale": "...",
   "crosswalk_evidence": "...",
   "atlas_evidence": "...",
+  "devils_advocate": {{
+    "counter_argument": "...",
+    "weakest_evidence": "...",
+    "alternative_explanation": "...",
+    "boundary_conditions": "..."
+  }},
   "falsifiability_note": "...",
-  "grounding_sources": ["source 1", "source 2", ...]
+  "confidence": "high|medium|low",
+  "confidence_justification": "...",
+  "grounding_sources": ["#XX: brief description of what this source contributes", ...]
 }}
 """
 
@@ -332,10 +383,14 @@ def _compute_step3_stats(step3_results: list = None) -> str:
             if sc:
                 sc_freq[sc] += 1
 
+    # Harm type distribution
+    harm_counts = Counter(r.get("harm_type", "") for r in step3_results)
+
     lines = [
         f"Total incidents coded: {total}",
         f"Failure mode distribution: {dict(fm_counts)}",
         f"Trust vs Integration dominance: {dict(split_counts)}",
+        f"Harm type distribution: {dict(harm_counts)}",
         f"Top 10 tactics by frequency:",
     ]
     for tac, cnt in tactic_freq.most_common(10):
@@ -358,6 +413,21 @@ def _compute_step3_stats(step3_results: list = None) -> str:
         for m in mit_rows[:10]:
             lines.append(f"  [{m['incident_count']}x] {m['mitigation_id']} "
                          f"{m['mitigation_name']} ({m.get('category','')})")
+
+    # Coverage map data (which sub-competencies are validated by incidents)
+    cov_path = os.path.join(config.ENRICHED_DIR, "step3_coverage_map.csv")
+    if os.path.exists(cov_path):
+        with open(cov_path, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            cov_rows = list(reader)
+        validated = sum(1 for r in cov_rows if r.get("coverage_status") == "validated")
+        partial = sum(1 for r in cov_rows if r.get("coverage_status") == "partial")
+        uncovered = sum(1 for r in cov_rows if r.get("coverage_status") == "uncovered")
+        lines.append(f"\nFramework coverage map: {validated} validated, "
+                     f"{partial} partial, {uncovered} uncovered (of {len(cov_rows)} total)")
+        for r in cov_rows:
+            lines.append(f"  {r['sub_competency_id']} {r['sub_competency_name']}: "
+                         f"{r['incident_count']} incidents [{r['coverage_status']}]")
 
     return "\n".join(lines)
 
@@ -451,6 +521,8 @@ def _write_markdown(propositions: list):
             "",
             f"**Mechanism**: {p.get('mechanism', '')}",
             "",
+            f"**Confidence**: {p.get('confidence', 'N/A')} -- {p.get('confidence_justification', '')}",
+            "",
             "### Rationale (Evidence-Grounded)",
             "",
             p.get("rationale", "N/A"),
@@ -463,6 +535,25 @@ def _write_markdown(propositions: list):
             "",
             p.get("atlas_evidence", "N/A"),
             "",
+        ]
+
+        # Devil's Advocate section
+        da = p.get("devils_advocate", {})
+        if da:
+            lines += [
+                "### Devil's Advocate",
+                "",
+                f"**Counter-argument**: {da.get('counter_argument', 'N/A')}",
+                "",
+                f"**Weakest evidence**: {da.get('weakest_evidence', 'N/A')}",
+                "",
+                f"**Alternative explanation**: {da.get('alternative_explanation', 'N/A')}",
+                "",
+                f"**Boundary conditions**: {da.get('boundary_conditions', 'N/A')}",
+                "",
+            ]
+
+        lines += [
             "### Falsifiability",
             "",
             p.get("falsifiability_note", "N/A"),
@@ -484,6 +575,7 @@ def _write_csv(propositions: list):
     """Write propositions as CSV evidence table."""
     rows = []
     for p in propositions:
+        da = p.get("devils_advocate", {})
         rows.append({
             "proposition_id": p["id"],
             "label": p["label"],
@@ -491,9 +583,15 @@ def _write_csv(propositions: list):
             "theoretical_lens": p.get("theoretical_lens", ""),
             "role_in_model": p.get("role_in_model", ""),
             "mechanism": p.get("mechanism", ""),
+            "confidence": p.get("confidence", ""),
+            "confidence_justification": p.get("confidence_justification", ""),
             "rationale": p.get("rationale", ""),
             "crosswalk_evidence": p.get("crosswalk_evidence", ""),
             "atlas_evidence": p.get("atlas_evidence", ""),
+            "counter_argument": da.get("counter_argument", ""),
+            "weakest_evidence": da.get("weakest_evidence", ""),
+            "alternative_explanation": da.get("alternative_explanation", ""),
+            "boundary_conditions": da.get("boundary_conditions", ""),
             "falsifiability": p.get("falsifiability_note", ""),
             "sources": "; ".join(p.get("grounding_sources", [])),
         })
