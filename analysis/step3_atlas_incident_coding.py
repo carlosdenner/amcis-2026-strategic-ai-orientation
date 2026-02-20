@@ -66,14 +66,11 @@ TACTIC_TO_DOMAIN = {
 }
 
 MITIGATION_CATEGORY_TO_COMPETENCY = {
-    "Detect":          "Trust Readiness -- Monitoring & Eval Governance",
-    "Govern":          "Trust Readiness -- AI Governance & Policy",
-    "Protect":         "Trust Readiness -- Technical Controls & Hardening",
-    "Recover":         "Trust Readiness -- Incident Response & Recovery",
-    "Respond":         "Trust Readiness -- Incident Response & Recovery",
-    "ML":              "Integration Readiness -- ML Lifecycle Controls",
-    "Training":        "Integration Readiness -- Training Data Governance",
-    "Inference":       "Integration Readiness -- Inference & Deployment Controls",
+    # Corrected: actual ATLAS mitigation categories are:
+    #   "Technical - ML", "Technical - Cyber", "Policy"
+    "Technical - ML":    "Integration Readiness -- ML Lifecycle & Model Controls",
+    "Technical - Cyber": "Trust Readiness -- Cybersecurity & Technical Controls",
+    "Policy":            "Trust Readiness -- AI Governance & Policy",
 }
 
 # ── Process each case study ──────────────────────────────────────────────────

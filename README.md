@@ -47,6 +47,30 @@ python analysis/run_all.py
 - **step3_incident_coding.csv / step3_tactic_frequency.csv / step3_mitigation_gaps.csv** — ATLAS incident mapping
 - **step4_propositions.md / step4_propositions.csv** — Testable propositions
 
+### Agentic Pipeline (in `analysis/output/enriched/`)
+
+The `analysis/agents/` directory contains an LLM-powered enrichment pipeline that
+reads literature sources, extracts evidence passages, and generates grounded
+artifacts with auditable citation trails.
+
+```bash
+# Run full agentic pipeline
+python -m analysis.agents.run_agents
+
+# Run a single step
+python -m analysis.agents.run_agents --step 1
+```
+
+| Step | Agent | Purpose |
+|------|-------|---------|
+| 1 | `step1_extract.py` | Extract evidence from literature → enriched construct definitions |
+| 2 | `step2_crosswalk.py` | Generate crosswalk with source-passage citations |
+| 3 | `step3_enrich.py` | Fix mitigation mapping + LLM competency gap descriptions |
+| 4 | `step4_synthesize.py` | Compute cross-step statistics + grounded propositions |
+
+Requires: `OPENAI_API_KEY` environment variable. Uses `gpt-4.1-mini` for extraction
+and `gpt-4.1` for synthesis.
+
 ## License
 
 Private academic research — all rights reserved.

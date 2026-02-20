@@ -1,0 +1,989 @@
+[
+  {
+    "req_id": "NIST-GV-1",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "AI Risk Policy & Accountability Structures",
+      "Regulatory Compliance Documentation"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must establish and transparently implement comprehensive policies, processes, and procedures for mapping, measuring, and managing AI risks, supported by lifecycle governance, clear accountability structures, and robust compliance documentation.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications... LLMOps provides a cohesive workflow that facilitate the entire lifecycle of LLM applications, from initiation to production.",
+        "reasoning": "Lifecycle governance ensures that risk management processes are embedded and operationalized across the AI system lifecycle."
+      },
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "COBIT achieves this by offering a comprehensive framework for the governance and management of I&T. It emphasizes accountability and responsibility to help organizations optimize the value of their I&T investments to reduce the associated risk.",
+        "reasoning": "Explicit risk policies and accountability structures are foundational for transparent and effective risk management."
+      },
+      {
+        "control": "Regulatory Compliance Documentation",
+        "source_id": "#26",
+        "passage": "This Regulation aims to strengthen the effectiveness of such existing rights and remedies by establishing specific requirements and obligations, including in respect of the transparency, technical documentation and record-keeping of AI systems.",
+        "reasoning": "Documenting compliance activities ensures transparency and supports effective implementation of risk management practices."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GV-2",
+    "applicable_controls": [
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must empower designated teams and individuals with clearly defined roles and responsibilities for AI risk management, ensuring accountability is embedded within governance structures.",
+    "evidence": [
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "EDM01 (Ensured Governance Framework Setting and Maintenance) requires the establishment and enforcement of a governance framework that clarifies roles and maintains organizational accountability.",
+        "reasoning": "This control directly addresses the need for empowered and accountable structures for AI risk management."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GV-3",
+    "applicable_controls": [
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations should foster a culture that actively considers and communicates AI risks, embedding risk awareness and transparency into organizational values and behaviors.",
+    "evidence": [
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "Culture, Ethics, and Behavior — This governance component fosters a culture of trust, ethical awareness, and responsible usage, ensuring that technology aligns with organizational values.",
+        "reasoning": "Cultural and ethical governance structures are necessary to ensure AI risk is considered and communicated organization-wide."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GV-4",
+    "applicable_controls": [
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizational teams must demonstrate commitment to a culture that prioritizes AI risk, supported by governance mechanisms that reinforce ethical and responsible AI practices.",
+    "evidence": [
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "Culture, Ethics, and Behavior — This component governs how individuals and teams interact with AI systems. This governance component fosters a culture of trust, ethical awareness, and responsible usage, ensuring that technology aligns with organizational values.",
+        "reasoning": "Governance structures that emphasize culture and ethics are essential for team commitment to AI risk consideration."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GV-5",
+    "applicable_controls": [
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Senior leadership and board members must be engaged and informed participants in AI risk management, contributing to oversight and strategic alignment of AI initiatives.",
+    "evidence": [
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "In the EDM domain, COBIT ensures that technology solutions and related I&T initiatives align with the organization’s strategic objectives. Within the EDM domain, leadership sets the I&T objectives, goals, and strategy to ensure that all technological investments and efforts directly contribute to business success.",
+        "reasoning": "Leadership engagement in governance frameworks ensures understanding and contribution to AI risk management."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GV-6",
+    "applicable_controls": [
+      "Supply Chain & Vendor Risk Controls"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must implement policies and controls to identify, assess, and mitigate AI risks arising from third-party software, data, and supply chain dependencies.",
+    "evidence": [
+      {
+        "control": "Supply Chain & Vendor Risk Controls",
+        "source_id": "#29",
+        "passage": "LLM05: Supply Chain Vulnerabilities — Depending upon compromised components, services or datasets undermine system integrity, causing data breaches and system failures.",
+        "reasoning": "Explicit supply chain and vendor risk controls are required to address third-party AI risks."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MP-1",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must establish processes and infrastructure to systematically understand and document the intended purpose, impacts, and deployment context of AI systems, enabling effective risk mapping.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "Data Curation includes exploratory data analysis to understand what data is available, data transformation to create a clean and consistent dataset and enrichment to add additional, pertinent data.",
+        "reasoning": "Lifecycle governance supports contextual understanding and documentation of AI system risks."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health. Monitored areas include tracking resource utilization, raising real-time alerts for anomalies or data privacy breaches, and evaluating queries and responses for issues such as inappropriate responses.",
+        "reasoning": "Monitoring infrastructure enables ongoing contextual assessment of AI system impacts and deployment."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MP-2",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must integrate scientific findings and organizational practices into their risk characterization processes, leveraging lifecycle governance and monitoring to ensure risks are accurately identified and contextualized.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "Experimentation aims to identify the best potential LLM solutions through careful monitoring and auditing of rapid iterations of testing various techniques, such as prompt engineering, information retrieval optimization, relevance improvements, model selection, model fine tuning, and hyperparameter tuning.",
+        "reasoning": "Lifecycle governance incorporates scientific and organizational knowledge into risk characterization."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Evaluation is the process defining tailored metrics, and selecting methods of comparing results to them at key points that contribute to overall solution performance.",
+        "reasoning": "Monitoring and evaluation infrastructure supports integration of scientific findings into risk assessment."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MP-3",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must systematically map and prioritize AI risks and benefits by likelihood and impact, utilizing lifecycle governance and robust evaluation and monitoring mechanisms.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "Evaluation is the process defining tailored metrics, and selecting methods of comparing results to them at key points that contribute to overall solution performance.",
+        "reasoning": "Lifecycle governance and evaluation processes enable systematic risk and benefit mapping and prioritization."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health.",
+        "reasoning": "Monitoring infrastructure supports ongoing prioritization and assessment of AI risks and benefits."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MP-4",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must ensure that both internal and external AI actors understand the mapped risks and benefits of AI systems, facilitated by transparent lifecycle governance and accessible monitoring outputs.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps provides a cohesive workflow that facilitate the entire lifecycle of LLM applications, from initiation to production.",
+        "reasoning": "Lifecycle governance ensures risk and benefit information is communicated to relevant stakeholders."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health.",
+        "reasoning": "Monitoring infrastructure provides accessible outputs to inform AI actors about risks and benefits."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MP-5",
+    "applicable_controls": [
+      "Threat Modeling & Red-Teaming",
+      "GenAIOps / MLOps Lifecycle Governance"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must establish structured practices and assign personnel to proactively identify, assess, and document AI risks throughout the system lifecycle, leveraging threat modeling and lifecycle governance to ensure comprehensive risk awareness and mitigation.",
+    "evidence": [
+      {
+        "control": "Threat Modeling & Red-Teaming",
+        "source_id": "#25",
+        "passage": "Processes —Structured workflows and methods are necessary to guide the development, deployment, and management of AI technologies. For example, a robust AI life cycle management process ensures these systems are maintained, updated, and aligned with business goals.",
+        "reasoning": "Threat modeling and red-teaming are structured practices for risk identification, aligning with the requirement for practices and personnel supporting AI risk identification."
+      },
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications... LLMOps provides a cohesive workflow that facilitate the entire lifecycle of LLM applications, from initiation to production.",
+        "reasoning": "Lifecycle governance ensures that risk identification is embedded throughout the AI system's lifecycle, supporting the requirement."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MS-1",
+    "applicable_controls": [
+      "Evaluation & Monitoring Infrastructure",
+      "GenAIOps / MLOps Lifecycle Governance"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must implement systematic approaches and technical infrastructure to identify, apply, and operationalize AI risk measurement methodologies, ensuring ongoing evaluation and adaptation of risk metrics.",
+    "evidence": [
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health. Monitored areas include tracking resource utilization, raising real-time alerts for anomalies or data privacy breaches, and evaluating queries and responses for issues such as inappropriate responses.",
+        "reasoning": "Evaluation and monitoring infrastructure directly supports the identification and application of risk measurement approaches."
+      },
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications.",
+        "reasoning": "Lifecycle governance ensures risk measurement approaches are systematically integrated into AI operations."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MS-2",
+    "applicable_controls": [
+      "Evaluation & Monitoring Infrastructure",
+      "Nondeterminism Controls & Output Validation"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must deploy technical controls and monitoring systems to evaluate AI systems for trustworthy characteristics such as reliability, fairness, and robustness, ensuring outputs are validated against defined trust criteria.",
+    "evidence": [
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#25",
+        "passage": "Transparency and honesty in AI mean that the system’s processes, decisions, and data sources are clearly documented and understandable to users and stakeholders. This is foundational to explainable AI (XAI), and enterprises will be accountable for providing evidence that supports it.",
+        "reasoning": "Monitoring infrastructure enables evaluation of trustworthy characteristics and supports accountability."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "LLM02: Insecure Output Handling — Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.",
+        "reasoning": "Output validation is necessary to ensure trustworthy system behavior and mitigate risks from nondeterministic outputs."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MS-3",
+    "applicable_controls": [
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must establish and maintain technical infrastructure to measure and monitor AI system performance and assurance criteria, enabling continuous assessment against organizational benchmarks.",
+    "evidence": [
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Evaluation is the process defining tailored metrics, and selecting methods of comparing results to them at key points that contribute to overall solution performance.",
+        "reasoning": "Evaluation and monitoring infrastructure is essential for measuring performance and assurance criteria."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MS-4",
+    "applicable_controls": [
+      "Evaluation & Monitoring Infrastructure",
+      "GenAIOps / MLOps Lifecycle Governance"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must integrate feedback mechanisms and monitoring infrastructure to ensure that insights from measurement activities are systematically incorporated into process improvements and lifecycle management.",
+    "evidence": [
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Feedback & Data Collection requires seamless mechanisms for user feedback collection, capturing user provided data for insights and to enrich the validation datasets to improve the LLM solution’s performance, while ensuring privacy and compliance.",
+        "reasoning": "Feedback mechanisms are necessary to incorporate measurement efficacy into organizational processes."
+      },
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications.",
+        "reasoning": "Lifecycle governance ensures that feedback from measurement is integrated into ongoing process improvements."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MG-1",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must develop, document, and monitor comprehensive AI risk management plans, supported by lifecycle governance and clear accountability structures to ensure ongoing oversight and adaptation.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#25",
+        "passage": "Processes —Structured workflows and methods are necessary to guide the development, deployment, and management of AI technologies. For example, a robust AI life cycle management process ensures these systems are maintained, updated, and aligned with business goals.",
+        "reasoning": "Lifecycle governance ensures that risk management plans are developed and monitored throughout the AI lifecycle."
+      },
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "Principles, Policies, and Procedures —Clear policies are essential to guide the ethical use of AI. For example, organizations must establish guidelines to address data privacy, algorithmic transparency, and AI-driven decision-making accountability.",
+        "reasoning": "Risk policy and accountability structures are foundational for developing and monitoring AI risk management plans."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MG-2",
+    "applicable_controls": [
+      "AI Risk Policy & Accountability Structures",
+      "Regulatory Compliance Documentation"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must plan, implement, and document strategies that maximize AI benefits and minimize negative impacts, ensuring alignment with risk policies and regulatory requirements.",
+    "evidence": [
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "Principles, Policies, and Procedures —Clear policies are essential to guide the ethical use of AI. For example, organizations must establish guidelines to address data privacy, algorithmic transparency, and AI-driven decision-making accountability.",
+        "reasoning": "Risk policy structures ensure strategies are planned and implemented to maximize benefits and minimize harms."
+      },
+      {
+        "control": "Regulatory Compliance Documentation",
+        "source_id": "#25",
+        "passage": "By proactively aligning with this guidance, enterprises can mitigate the risk of penalties, enhance their reputations as trustworthy organizations, and appeal to a broader customer base concerned with data privacy and ethical AI usage.",
+        "reasoning": "Compliance documentation ensures that strategies are documented and aligned with regulatory expectations."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MG-3",
+    "applicable_controls": [
+      "Supply Chain & Vendor Risk Controls"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must implement controls to assess and manage AI risks and benefits arising from third-party entities, ensuring that supply chain and vendor dependencies are systematically evaluated and governed.",
+    "evidence": [
+      {
+        "control": "Supply Chain & Vendor Risk Controls",
+        "source_id": "#25",
+        "passage": "Supply Chain Vulnerabilities — Depending upon compromised components, services or datasets undermine system integrity, causing data breaches and system failures.",
+        "reasoning": "Supply chain and vendor risk controls directly address the management of third-party AI risks and benefits."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-MG-4",
+    "applicable_controls": [
+      "Incident Response & Recovery Playbooks",
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must establish and maintain risk treatment plans, including incident response, recovery, and communication protocols, underpinned by clear risk policies and accountability assignments.",
+    "evidence": [
+      {
+        "control": "Incident Response & Recovery Playbooks",
+        "source_id": "#25",
+        "passage": "The DSS objectives also ensure that services are supported by robust security frameworks and continuity plans to minimize downtime and address potential disruptions.",
+        "reasoning": "Incident response and recovery playbooks operationalize risk treatment and recovery planning."
+      },
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "EDM01 (Ensured Governance Framework Setting and Maintenance) requires the establishment and enforcement of a governance framework that clarifies roles and maintains organizational accountability.",
+        "reasoning": "Risk policy and accountability structures ensure that risk treatment and communication plans are in place and maintained."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GEN-1",
+    "applicable_controls": [
+      "RAG Architecture & Data Grounding",
+      "Nondeterminism Controls & Output Validation",
+      "Data Governance & Access Controls"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must develop and enforce policies and technical controls that specifically address GenAI risks such as hallucination, data provenance, and synthetic content, leveraging RAG architectures, output validation, and robust data governance.",
+    "evidence": [
+      {
+        "control": "RAG Architecture & Data Grounding",
+        "source_id": "#13",
+        "passage": "Enterprises are doing this by using proprietary data with approaches like Retrieval Augmented Generation (RAG)... Data governance is a critical building block across all these approaches...",
+        "reasoning": "RAG architectures and data grounding directly mitigate hallucination and support data provenance."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "LLM02: Insecure Output Handling — Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.",
+        "reasoning": "Output validation is essential for controlling hallucination and synthetic content risks."
+      },
+      {
+        "control": "Data Governance & Access Controls",
+        "source_id": "#12",
+        "passage": "This data governance requires us to understand the origin, sensitivity, and lifecycle of all the data that we use. It is the foundation for any AI Governance practice and is crucial in mitigating a number of enterprise risks.",
+        "reasoning": "Data governance and access controls are foundational for managing data provenance and synthetic content risks."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GEN-2",
+    "applicable_controls": [
+      "Tool-Use Boundaries & Least-Privilege Access",
+      "Nondeterminism Controls & Output Validation",
+      "Threat Modeling & Red-Teaming"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must demonstrate the capability to systematically identify and mitigate agentic AI risks such as prompt injection, tool misuse, and excessive autonomy by implementing robust access boundaries, validating outputs, and proactively modeling threats.",
+    "evidence": [
+      {
+        "control": "Tool-Use Boundaries & Least-Privilege Access",
+        "source_id": "#29",
+        "passage": "LLM07: Insecure Plugin Design – LLM plugins processing untrusted inputs and having insufficient access control risk severe exploits like remote code execution.",
+        "reasoning": "Enforcing least-privilege access and tool-use boundaries directly addresses the risk of tool misuse and unauthorized actions by agents."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "LLM02: Insecure Output Handling – Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.",
+        "reasoning": "Output validation mitigates prompt injection and other risks by ensuring outputs are checked for malicious or unintended content."
+      },
+      {
+        "control": "Threat Modeling & Red-Teaming",
+        "source_id": "#29",
+        "passage": "The OWASP GenAI Security Project ... dedicated to identifying, mitigating, and documenting security and safety risks associated with generative AI technologies, including agentic AI systems.",
+        "reasoning": "Threat modeling and red-teaming are essential for systematically identifying agentic AI risks such as prompt injection and tool misuse."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GEN-3",
+    "applicable_controls": [
+      "Evaluation & Monitoring Infrastructure",
+      "Nondeterminism Controls & Output Validation",
+      "RAG Architecture & Data Grounding"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must establish technical infrastructure and processes to continuously evaluate generative AI outputs for accuracy, bias, toxicity, and alignment, leveraging both automated validation and data-grounding mechanisms.",
+    "evidence": [
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health ... evaluating queries and responses for issues such as inappropriate responses.",
+        "reasoning": "Continuous monitoring infrastructure is necessary to measure and flag issues of accuracy, bias, and toxicity in outputs."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "LLM02: Insecure Output Handling – Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.",
+        "reasoning": "Output validation ensures that outputs are checked for alignment with intended use and screened for bias or toxicity."
+      },
+      {
+        "control": "RAG Architecture & Data Grounding",
+        "source_id": "#13",
+        "passage": "A newer area of focus in generative AI is the use and quality of data in prompts from enterprise and proprietary data stores. ... identifying and resolving data quality issues earlier upstream to mitigate the potential impact of data quality issues later.",
+        "reasoning": "RAG architectures help ground outputs in high-quality, relevant data, improving accuracy and reducing hallucinations."
+      }
+    ]
+  },
+  {
+    "req_id": "NIST-GEN-4",
+    "applicable_controls": [
+      "Human-in-the-Loop Approval Gates",
+      "Human Override & Control Mechanisms"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must implement structured human oversight mechanisms, including approval gates and override controls, to ensure that high-stakes agentic AI decisions are subject to appropriate human judgment and intervention.",
+    "evidence": [
+      {
+        "control": "Human-in-the-Loop Approval Gates",
+        "source_id": "#09",
+        "passage": "Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment. This isn’t simply about checking agents’ work, but about strategic handoffs of work at critical decision points.",
+        "reasoning": "Human-in-the-loop approval gates operationalize oversight at key decision points for high-stakes actions."
+      },
+      {
+        "control": "Human Override & Control Mechanisms",
+        "source_id": "#09",
+        "passage": "The autonomy spectrum progresses through three distinct phases ... Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment.",
+        "reasoning": "Override mechanisms are necessary to allow humans to intervene and halt or redirect agentic actions when needed."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-1",
+    "applicable_controls": [
+      "GenAIOps / MLOps Lifecycle Governance",
+      "AI Risk Policy & Accountability Structures"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must establish and maintain a comprehensive risk management system for high-risk AI systems, integrating lifecycle governance and clear accountability structures as mandated by regulatory frameworks.",
+    "evidence": [
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications ... facilitating the entire lifecycle of LLM applications.",
+        "reasoning": "Lifecycle governance ensures risk management is embedded throughout the AI system’s development and operation."
+      },
+      {
+        "control": "AI Risk Policy & Accountability Structures",
+        "source_id": "#25",
+        "passage": "EDM01 (Ensured Governance Framework Setting and Maintenance) requires the establishment and enforcement of a governance framework that clarifies roles and maintains organizational accountability.",
+        "reasoning": "Clear policy and accountability structures are foundational to a risk management system as required by EU AI Act Art. 9."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-2",
+    "applicable_controls": [
+      "Data Governance & Access Controls",
+      "RAG Architecture & Data Grounding"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must implement robust data governance and access controls to ensure that high-risk AI systems are trained and operated on high-quality, well-governed data, including mechanisms for data provenance, privacy, and quality assurance.",
+    "evidence": [
+      {
+        "control": "Data Governance & Access Controls",
+        "source_id": "#12",
+        "passage": "This data governance requires us to understand the origin, sensitivity, and lifecycle of all the data that we use. It is the foundation for any AI Governance practice and is crucial in mitigating a number of enterprise risks.",
+        "reasoning": "Data governance and access controls are essential for ensuring data quality and compliance with Art. 10."
+      },
+      {
+        "control": "RAG Architecture & Data Grounding",
+        "source_id": "#13",
+        "passage": "Enterprises are doing this by using proprietary data with approaches like Retrieval Augmented Generation (RAG) ... Data governance is a critical building block across all these approaches.",
+        "reasoning": "RAG architectures support data quality and governance by grounding AI outputs in curated, high-quality enterprise data."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-3",
+    "applicable_controls": [
+      "Regulatory Compliance Documentation"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must maintain comprehensive technical documentation for high-risk AI systems to demonstrate compliance with regulatory requirements and facilitate external assessment.",
+    "evidence": [
+      {
+        "control": "Regulatory Compliance Documentation",
+        "source_id": "#26",
+        "passage": "High-risk AI systems must maintain technical documentation sufficient to assess compliance (Art. 11).",
+        "reasoning": "Regulatory compliance documentation directly fulfills the requirement for technical documentation under Art. 11."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-4",
+    "applicable_controls": [
+      "Audit Logging & Telemetry"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must implement audit logging and telemetry throughout the operation of high-risk AI systems to ensure traceability, accountability, and support for incident investigation.",
+    "evidence": [
+      {
+        "control": "Audit Logging & Telemetry",
+        "source_id": "#26",
+        "passage": "High-risk AI systems must enable logging of events throughout operation (Art. 12).",
+        "reasoning": "Audit logging and telemetry are required to meet the event logging obligations of Art. 12."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-5",
+    "applicable_controls": [
+      "Prompt Management & Secret Handling",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must ensure transparency of high-risk AI systems by providing deployers with clear information on system operation, including prompt management practices and ongoing monitoring of system behavior.",
+    "evidence": [
+      {
+        "control": "Prompt Management & Secret Handling",
+        "source_id": "#13",
+        "passage": "Prompt engineering – Access to the prompt templates to invoke need to be restricted based on access controls augmented by business logic.",
+        "reasoning": "Prompt management supports transparency by documenting and controlling how prompts are handled and disclosed."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health.",
+        "reasoning": "Monitoring infrastructure provides transparency to deployers by surfacing system status and behavior."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-6",
+    "applicable_controls": [
+      "Human Override & Control Mechanisms",
+      "Human-in-the-Loop Approval Gates"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must design high-risk AI systems to allow effective human oversight, including the ability for humans to intervene and override automated decisions at critical junctures.",
+    "evidence": [
+      {
+        "control": "Human Override & Control Mechanisms",
+        "source_id": "#26",
+        "passage": "High-risk AI systems must allow effective human oversight including ability to intervene and override (Art. 14).",
+        "reasoning": "Explicitly required by Art. 14; override mechanisms are essential for human control."
+      },
+      {
+        "control": "Human-in-the-Loop Approval Gates",
+        "source_id": "#09",
+        "passage": "Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment.",
+        "reasoning": "Approval gates operationalize oversight by requiring human intervention before critical decisions are enacted."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-7",
+    "applicable_controls": [
+      "Nondeterminism Controls & Output Validation",
+      "Evaluation & Monitoring Infrastructure",
+      "Scalable Modular Architecture (Archetypes)"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must ensure that high-risk AI systems achieve appropriate levels of accuracy, robustness, and cybersecurity by implementing output validation, continuous monitoring, and scalable, modular architectures that support resilience.",
+    "evidence": [
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "LLM02: Insecure Output Handling – Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.",
+        "reasoning": "Output validation is critical for ensuring accuracy and robustness."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health.",
+        "reasoning": "Continuous monitoring is necessary to detect and respond to issues affecting accuracy and robustness."
+      },
+      {
+        "control": "Scalable Modular Architecture (Archetypes)",
+        "source_id": "#20",
+        "passage": "Establish a modular, scalable architecture ... enterprise AI foundation with four components: foundation models, GenAI platforms, data layer, and self-monitoring capability.",
+        "reasoning": "Modular architectures support robustness and cybersecurity by enabling isolation and rapid response to incidents."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-8",
+    "applicable_controls": [
+      "Regulatory Compliance Documentation",
+      "Audit Logging & Telemetry"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must demonstrate the ability to maintain comprehensive technical documentation for GPAI models and ensure ongoing compliance with copyright law, supported by robust audit trails and regulatory reporting mechanisms.",
+    "evidence": [
+      {
+        "control": "Regulatory Compliance Documentation",
+        "source_id": "#26",
+        "passage": "\"...this Regulation aims to strengthen the effectiveness of such existing rights and remedies by establishing specific requirements and obligations, including in respect of the transparency, technical documentation and record-keeping of AI systems.\" (EU AI Act, Art. 53)",
+        "reasoning": "The Act explicitly requires technical documentation and record-keeping as part of compliance."
+      },
+      {
+        "control": "Audit Logging & Telemetry",
+        "source_id": "#25",
+        "passage": "\"Transparency and honesty in AI mean that the system’s processes, decisions, and data sources are clearly documented and understandable to users and stakeholders... Accountability will also drive designated individuals or teams to be responsible for AI system governance and outcomes, including addressing any issues that arise.\"",
+        "reasoning": "Audit logging supports traceability and accountability, which underpin technical documentation and compliance."
+      }
+    ]
+  },
+  {
+    "req_id": "EU-9",
+    "applicable_controls": [
+      "Threat Modeling & Red-Teaming",
+      "Incident Response & Recovery Playbooks",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must possess the capability to systematically test GPAI models for adversarial vulnerabilities, monitor for incidents, and execute structured incident response and reporting processes to mitigate systemic risk.",
+    "evidence": [
+      {
+        "control": "Threat Modeling & Red-Teaming",
+        "source_id": "#26",
+        "passage": "\"GPAI models with systemic risk must perform adversarial testing and incident reporting (Art. 55).\"",
+        "reasoning": "The requirement for adversarial testing is directly addressed by threat modeling and red-teaming practices."
+      },
+      {
+        "control": "Incident Response & Recovery Playbooks",
+        "source_id": "#25",
+        "passage": "\"The DSS objectives also ensure that services are supported by robust security frameworks and continuity plans to minimize downtime and address potential disruptions.\"",
+        "reasoning": "Incident response playbooks operationalize the incident reporting and recovery obligations."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "\"Monitor covers tools and practices to assess and report on system and solution performance and health. Monitored areas include tracking resource utilization, raising real-time alerts for anomalies or data privacy breaches, and evaluating queries and responses for issues such as inappropriate responses.\"",
+        "reasoning": "Continuous monitoring is essential for detecting and reporting incidents as required."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-1",
+    "applicable_controls": [
+      "Prompt Management & Secret Handling",
+      "Nondeterminism Controls & Output Validation",
+      "Human-in-the-Loop Approval Gates"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must implement controls to manage and sanitize prompts, validate outputs for unintended actions, and insert human oversight where necessary to prevent and mitigate prompt injection attacks.",
+    "evidence": [
+      {
+        "control": "Prompt Management & Secret Handling",
+        "source_id": "#29",
+        "passage": "\"LLM01 Prompt Injection: Manipulating LLMs via crafted inputs can lead to unauthorized access, data breaches, and compromised decision-making.\"",
+        "reasoning": "Prompt management directly addresses the risk of malicious prompt manipulation."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "\"Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.\"",
+        "reasoning": "Output validation is necessary to catch unintended or malicious actions resulting from prompt injection."
+      },
+      {
+        "control": "Human-in-the-Loop Approval Gates",
+        "source_id": "#09",
+        "passage": "\"Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment.\"",
+        "reasoning": "Human approval gates provide a critical checkpoint to intercept prompt injection exploits before execution."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-2",
+    "applicable_controls": [
+      "Data Governance & Access Controls",
+      "Prompt Management & Secret Handling",
+      "Nondeterminism Controls & Output Validation"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must establish robust data governance and access controls, enforce prompt management practices, and validate outputs to prevent LLMs from disclosing sensitive information in responses.",
+    "evidence": [
+      {
+        "control": "Data Governance & Access Controls",
+        "source_id": "#12",
+        "passage": "\"Identify and proactively protect sensitive data to address data privacy and regulatory requirements... implementation of Privacy Enhancing Technique. How do we remove the sensitive stuff before feeding it to AI?\"",
+        "reasoning": "Data governance is foundational to preventing sensitive data leakage."
+      },
+      {
+        "control": "Prompt Management & Secret Handling",
+        "source_id": "#29",
+        "passage": "\"LLM06: Sensitive Information Disclosure: Failure to protect against disclosure of sensitive information in LLM outputs can result in legal consequences or a loss of competitive advantage.\"",
+        "reasoning": "Prompt management can prevent sensitive context from being exposed in outputs."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "\"Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.\"",
+        "reasoning": "Output validation helps catch and redact sensitive disclosures before release."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-3",
+    "applicable_controls": [
+      "Supply Chain & Vendor Risk Controls",
+      "GenAIOps / MLOps Lifecycle Governance"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must develop and maintain supply chain risk management practices and lifecycle governance to ensure that third-party components in LLM pipelines are vetted, monitored, and compliant with security standards.",
+    "evidence": [
+      {
+        "control": "Supply Chain & Vendor Risk Controls",
+        "source_id": "#29",
+        "passage": "\"LLM05: Supply Chain Vulnerabilities: Depending upon compromised components, services or datasets undermine system integrity, causing data breaches and system failures.\"",
+        "reasoning": "Supply chain controls are directly required to mitigate these vulnerabilities."
+      },
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "\"LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications.\"",
+        "reasoning": "Lifecycle governance ensures continuous oversight and risk management of all pipeline components."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-4",
+    "applicable_controls": [
+      "Data Governance & Access Controls",
+      "GenAIOps / MLOps Lifecycle Governance",
+      "Evaluation & Monitoring Infrastructure"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must enforce data governance and access controls, implement lifecycle governance for model training, and continuously monitor for signs of data or model poisoning to safeguard LLM integrity.",
+    "evidence": [
+      {
+        "control": "Data Governance & Access Controls",
+        "source_id": "#12",
+        "passage": "\"Data governance requires us to understand the origin, sensitivity, and lifecycle of all the data that we use. It is the foundation for any AI Governance practice and is crucial in mitigating a number of enterprise risks.\"",
+        "reasoning": "Data governance is essential to prevent and detect poisoning in training data."
+      },
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "\"LLMOps provides a cohesive workflow that facilitate the entire lifecycle of LLM applications, from initiation to production.\"",
+        "reasoning": "Lifecycle governance supports secure and controlled model training and deployment."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "\"Monitor covers tools and practices to assess and report on system and solution performance and health. Monitored areas include tracking resource utilization, raising real-time alerts for anomalies or data privacy breaches, and evaluating queries and responses for issues such as inappropriate responses.\"",
+        "reasoning": "Continuous monitoring can detect anomalies indicative of poisoning."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-5",
+    "applicable_controls": [
+      "Nondeterminism Controls & Output Validation",
+      "Human-in-the-Loop Approval Gates"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must deploy output validation mechanisms and human approval gates to ensure that LLM outputs are properly vetted before being passed to downstream systems, reducing the risk of improper or unsafe actions.",
+    "evidence": [
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "\"Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.\"",
+        "reasoning": "Output validation is the primary defense against improper output handling."
+      },
+      {
+        "control": "Human-in-the-Loop Approval Gates",
+        "source_id": "#09",
+        "passage": "\"Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment.\"",
+        "reasoning": "Human approval provides a critical checkpoint for outputs before downstream use."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-6",
+    "applicable_controls": [
+      "Tool-Use Boundaries & Least-Privilege Access",
+      "Human Override & Control Mechanisms"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must enforce least-privilege access for LLM agents and provide mechanisms for human override to prevent excessive autonomy and mitigate risks associated with over-permissioned agents.",
+    "evidence": [
+      {
+        "control": "Tool-Use Boundaries & Least-Privilege Access",
+        "source_id": "#29",
+        "passage": "\"LLM08: Excessive Agency: Granting LLMs unchecked autonomy to take action can lead to unintended consequences, jeopardizing reliability, privacy, and trust.\"",
+        "reasoning": "Least-privilege access directly limits agent autonomy to only what is necessary."
+      },
+      {
+        "control": "Human Override & Control Mechanisms",
+        "source_id": "#09",
+        "passage": "\"Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment.\"",
+        "reasoning": "Human override ensures that agents cannot act beyond organizationally defined boundaries."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-7",
+    "applicable_controls": [
+      "Prompt Management & Secret Handling",
+      "Data Governance & Access Controls"
+    ],
+    "bundle": "Trust Readiness",
+    "competency_statement": "Organizations must implement prompt management controls and enforce data governance to prevent leakage of sensitive system prompts and instructions within LLM applications.",
+    "evidence": [
+      {
+        "control": "Prompt Management & Secret Handling",
+        "source_id": "#29",
+        "passage": "\"LLM07: Insecure Plugin Design... risk severe exploits like remote code execution.\" (context: plugin/system prompt exposure)",
+        "reasoning": "Prompt management is necessary to prevent exposure of sensitive instructions."
+      },
+      {
+        "control": "Data Governance & Access Controls",
+        "source_id": "#12",
+        "passage": "\"Identify and proactively protect sensitive data to address data privacy and regulatory requirements... implementation of Privacy Enhancing Technique.\"",
+        "reasoning": "Data governance ensures that sensitive prompts are classified and protected."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-8",
+    "applicable_controls": [
+      "RAG Architecture & Data Grounding",
+      "Data Governance & Access Controls"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must implement RAG architectures with strong data grounding and enforce data governance and access controls to secure vector stores and embedding pipelines against vulnerabilities.",
+    "evidence": [
+      {
+        "control": "RAG Architecture & Data Grounding",
+        "source_id": "#13",
+        "passage": "\"Embeddings in vector databases elevate the intelligence and capabilities of generative AI applications... Embeddings typically contain private and sensitive data, and encrypting the data is a recommended step in the user input workflow.\"",
+        "reasoning": "RAG architectures with proper data grounding and encryption address vector/embedding weaknesses."
+      },
+      {
+        "control": "Data Governance & Access Controls",
+        "source_id": "#13",
+        "passage": "\"Controlling access to the data with role-based access control (RBAC) becomes a key requirement to maintaining overall security.\"",
+        "reasoning": "Access controls are essential for securing vector stores and embedding pipelines."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-9",
+    "applicable_controls": [
+      "RAG Architecture & Data Grounding",
+      "Nondeterminism Controls & Output Validation",
+      "Evaluation & Monitoring Infrastructure",
+      "Human-in-the-Loop Approval Gates"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "Organizations must establish robust mechanisms to mitigate LLM-generated misinformation by grounding outputs in authoritative data sources, validating outputs for factual accuracy, continuously monitoring model behavior, and integrating human oversight at critical decision points. These capabilities ensure that LLM applications do not propagate factually incorrect or misleading content as authoritative information.",
+    "evidence": [
+      {
+        "control": "RAG Architecture & Data Grounding",
+        "source_id": "#13",
+        "passage": "Enterprises are doing this by using proprietary data with approaches like Retrieval Augmented Generation (RAG), fine-tuning, and continued pre-training with foundation models. Data governance is a critical building block across all these approaches...to improve the accuracy and relevance of their responses to user prompts in a safe, secure, and transparent manner.",
+        "reasoning": "RAG architectures directly address misinformation by grounding LLM responses in verifiable enterprise data, reducing hallucinations."
+      },
+      {
+        "control": "Nondeterminism Controls & Output Validation",
+        "source_id": "#29",
+        "passage": "Neglecting to validate LLM outputs may lead to downstream security exploits, including code execution that compromises systems and exposes data.",
+        "reasoning": "Output validation mechanisms are essential to detect and filter out factually incorrect or misleading LLM outputs."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health. Monitored areas include tracking resource utilization, raising real-time alerts for anomalies or data privacy breaches, and evaluating queries and responses for issues such as inappropriate responses.",
+        "reasoning": "Continuous monitoring enables organizations to detect and respond to misinformation risks in LLM outputs."
+      },
+      {
+        "control": "Human-in-the-Loop Approval Gates",
+        "source_id": "#09",
+        "passage": "Success requires deploying 'agent supervisors'—humans who enter workflows at intentionally designed points to handle exceptions requiring their judgment. This isn’t simply about checking agents’ work, but about strategic handoffs of work at critical decision points.",
+        "reasoning": "Human approval gates provide an additional layer of assurance, allowing critical review and correction of potentially misleading outputs."
+      }
+    ]
+  },
+  {
+    "req_id": "OWASP-10",
+    "applicable_controls": [
+      "Scalable Modular Architecture (Archetypes)",
+      "Evaluation & Monitoring Infrastructure",
+      "GenAIOps / MLOps Lifecycle Governance"
+    ],
+    "bundle": "Integration Readiness",
+    "competency_statement": "To prevent resource exhaustion and denial-of-service vulnerabilities in LLM applications, organizations must implement scalable, modular architectures, establish comprehensive monitoring of resource utilization, and enforce lifecycle governance practices that proactively address operational risks and system bottlenecks.",
+    "evidence": [
+      {
+        "control": "Scalable Modular Architecture (Archetypes)",
+        "source_id": "#20",
+        "passage": "Establish a modular, scalable architecture—move from patchwork of silos to enterprise AI foundation with four components: foundation models, GenAI platforms, data layer, and self-monitoring capability. Use archetypes (8 archetypical AI applications) as blueprints for efficient deployment.",
+        "reasoning": "Modular, scalable architectures are designed to handle variable loads and prevent resource exhaustion scenarios."
+      },
+      {
+        "control": "Evaluation & Monitoring Infrastructure",
+        "source_id": "#11",
+        "passage": "Monitor covers tools and practices to assess and report on system and solution performance and health. Monitored areas include tracking resource utilization, raising real-time alerts for anomalies or data privacy breaches...",
+        "reasoning": "Continuous monitoring of system performance is critical for early detection and mitigation of resource exhaustion or denial-of-service events."
+      },
+      {
+        "control": "GenAIOps / MLOps Lifecycle Governance",
+        "source_id": "#11",
+        "passage": "LLMOps is the collection of tools and processes that manages the end-to-end process of developing, deploying, and maintaining LLM-based applications...Monitor covers tools and practices to assess and report on system and solution performance and health.",
+        "reasoning": "Lifecycle governance frameworks ensure that operational risks, including resource management and DoS prevention, are systematically addressed throughout the LLM application lifecycle."
+      }
+    ]
+  }
+]

@@ -7,8 +7,8 @@ AML.M0010,Input Restoration,Technical - ML,23,Trust Readiness -- General Governa
 AML.M0005,Control Access to AI Models and Data at Rest,Policy,20,Trust Readiness -- General Governance
 AML.M0033,Input and Output Validation for AI Agent Components,Technical - ML,20,Trust Readiness -- General Governance
 AML.M0034,Deepfake Detection,Technical - ML,19,Trust Readiness -- General Governance
-AML.M0019,Control Access to AI Models and Data in Production,Policy,17,Trust Readiness -- General Governance
 AML.M0009,Use Multi-Modal Sensors,Technical - Cyber,17,Trust Readiness -- General Governance
+AML.M0019,Control Access to AI Models and Data in Production,Policy,17,Trust Readiness -- General Governance
 AML.M0004,Restrict Number of AI Model Queries,Technical - Cyber,16,Trust Readiness -- General Governance
 AML.M0020,Generative AI Guardrails,Technical - ML,15,Trust Readiness -- General Governance
 AML.M0000,Limit Public Release of Information,Policy,14,Trust Readiness -- General Governance
