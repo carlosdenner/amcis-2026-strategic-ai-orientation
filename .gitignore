@@ -31,5 +31,10 @@ env/
 .vscode/
 *.code-workspace
 
+# ── Large binary / data files ──────────────────────────────
+*.bson
+*.tar.bz2
+*.tar.gz
+
 # ── Dropbox conflicts ─────────────────────────────────────
 *conflicted copy*
