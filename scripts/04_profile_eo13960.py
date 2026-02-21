@@ -7,11 +7,10 @@ import pandas as pd
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-LIT = ROOT / "Literature"
-OUTPUT = ROOT / "analysis" / "output"
+OUTPUT = ROOT / "data" / "processed"
 OUTPUT.mkdir(parents=True, exist_ok=True)
 
-CSV = LIT / "eo13960-data" / "2024_consolidated_ai_inventory_raw.csv"
+CSV = ROOT / "data" / "raw" / "eo13960" / "2024_consolidated_ai_inventory_raw.csv"
 
 
 def main():

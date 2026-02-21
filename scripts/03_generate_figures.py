@@ -25,8 +25,8 @@ import pandas as pd
 import numpy as np
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-OUTPUT = BASE / "analysis" / "output"
-FIG_DIR = OUTPUT / "figures"
+OUTPUT = BASE / "data" / "processed"
+FIG_DIR = BASE / "paper" / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
 # Style
@@ -58,7 +58,7 @@ def fig_governance_gap():
 
     # Re-read raw data to count per-safeguard adoption
     raw = pd.read_csv(
-        BASE / "Literature" / "eo13960-data" / "2024_consolidated_ai_inventory_raw.csv",
+        BASE / "data" / "raw" / "eo13960" / "2024_consolidated_ai_inventory_raw.csv",
         low_memory=False,
     )
     raw.columns = [
@@ -138,7 +138,7 @@ def fig_aiid_heatmap():
     top_fail = df_exp["failure_list"].value_counts().head(8).index.tolist()
     top_sect = df_exp["Sector of Deployment"].value_counts().head(8).index.tolist()
 
-    df_filt = df_exp[df_exp["failure_list"].isin(top_fail) & df_exp["Sector of Deployment"].isin(top_sect)]
+    df_filt = df_exp[df_exp["failure_list"].isin(top_fail) & df_exp["Sector of Deployment"].isin(top_sect)].reset_index(drop=True)
     pivot = pd.crosstab(df_filt["failure_list"], df_filt["Sector of Deployment"])
     # Reorder
     pivot = pivot.loc[[f for f in top_fail if f in pivot.index],
@@ -178,7 +178,7 @@ def fig_atlas_tactic():
     import yaml
 
     # Load tactic names
-    with open(BASE / "Literature" / "atlas-data" / "data" / "tactics.yaml") as f:
+    with open(BASE / "data" / "raw" / "atlas" / "data" / "tactics.yaml") as f:
         tactic_names = {t["id"]: t["name"] for t in yaml.safe_load(f)}
 
     df = pd.read_csv(OUTPUT / "atlas_cases_enriched.csv")
@@ -194,7 +194,9 @@ def fig_atlas_tactic():
     constraint_tags = []
     import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from cross_taxonomy_mapping import ATLAS_TACTIC_TO_CONSTRAINT
+    from importlib import import_module
+    mod = import_module("01_cross_taxonomy_mapping")
+    ATLAS_TACTIC_TO_CONSTRAINT = mod.ATLAS_TACTIC_TO_CONSTRAINT
     for tid in tactic_counts.index:
         cids = ATLAS_TACTIC_TO_CONSTRAINT.get(tid, [])
         constraint_tags.append(", ".join(cids) if cids else "")
@@ -239,7 +241,9 @@ def fig_constraint_coverage():
     constraint_labels = []
     import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from cross_taxonomy_mapping import MCKINSEY_CONSTRAINTS
+    from importlib import import_module
+    mod = import_module("01_cross_taxonomy_mapping")
+    MCKINSEY_CONSTRAINTS = mod.MCKINSEY_CONSTRAINTS
     for cid in constraints:
         info = MCKINSEY_CONSTRAINTS[cid]
         constraint_labels.append(f"{cid} ({info['pct']}%)\n{textwrap.fill(info['label'], 25)}")

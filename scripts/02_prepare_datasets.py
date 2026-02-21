@@ -21,10 +21,10 @@ import pandas as pd
 import numpy as np
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-AIID = BASE / "Literature" / "aiid-data" / "mongodump_full_snapshot"
-ATLAS = BASE / "Literature" / "atlas-data" / "data"
-EO = BASE / "Literature" / "eo13960-data"
-OUTPUT = BASE / "analysis" / "output"
+AIID = BASE / "data" / "raw" / "aiid" / "mongodump_full_snapshot"
+ATLAS = BASE / "data" / "raw" / "atlas" / "data"
+EO = BASE / "data" / "raw" / "eo13960"
+OUTPUT = BASE / "data" / "processed"
 OUTPUT.mkdir(parents=True, exist_ok=True)
 
 
@@ -133,7 +133,9 @@ def prepare_atlas():
     # Tag each case with the McKinsey constraints it touches
     import sys
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-    from cross_taxonomy_mapping import ATLAS_TACTIC_TO_CONSTRAINT
+    from importlib import import_module
+    mod = import_module("01_cross_taxonomy_mapping")
+    ATLAS_TACTIC_TO_CONSTRAINT = mod.ATLAS_TACTIC_TO_CONSTRAINT
     def case_constraints(row):
         cids = set()
         for tid in row["tactics"].split("|"):
@@ -227,7 +229,9 @@ def prepare_eo13960():
 
     # McKinsey constraint coverage flags
     # Does this use case have safeguards addressing each constraint?
-    from cross_taxonomy_mapping import EO13960_SAFEGUARD_TO_CONSTRAINT
+    from importlib import import_module
+    mod = import_module("01_cross_taxonomy_mapping")
+    EO13960_SAFEGUARD_TO_CONSTRAINT = mod.EO13960_SAFEGUARD_TO_CONSTRAINT
     for cid_label in ["C3", "C4", "C5", "C7", "C8"]:
         relevant_safeguards = [
             s for s, cids in EO13960_SAFEGUARD_TO_CONSTRAINT.items()

@@ -12,32 +12,45 @@ CIOs shape a firm's **AI orientation** (strategic intent / direction for AI), bu
 ## Repository Structure
 
 ```
-├── Goal.txt                          # Research goals & design overview
-├── Planning - Concepts, Framework…   # Conceptual framework (HTM export)
-├── requirements.txt                  # Python dependencies
-├── Literature/                       # Source documents (HTML, Markdown, PDF)
-│   ├── atlas-data/                   # MITRE ATLAS adversarial-threat data
-│   ├── aiid-data/                    # AI Incident Database snapshot
-│   └── eo13960-data/                 # EO 13960 federal AI inventory
-├── analysis/                         # Python analysis pipeline
-│   ├── run_all.py                    # Master pipeline runner (original 4 steps)
-│   ├── cross_taxonomy_mapping.py     # Cross-taxonomy bridging table
-│   ├── prepare_datasets.py           # Analysis-ready dataset preparation
-│   ├── generate_figures.py           # Publication-ready figures
-│   ├── profile_sources.py            # Source profiling script
-│   ├── profile_eo13960.py            # EO 13960 deep governance profiling
-│   └── output/                       # Generated artifacts (CSV, Markdown, PNG)
-│       ├── cross_taxonomy_map.csv    # 126 links: ATLAS × AIID × EO 13960 → McKinsey
-│       ├── aiid_incidents_classified.csv  # Merged AIID + CSET + GMF
-│       ├── atlas_cases_enriched.csv  # Case studies + constraint tags
-│       ├── eo13960_scored.csv        # Governance readiness scores
-│       ├── unified_evidence_base.csv # Long-format stacked evidence
-│       ├── research_angles_summary.md # Co-author briefing document
-│       ├── figures/                  # Publication-ready visualizations
-│       └── enriched/                 # LLM-enriched artifacts
+├── README.md
+├── requirements.txt              # Python dependencies
+│
+├── data/
+│   ├── raw/                      # Immutable source data (do NOT edit)
+│   │   ├── atlas/                # MITRE ATLAS adversarial-threat KB
+│   │   ├── aiid/                 # AI Incident Database snapshot
+│   │   └── eo13960/              # EO 13960 federal AI inventory
+│   └── processed/                # Analysis-ready artefacts (regenerable)
+│       ├── cross_taxonomy_map.csv
+│       ├── aiid_incidents_classified.csv
+│       ├── atlas_cases_enriched.csv
+│       ├── eo13960_scored.csv
+│       ├── unified_evidence_base.csv
+│       ├── step1–4 legacy outputs
+│       └── enriched/             # LLM-enriched artefacts
+│
+├── scripts/                      # Reproducible analysis pipeline
+│   ├── 00_profile_sources.py     # Profile all 3 raw data sources
+│   ├── 01_cross_taxonomy_mapping.py  # Cross-taxonomy bridging table
+│   ├── 02_prepare_datasets.py    # Merge & score → analysis CSVs
+│   ├── 03_generate_figures.py    # Publication-ready figures
+│   ├── 04_profile_eo13960.py     # Deep EO 13960 governance profiling
+│   ├── agents/                   # LLM-powered enrichment pipeline
+│   └── legacy/                   # Original 4-step pipeline (archived)
+│
+├── paper/
+│   ├── paper.md                  # Manuscript (Markdown)
+│   └── figures/                  # Publication-ready PNGs
+│
+├── literature/                   # Reference documents (HTML, MD, PDF)
+│
+└── docs/                         # Project planning & design documents
+    ├── Goal.txt
+    ├── Planning - Concepts, Framework and Methods.*
+    └── research_angles_summary.md
 ```
 
-### Data Sources (3 secondary data repositories)
+## Data Sources (3 secondary data repositories)
 
 | Source | Records | Type | Licence |
 |--------|--------:|------|---------|
@@ -45,7 +58,7 @@ CIOs shape a firm's **AI orientation** (strategic intent / direction for AI), bu
 | AI Incident Database (AIID) | 1,362 incidents, 6,681 reports | Real-world AI failure repository | CC BY-SA 4.0 |
 | EO 13960 Federal AI Inventory | 1,757 use cases × 62 variables × 38 agencies | Government AI practice data | Public domain |
 
-### McKinsey "Constraints to Scale" Alignment
+## McKinsey "Constraints to Scale" Alignment
 
 The cross-taxonomy mapping anchors all three data sources to McKinsey's
 Exhibit 5 barriers (Feb 2026, "The new CIO mandate"):
@@ -60,40 +73,47 @@ Exhibit 5 barriers (Feb 2026, "The new CIO mandate"):
 | C7 | Difficulty measuring ROI / value | 17% | EO 13960 (post-deploy monitoring) |
 | C8 | Internal resistance / change management | 16% | ATLAS (HITL), AIID (misuse), EO 13960 (stakeholders) |
 
-### Analysis Pipeline
+## Reproducibility
 
-| Step | Script | Purpose |
-|------|--------|---------|
-| 1 | `step1_construct_definitions.py` | Scoping review — construct definitions & sub-competencies |
-| 2 | `step2_crosswalk.py` | Crosswalk coding — governance × architecture matrix |
-| 3 | `step3_atlas_incident_coding.py` | Incident validation via MITRE ATLAS case studies |
-| 4 | `step4_strategic_linkage.py` | Strategic linkage — propositions |
-
-Run the full pipeline from the project root:
+### Prerequisites
 
 ```bash
-python analysis/run_all.py
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+pip install -r requirements.txt
 ```
 
-## Key Artifacts (in `analysis/output/`)
+### Running the Pipeline
 
-- **step1_construct_definitions.md / step1_sub_competencies.csv** — Construct boundaries
-- **step2_crosswalk_matrix.csv / step2_competency_statements.csv** — Governance ↔ architecture crosswalk
-- **step3_incident_coding.csv / step3_tactic_frequency.csv / step3_mitigation_gaps.csv** — ATLAS incident mapping
-- **step4_propositions.md / step4_propositions.csv** — Testable propositions
-
-### Agentic Pipeline (in `analysis/output/enriched/`)
-
-The `analysis/agents/` directory contains an LLM-powered enrichment pipeline that
-reads literature sources, extracts evidence passages, and generates grounded
-artifacts with auditable citation trails.
+From the project root:
 
 ```bash
-# Run full agentic pipeline
-python -m analysis.agents.run_agents
+# Step 0 — Profile raw sources (optional, exploratory)
+python scripts/00_profile_sources.py
 
-# Run a single step
-python -m analysis.agents.run_agents --step 1
+# Step 1 — Build cross-taxonomy bridging table → data/processed/cross_taxonomy_map.csv
+python scripts/01_cross_taxonomy_mapping.py
+
+# Step 2 — Prepare analysis-ready datasets → data/processed/*.csv
+python scripts/02_prepare_datasets.py
+
+# Step 3 — Generate publication figures → paper/figures/*.png
+python scripts/03_generate_figures.py
+
+# Step 4 — Deep EO 13960 governance profiling (optional)
+python scripts/04_profile_eo13960.py
+```
+
+### Agentic Enrichment Pipeline (optional)
+
+The `scripts/agents/` directory contains an LLM-powered enrichment pipeline that
+reads literature sources, extracts evidence passages, and generates grounded
+artefacts with auditable citation trails.
+
+```bash
+# Requires OPENAI_API_KEY environment variable
+python -m scripts.agents.run_agents          # full pipeline
+python -m scripts.agents.run_agents --step 1 # single step
 ```
 
 | Step | Agent | Purpose |
@@ -103,8 +123,7 @@ python -m analysis.agents.run_agents --step 1
 | 3 | `step3_enrich.py` | Fix mitigation mapping + LLM competency gap descriptions |
 | 4 | `step4_synthesize.py` | Compute cross-step statistics + grounded propositions |
 
-Requires: `OPENAI_API_KEY` environment variable. Uses `gpt-4.1-mini` for extraction
-and `gpt-4.1` for synthesis.
+Uses `gpt-4.1-mini` for extraction and `gpt-4.1` for synthesis.
 
 ## License
 

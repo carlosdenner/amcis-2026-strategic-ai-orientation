@@ -23,7 +23,7 @@ import yaml
 import pandas as pd
 
 BASE = pathlib.Path(__file__).resolve().parent.parent
-OUTPUT = BASE / "analysis" / "output"
+OUTPUT = BASE / "data" / "processed"
 OUTPUT.mkdir(parents=True, exist_ok=True)
 
 # ── McKinsey Exhibit 5: constraints to scale ──────────────────────────────────
@@ -195,8 +195,8 @@ EO13960_SAFEGUARD_TO_CONSTRAINT = {
 
 def load_atlas_names():
     """Load ATLAS tactic and mitigation names from YAML."""
-    t_path = BASE / "Literature" / "atlas-data" / "data" / "tactics.yaml"
-    m_path = BASE / "Literature" / "atlas-data" / "data" / "mitigations.yaml"
+    t_path = BASE / "data" / "raw" / "atlas" / "data" / "tactics.yaml"
+    m_path = BASE / "data" / "raw" / "atlas" / "data" / "mitigations.yaml"
     names = {}
     with open(t_path) as f:
         for t in yaml.safe_load(f):

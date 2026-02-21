@@ -11,8 +11,8 @@ from pathlib import Path
 from collections import Counter
 
 ROOT = Path(__file__).resolve().parent.parent
-LIT  = ROOT / "Literature"
-OUT  = ROOT / "analysis" / "output"
+DATA = ROOT / "data" / "raw"
+OUT  = ROOT / "data" / "processed"
 
 
 # ─────────────────────────────────────────────
@@ -23,7 +23,7 @@ def profile_atlas():
     print("SOURCE 1: MITRE ATLAS — Adversarial Threat Landscape for AI Systems")
     print("=" * 70)
 
-    atlas_dir = LIT / "atlas-data" / "data"
+    atlas_dir = DATA / "atlas" / "data"
 
     # Tactics
     with open(atlas_dir / "tactics.yaml", encoding="utf-8") as f:
@@ -106,7 +106,7 @@ def profile_aiid():
     print("SOURCE 2: AI Incident Database (AIID)")
     print("=" * 70)
 
-    snap = LIT / "aiid-data" / "mongodump_full_snapshot"
+    snap = DATA / "aiid" / "mongodump_full_snapshot"
 
     # Incidents
     inc = pd.read_csv(snap / "incidents.csv", encoding="utf-8", on_bad_lines="skip")
@@ -194,7 +194,7 @@ def profile_eo13960():
     print("=" * 70)
 
     eo = pd.read_csv(
-        LIT / "eo13960-data" / "2024_consolidated_ai_inventory_raw.csv",
+        DATA / "eo13960" / "2024_consolidated_ai_inventory_raw.csv",
         encoding="utf-8", on_bad_lines="skip"
     )
     print(f"\n  Use cases: {len(eo):,}")

@@ -7,11 +7,11 @@ import os
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 BASE_DIR     = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-LIT_DIR      = os.path.join(BASE_DIR, "Literature")
-ATLAS_DIR    = os.path.join(LIT_DIR, "atlas-data")
+LIT_DIR      = os.path.join(BASE_DIR, "literature")
+ATLAS_DIR    = os.path.join(BASE_DIR, "data", "raw", "atlas")
 ATLAS_DIST   = os.path.join(ATLAS_DIR, "dist", "ATLAS.yaml")
-ANALYSIS_DIR = os.path.join(BASE_DIR, "analysis")
-OUT_DIR      = os.path.join(ANALYSIS_DIR, "output")
+SCRIPTS_DIR  = os.path.join(BASE_DIR, "scripts")
+OUT_DIR      = os.path.join(BASE_DIR, "data", "processed")
 ENRICHED_DIR = os.path.join(OUT_DIR, "enriched")
 
 os.makedirs(ENRICHED_DIR, exist_ok=True)
