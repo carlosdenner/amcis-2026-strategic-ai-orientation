@@ -14,16 +14,51 @@ CIOs shape a firm's **AI orientation** (strategic intent / direction for AI), bu
 ```
 ├── Goal.txt                          # Research goals & design overview
 ├── Planning - Concepts, Framework…   # Conceptual framework (HTM export)
+├── requirements.txt                  # Python dependencies
 ├── Literature/                       # Source documents (HTML, Markdown, PDF)
-│   └── atlas-data/                   # MITRE ATLAS adversarial-threat data
-├── analysis/                         # Python analysis pipeline (4 steps)
-│   ├── run_all.py                    # Master pipeline runner
-│   ├── step1_construct_definitions.py
-│   ├── step2_crosswalk.py
-│   ├── step3_atlas_incident_coding.py
-│   ├── step4_strategic_linkage.py
-│   └── output/                       # Generated artifacts (CSV, Markdown)
+│   ├── atlas-data/                   # MITRE ATLAS adversarial-threat data
+│   ├── aiid-data/                    # AI Incident Database snapshot
+│   └── eo13960-data/                 # EO 13960 federal AI inventory
+├── analysis/                         # Python analysis pipeline
+│   ├── run_all.py                    # Master pipeline runner (original 4 steps)
+│   ├── cross_taxonomy_mapping.py     # Cross-taxonomy bridging table
+│   ├── prepare_datasets.py           # Analysis-ready dataset preparation
+│   ├── generate_figures.py           # Publication-ready figures
+│   ├── profile_sources.py            # Source profiling script
+│   ├── profile_eo13960.py            # EO 13960 deep governance profiling
+│   └── output/                       # Generated artifacts (CSV, Markdown, PNG)
+│       ├── cross_taxonomy_map.csv    # 126 links: ATLAS × AIID × EO 13960 → McKinsey
+│       ├── aiid_incidents_classified.csv  # Merged AIID + CSET + GMF
+│       ├── atlas_cases_enriched.csv  # Case studies + constraint tags
+│       ├── eo13960_scored.csv        # Governance readiness scores
+│       ├── unified_evidence_base.csv # Long-format stacked evidence
+│       ├── research_angles_summary.md # Co-author briefing document
+│       ├── figures/                  # Publication-ready visualizations
+│       └── enriched/                 # LLM-enriched artifacts
 ```
+
+### Data Sources (3 secondary data repositories)
+
+| Source | Records | Type | Licence |
+|--------|--------:|------|---------|
+| MITRE ATLAS | 52 case studies, 16 tactics, 155 techniques, 35 mitigations | Adversarial threat knowledge base | Apache 2.0 |
+| AI Incident Database (AIID) | 1,362 incidents, 6,681 reports | Real-world AI failure repository | CC BY-SA 4.0 |
+| EO 13960 Federal AI Inventory | 1,757 use cases × 62 variables × 38 agencies | Government AI practice data | Public domain |
+
+### McKinsey "Constraints to Scale" Alignment
+
+The cross-taxonomy mapping anchors all three data sources to McKinsey's
+Exhibit 5 barriers (Feb 2026, "The new CIO mandate"):
+
+| ID | Constraint | % | Primary Data Evidence |
+|----|-----------|---:|----------------------|
+| C1 | Talent / capability gaps | 31% | ATLAS (reconnaissance), AIID (misuse) |
+| C2 | Integration complexity | 29% | ATLAS (lateral movement, agent segmentation), AIID (latency) |
+| C3 | Security / reliability / hallucinations | 26% | ATLAS (65 links), AIID (generalization, bias), EO 13960 (Tier-2 gap) |
+| C4 | Regulatory / privacy / compliance | 24% | ATLAS (exfiltration), AIID (transparency, bias), EO 13960 (safeguards) |
+| C5 | Lack of modern data foundations | 21% | ATLAS (collection/discovery), AIID (data noise) |
+| C7 | Difficulty measuring ROI / value | 17% | EO 13960 (post-deploy monitoring) |
+| C8 | Internal resistance / change management | 16% | ATLAS (HITL), AIID (misuse), EO 13960 (stakeholders) |
 
 ### Analysis Pipeline
 
