@@ -219,7 +219,44 @@ Item-level prevalence ranges from 34% (reuse) to 62% (data documentation), subst
 
 We estimate four nested models: (M1) controls only; (M2) + orientation; (M3) + TR + IR main effects; (M4) + TR × IR interaction. We report odds ratios and 95% confidence intervals. As a supplementary check, we also estimate an agency-level OLS model (n=38) with the share of operational deployments as the dependent variable.
 
-### Reproducibility
+### Exploratory AutoDiscovery Protocol
+
+To systematically explore patterns across the three-source evidence base, we use AstaLabs AutoDiscovery, a Bayesian-surprise-based exploratory analysis engine that generates, tests, and evaluates hypotheses at scale. The protocol is summarized below.
+
+**Inputs.** The engine receives a unified analysis-ready dataset combining EO 13960 (1,757 use cases × 62 variables), AIID (1,362 incidents with CSET/GMF classifications), and ATLAS (52 case studies with tactic/technique/mitigation tags). All three sources are stacked in a common long-format file with source identifiers.
+
+**Hypothesis generation.** AutoDiscovery generates hypothesis templates from the data schema, including: (a) *association tests* — is variable A associated with variable B? (e.g., “Are vendor-supplied systems less likely to report code access?”); (b) *group difference tests* — does group X differ from group Y on variable Z? (e.g., “Do rights-impacting systems have higher impact assessment rates?”); (c) *correlation tests* — does continuous variable X correlate with continuous variable Y? (e.g., “Does portfolio size predict governance depth?”). Hypotheses are generated programmatically from all pairwise combinations of eligible variables, constrained by data type and sample size thresholds.
+
+**Statistical tests.** Each experiment selects the appropriate test from the hypothesis type and data structure: chi-square tests for categorical associations, two-proportion z-tests for binary group comparisons, Spearman/Pearson correlations for continuous variables, and Mann-Whitney U tests for ordinal comparisons. Each experiment runs autonomously, generating Python analysis code, executing it against the data, and recording the statistical output (test statistic, p-value, effect size, sample size).
+
+**Surprise thresholding.** AutoDiscovery evaluates each result against a Bayesian prior belief (set by the engine based on domain knowledge and hypothesis framing). The *surprise score* quantifies the shift from prior to posterior belief:
+
+- **Supported** (surprise > +0.05): posterior belief is higher than prior — the data confirm or strengthen the hypothesis.
+- **Neutral** (−0.05 ≤ surprise ≤ +0.05): negligible belief shift.
+- **Weakened** (−0.20 < surprise < −0.05): moderate evidence against the hypothesis.
+- **Contradicted** (surprise < −0.20): strong evidence against the hypothesis — the data substantially undermine the prior expectation.
+
+We conducted two sessions: Session 1 (100 experiments on processed Step 1–4 datasets) and Session 2 (300 experiments on full raw data including EO 13960, AIID, and ATLAS). Of 400 total experiments, 397 succeeded, with 67.7% of Session 2 hypotheses contradicted — a rate that constitutes substantive evidence of governance readiness gaps rather than methodological failure.
+
+**False discovery mitigation.** Because 400 experiments raise legitimate concerns about multiple comparisons and researcher degrees of freedom, we adopt four safeguards. First, we treat *single-experiment support as suggestive only*; we emphasize findings only when supported by *convergent evidence across multiple independent experiments* testing the same substantive claim through different operationalizations. Second, the AutoDiscovery engine generates hypotheses programmatically from the data schema rather than through post-hoc researcher selection, reducing garden-of-forking-paths bias. Third, the high contradiction rate (67.7%) demonstrates that the engine does not selectively confirm hypotheses — the majority of tested expectations are falsified, indicating genuine discriminative power rather than confirmation bias. Fourth, the paper’s core quantitative findings (governance drop-off, IR > TR, procurement opacity) are independently validated through standard statistical methods (logistic regression, chi-square tests, Spearman correlations) reported with conventional p-values and effect sizes in §4.1–§4.7, providing a confirmatory cross-check on the exploratory discovery results.
+
+Table 2c summarizes the convergence evidence for each major finding, listing the number of independent experiments and representative experiment IDs.
+
+**Table 2c.** Convergence evidence for core findings
+
+| Finding | Convergent experiments | Representative EXP IDs | Confirmatory cross-check |
+|---|---:|---|---|
+| Governance drop-off (61% → 5–9%) | Direct count | — | Table 2b, Fig. 1 |
+| Risk-tiering failure | 6 | 146, 207, 230, 256, 282, 290 | §4.1, p<0.0001 |
+| Commercial opacity barrier | 14 | 106, 131, 174, 202, 210, 237, 245, 247, 284, 291, 293, 299 | §4.5 |
+| Sector-harm fingerprints | 7 | 158, 168, 170, 173, 187, 242, 252 | χ²=12.97, p=0.0003 |
+| Safeguard bundling (V&V + accountability) | 5 | 167, 206, 224, 261, 066 | ρ=0.228, p<0.001 (§4.2) |
+| Autonomy ≠ harm type | 15 | 139, 140, 152, 193, 212, 217, 218, 223, 238, 250, 255, 264, 267, 277, 300 | — |
+| Transparency-without-agency (public-facing) | 5 | 134, 160, 180, 159, 200 | §4.6 |
+| EO mandate ineffective on deep safeguards | 3 | 182, 241, 268 | §4.1 |
+| IR > TR as deployment predictor | Regression | — | OR=1.40, p<0.001 (§4.7) |
+
+No finding reported in this paper rests on a single experiment. The minimum convergence threshold is three independent experiments or a confirmatory regression/chi-square test with p<0.01. Individual experiment JSONs (including generated code, raw output, and p-values) are archived in the companion repository for full audit.
 
 All analysis code, data paths, and intermediate outputs are organized in a public GitHub repository (https://github.com/carlosdenner/amcis-2026-strategic-ai-orientation.git). The repository follows a separation-of-concerns structure:
 
@@ -247,7 +284,7 @@ Dependencies are specified in `requirements.txt` (pandas, PyYAML, matplotlib, nu
 
 ## Findings
 
-Our findings synthesize convergent patterns from 400 exploratory AutoDiscovery experiments (Session 1: 100; Session 2: 300) across the three-source evidence base. Importantly, the high contradiction rate is not treated as "failed analysis" but as substantive evidence: many hypotheses encoded implicit assumptions of contemporary AI governance frameworks (e.g., risk-tiering works; maturity increases safeguards; transparency implies agency). The systematic falsification of these assumptions — 67.7% contradicted across all experiments — constitutes a central empirical signal of governance readiness gaps rather than a methodological weakness.
+Our findings synthesize convergent patterns from 400 exploratory AutoDiscovery experiments (Session 1: 100; Session 2: 300) across the three-source evidence base (see Methodology, *Exploratory AutoDiscovery Protocol* and Table 2c for convergence evidence). Importantly, the high contradiction rate is not treated as “failed analysis” but as substantive evidence: many hypotheses encoded implicit assumptions of contemporary AI governance frameworks (e.g., risk-tiering works; maturity increases safeguards; transparency implies agency). The systematic falsification of these assumptions — 67.7% contradicted across all experiments — constitutes a central empirical signal of governance readiness gaps rather than a methodological weakness. Following our false discovery mitigation protocol, we report below only findings supported by convergent multi-experiment evidence or independently confirmed through standard statistical tests.
 
 ### 4.1 The Governance Gap: Surface Compliance vs. Substantive Safeguards
 
