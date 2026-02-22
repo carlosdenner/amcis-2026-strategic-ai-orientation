@@ -276,6 +276,7 @@ python scripts/03_generate_figures.py         # → 5 publication PNGs
 python scripts/09_pathway_model.py            # → pathway_model_data.csv + regression output
 python scripts/10_ir_analysis.py              # → fig6_tr_ir_distributions.png + IR stats
 python scripts/11_mapping_sensitivity.py      # → mapping robustness check (console output)
+python scripts/12_procurement_confounding.py  # → procurement_confounding_results.csv
 ```
 
 Dependencies are specified in `requirements.txt` (pandas, PyYAML, matplotlib, numpy, statsmodels). No API keys are required for the core analysis pipeline; the optional LLM-based enrichment pipeline (`scripts/agents/`) requires an OpenAI API key but is not needed to reproduce the reported findings.
@@ -371,6 +372,26 @@ The triangulation results therefore motivate a shift in explanatory focus: rathe
 Across Session 2, commercial opacity emerged as the single most robust, convergent result: 14 experiments independently converged on the pattern that vendor-supplied or commercially procured AI systems are associated with lower transparency and weaker downstream governance mechanisms. These results are notable because they identify not merely a "low governance" problem, but a structural barrier: governance safeguards that require technical visibility (code access, data documentation, independent evaluation) are difficult to implement when the system boundary is controlled by external vendors.
 
 The evidence is consistent across multiple operational proxies. Vendor/contractor procurement predicts significantly lower reported code access (EXP_237; confirmed, EXP_245; confirmed, EXP_247; confirmed, EXP_293; confirmed) and lower reported data documentation (EXP_174; +0.185, EXP_284; +0.198, EXP_291; +0.191). The pattern is strongest for code access (vendor 81.1% vs. in-house 89.1%) and extends to most deeper safeguards: impact assessment (vendor 6.4% vs. in-house 10.3%), post-deployment monitoring (vendor 11.2% vs. in-house 14.4%), appeal process (vendor 10.6% vs. in-house 13.7%), and disparity mitigation (vendor 8.1% vs. in-house 10.3%). Two indicators — data documentation and independent evaluation — show negligible or reversed differences, suggesting that opacity effects are not uniform across all governance dimensions; vendors may provide standard documentation artifacts while remaining opaque to deeper auditability. Importantly, the transparency deficits are not isolated: they appear to cascade into accountability mechanisms. One experiment directly links code access (a transparency prerequisite) to the presence of an appeal process, producing a strong positive belief shift (EXP_131; surprise +0.402). A related experiment reinforces the pathway in the negative direction: where code access is absent, appeal processes are less likely (EXP_210; +0.204). Finally, combined transparency deficits replicate: vendor supply predicts lower likelihood of both code access and data documentation (EXP_299; confirmed).
+
+**Multivariate robustness check.** The bivariate comparisons above could reflect confounding: vendor-developed systems may differ systematically from in-house systems in mission type, agency culture, impact classification, or deployment stage. To address this, we estimate multivariate logistic regressions (n=1,107 use cases with known development method) predicting each key safeguard from vendor status, controlling for mixed development, high-impact classification (rights-impacting or safety-impacting), public-facing status, operational stage, and agency fixed effects. Table 4 reports vendor odds ratios across three nested models: M1 (bivariate), M2 (+ use-case controls), and M3 (+ agency fixed effects).
+
+**Table 4.** Vendor effect on governance safeguards: multivariate logistic regressions
+
+| Safeguard | Prev. | M1: Vendor only | M2: + Controls | M3: + Agency FE |
+|---|---:|---:|---:|---:|
+| Impact Assessment | 8.2% | 0.65 | 0.42** | 0.29*** |
+| Post-Deploy Monitor | 13.0% | 0.75 | 0.60* | 0.60† |
+| Appeal Process | 12.4% | 0.74 | 0.59* | 0.65 |
+| Real-World Testing | 12.8% | 0.77 | 0.64* | 0.64 |
+| Disparity Mitigation | 9.0% | 0.82 | 0.67† | 0.67 |
+| Independent Eval | 10.5% | 0.98 | 0.92 | 1.25 |
+| Code Access | 82.7% | 0.81 | 0.22*** | 0.56 |
+
+*Notes.* ORs < 1 indicate lower safeguard likelihood for vendor-developed systems (reference: in-house). Controls: mixed development, high-impact, public-facing, operational stage. †p<0.10, \*p<0.05, \*\*p<0.01, \*\*\*p<0.001.
+
+The results reveal a heterogeneous pattern. **Impact assessment** — the safeguard requiring the deepest vendor cooperation (understanding training data, model architecture, performance characteristics) — shows the strongest and most robust vendor effect: vendor-developed systems are 71% less likely to report impact assessment after controlling for impact classification, public-facing status, operational stage, and agency (OR=0.29, 95% CI [0.15, 0.56], p<0.001). This effect *strengthens* from M1 to M3, indicating genuine procurement opacity rather than confounding. **Post-deployment monitoring, appeal processes, real-world testing, and disparity mitigation** show consistent negative vendor associations (ORs 0.59–0.67 in M2, all p<0.05 or marginal), but these attenuate with agency fixed effects, suggesting partial mediation via agency-level procurement norms. Notably, **independent evaluation** shows no vendor effect (OR≈1.0, ns), suggesting that governance activities performable by external parties are not impeded by vendor opacity — the barrier is specific to activities requiring access to internals (model weights, training data, code).
+
+A Baron–Kenny mediation test of the Vendor → Code Access → Appeal/Evaluation pathway shows that code access is a strong predictor of both appeal (OR=7.52, p<0.001) and independent evaluation (OR=19.48, p<0.001), consistent with the theorized transparency prerequisite. However, the Vendor → Code Access path (M3: OR=0.56, p=0.11) is underpowered in the agency-FE specification, yielding only 3% attenuation for appeal. The mediation signal is therefore suggestive — architecturally coherent but not statistically confirmed at conventional thresholds with agency controls.
 
 This "opacity barrier" has two implications for how IS research should conceptualize AI governance readiness:
 
