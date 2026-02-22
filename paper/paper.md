@@ -142,7 +142,7 @@ We anchor the bridging table to McKinsey's empirically derived "constraints to A
 | C7 | Difficulty measuring ROI and value | 17 |
 | C8 | Internal resistance and change management | 16 |
 
-We chose these constraints as the organizing anchor because they (a) are empirically derived from CIO surveys, (b) span governance and integration concerns, (c) are practitioner-legible, and (d) provide a natural bridge to the trust readiness / integration readiness framing of our conceptual model.
+We chose these constraints as the organizing anchor because they (a) are empirically derived from CIO surveys, (b) span governance and integration concerns, (c) are practitioner-legible, and (d) provide a natural bridge to the trust readiness / integration readiness framing of our conceptual model. Importantly, the McKinsey constraints are not a standalone ontology; they map systematically onto the NIST AI RMF functions that structure our trust readiness construct. C3 (security/reliability) corresponds to MEASURE and MANAGE; C4 (regulatory/compliance) to GOVERN; C1 (talent) to MAP; and C2 (integration) to the cross-cutting infrastructure requirements that span all four NIST functions. We use McKinsey’s practitioner-facing labels for accessibility while maintaining this academic anchor to the normative framework underpinning the paper’s theoretical spine.
 
 The mapping procedure proceeds as follows:
 
@@ -152,7 +152,20 @@ The mapping procedure proceeds as follows:
 
 3. **EO 13960 → Constraints**: EO 13960 governance safeguard variables are mapped to McKinsey constraints based on the governance function they represent. For example, *impact assessment* maps to C4 (regulatory compliance) and C7 (ROI measurement); *post-deployment monitoring* maps to C7 and C3 (reliability); *stakeholder consultation* maps to C8 (change management).
 
-Each mapping link records the source element, target constraint, link type (threatens, addresses, evidences, or measures), and rationale. The resulting bridging table contains links spanning all three sources and all eight constraints.
+Each mapping link records the source element, target constraint, link type (threatens, addresses, evidences, or measures), and rationale. The resulting bridging table contains 126 links spanning all three sources and seven of the eight constraints (C6 — *lack of clear business use cases* — has no direct mapping from the threat, incident, or governance taxonomies used). All 126 links are *rule-based*: each mapping is hardcoded in the analysis script (`scripts/01_cross_taxonomy_mapping.py`) with an explicit assignment rationale, rather than produced by machine-learning classification or subjective coding at scale. This design choice maximizes transparency and auditability: every mapping decision can be inspected, challenged, and revised by reviewers.
+
+Table 1b illustrates the mapping logic with one representative link from each source and link type.
+
+**Table 1b.** Cross-taxonomy mapping examples (one per source)
+
+| Source | Source Element | Constraint | Link Type | Rationale |
+|---|---|---|---|---|
+| ATLAS | Exfiltration (AML.TA0010) | C4: Regulatory / privacy | threatens | Data exfiltration directly threatens privacy/compliance obligations |
+| AIID‑GMF | Distributional Bias | C4: Regulatory / privacy | evidences | Bias incidents evidence compliance failures in fairness requirements |
+| EO 13960 | 52_impact_assessment | C4: Regulatory / privacy | measures | Impact assessment measures readiness for regulatory compliance |
+| ATLAS | AML.M0024 (Telemetry Logging) | C3: Security / reliability | addresses | Logging mitigates security threats by enabling detection and audit |
+
+**Mapping validation.** Because a single researcher produced the mapping (no second coder for inter-rater reliability), we validate robustness through Monte Carlo sensitivity analysis (`scripts/11_mapping_sensitivity.py`). Across 1,000 iterations at each of three perturbation rates (10%, 15%, 20% of links randomly reassigned to different constraints), the mapping structure is highly stable: the top constraint (C3: security/reliability) is preserved in 100% of iterations at all perturbation rates; the top-2 set {C3, C4} is preserved in 99.9% of iterations even at 20% perturbation; the mean Spearman rank correlation between perturbed and baseline constraint distributions is ρ=0.95 (SD=0.05) at 20% perturbation; and all three source taxonomies retain coverage of both C3 and C4 in 93%+ of iterations. Critically, the paper’s core empirical findings — the governance drop-off (61% → 5–9%), procurement opacity, and IR > TR as deployment predictor — are computed directly from EO 13960 variables and are not mediated by the cross-taxonomy map. The map underpins the triangulation logic (§4.4), and the sensitivity analysis confirms that this triangulation structure is robust to substantial perturbation of mapping decisions.
 
 ### Analysis-Ready Dataset Preparation
 
@@ -225,6 +238,7 @@ python scripts/02_prepare_datasets.py         # → 4 analysis CSVs
 python scripts/03_generate_figures.py         # → 5 publication PNGs
 python scripts/09_pathway_model.py            # → pathway_model_data.csv + regression output
 python scripts/10_ir_analysis.py              # → fig6_tr_ir_distributions.png + IR stats
+python scripts/11_mapping_sensitivity.py      # → mapping robustness check (console output)
 ```
 
 Dependencies are specified in `requirements.txt` (pandas, PyYAML, matplotlib, numpy, statsmodels). No API keys are required for the core analysis pipeline; the optional LLM-based enrichment pipeline (`scripts/agents/`) requires an OpenAI API key but is not needed to reproduce the reported findings.
