@@ -74,18 +74,27 @@ def fig1_governance_dropoff():
     print("  Fig 1: Governance Drop-off …")
     raw = _load_eo_raw()
     n = len(raw)
+    assert n == 1757, f"Expected 1757 rows, got {n}"
 
-    # Safeguards in the order from Table 2
+    # Sanity-check key counts against paper_stats.csv
+    ato_yes = _is_yes(raw["40_has_ato"]).sum()
+    assert ato_yes == 654, f"ATO is_yes expected 654, got {ato_yes}"
+    ir_yes = _is_yes(raw["50_internal_review"]).sum()
+    assert ir_yes == 1067, f"Internal review expected 1067, got {ir_yes}"
+    dm_yes = _is_yes(raw["62_disparity_mitigation"]).sum()
+    assert dm_yes == 104, f"Disparity mitigation expected 104, got {dm_yes}"
+
+    # Safeguards in the order from Table 2 (highest Tier 1 first)
     safeguards = [
-        ("Authorization to\nOperate (ATO)",     "40_has_ato",              "tier1"),
         ("Internal review /\napproval",          "50_internal_review",      "tier1"),
-        ("Impact\nassessment",                   "52_impact_assessment",    "tier2"),
+        ("Authorization to\nOperate (ATO)",     "40_has_ato",              "tier1"),
         ("Post-deployment\nmonitoring",          "56_monitor_postdeploy",   "tier2"),
         ("Real-world\ntesting",                  "53_real_world_testing",   "tier2"),
         ("Appeal\nprocess",                      "65_appeal_process",       "tier2"),
         ("AI use notice\nto public",             "59_ai_notice",           "tier2"),
         ("Independent\nevaluation",              "55_independent_eval",     "tier2"),
         ("Disparity / bias\nmitigation",         "62_disparity_mitigation", "tier2"),
+        ("Impact\nassessment",                   "52_impact_assessment",    "tier2"),
     ]
 
     labels  = [s[0] for s in safeguards]
@@ -99,7 +108,7 @@ def fig1_governance_dropoff():
     ax.set_yticklabels(labels, fontsize=8)
     ax.invert_yaxis()
     ax.set_xlabel("% of 1,757 federal AI use cases reporting safeguard")
-    ax.set_title("Figure 1. The Governance Drop-off:\nSurface Compliance vs. Substantive Safeguards (EO 13960)")
+    ax.set_title("The Governance Drop-off:\nSurface Compliance vs. Substantive Safeguards (EO 13960)")
 
     # Percentage labels
     for bar, pct in zip(bars, pcts):
@@ -186,7 +195,7 @@ def fig2_commercial_opacity():
     ax.invert_yaxis()
     ax.set_xlabel("% of use cases reporting safeguard")
     ax.set_title(
-        "Figure 2. Commercial Opacity as a Governance Barrier:\n"
+        "Commercial Opacity as a Governance Barrier:\n"
         "Vendor-Supplied vs. In-House AI Systems (EO 13960)"
     )
 
@@ -302,7 +311,7 @@ def fig3_sector_harm_heatmap():
                         fontsize=8, fontweight="bold", color=color)
 
     ax.set_title(
-        "Figure 3. Sector–Harm Fingerprints:\n"
+        "Sector\u2013Harm Fingerprints:\n"
         f"AI Technical Failure × Sector of Deployment (AIID, n={len(df)} classified incidents)"
     )
     cbar = fig.colorbar(im, ax=ax, label="Incident count", shrink=0.8, pad=0.02)
@@ -414,7 +423,7 @@ def fig4_threat_reality_practice():
     ax.set_xticklabels(sector_labels, fontsize=7, ha="center")
     ax.set_ylabel("% of source records in sector")
     ax.set_title(
-        "Figure 4. Threat–Reality–Practice Divergence:\n"
+        "Threat\u2013Reality\u2013Practice Divergence:\n"
         "Sector Distributions Across Three Data Sources"
     )
     ax.legend(loc="upper right", fontsize=7, framealpha=0.9)
