@@ -186,14 +186,41 @@ Public-facing AI systems provide higher transparency (Notice, Appeal) but lower 
 
 3. **The contradictions as a story:** 67–82% of hypotheses were contradicted. This IS the story — the gap between what frameworks prescribe and what organizations actually do. The paper should frame the contradictions as evidence of the governance gap, not as failed experiments.
 
-4. **Figures:** We need 3–5 figures maximum. Candidates:
-   - Governance gap bar chart (62.7% ATO → 5.9% Disparity Mitigation)
-   - Conceptual model figure (AI Orientation → TR × IR → Value)
-   - Cross-source triangulation diagram (Threat-Reality Mismatch)
-   - Commercial vs In-House governance comparison
-   - GenAI temporal explosion
+4. **Figures:** We need 3–5 figures maximum. Recommended set (from ChatGPT synthesis):
 
-5. **Mapping old propositions to new evidence:** The original P1–P5 are theoretical (CIO centrality, trust readiness, integration readiness, complementarity, regulatory pressure). The new P1–P6 are empirical (risk-tiering failure, commercial opacity, sector fingerprints, threat-reality mismatch, governance bundles, forced participation). The paper should bridge both: theoretical propositions supported/refined by empirical evidence.
+   **Figure 1 — "The Governance Drop-off: Surface Compliance vs. Substantive Safeguards"** *(priority: HIGH)*
+   - Type: Grouped bar chart (Tier 1 vs Tier 2 safeguards)
+   - Data: EO 13960 counts/percentages (ATO 62.7%, internal review 60.7% vs impact assessment 8.9%, monitoring 8.5%, independent eval 6.8%, disparity mitigation 5.9%)
+   - Supports: §4.1 — governance theater; the 62.7%→5.9% drop-off
+   - Size: Half-page
+
+   **Figure 2 — "Commercial Opacity as a Governance Barrier"** *(priority: HIGH)*
+   - Type: Radar chart or two-panel bar chart (Vendor/COTS vs In-house)
+   - Data: EO governance indicators most affected by procurement: code access, data documentation, appeal process, independent evaluation; annotate with EXP_245, EXP_291, EXP_131, EXP_299
+   - Supports: §4.4 — novel, most robust finding; 14 convergent experiments
+   - Size: Half-page
+
+   **Figure 3 — "Sector–Harm Fingerprints in Real-World Incidents"** *(priority: MEDIUM)*
+   - Type: Heatmap (sector × harm type)
+   - Data: AIID sector classification crossed with harm categories; highlight finance/economic, healthcare/physical, government/civil-rights clusters; annotate EXP_158/170/173/252
+   - Supports: §4.2 — sector specificity; debunks one-size governance
+   - Size: Half-page (or quarter-page if simplified to top 5 sectors)
+
+   **Figure 4 — "Threat–Reality–Practice Divergence"** *(priority: HIGH)*
+   - Type: Sankey / alluvial flow diagram (three columns)
+   - Data: ATLAS sector distribution → AIID incident sector distribution → EO 13960 deployment sectors; emphasize mismatch; annotate EXP_164 and EXP_108
+   - Supports: §4.3 — triangulation contribution; threat–reality mismatch
+   - Size: Half-page
+
+   **Figure 5 — "Two-Speed Risk Landscape: GenAI Volume vs. Physical-World Severity"** *(priority: LOW — cuttable if page-tight)*
+   - Type: Line chart (incident counts over time by modality) + small inset bar for severity by modality
+   - Data: AIID incidents pre/post 2022 (GenAI vs robotics/AV) + severity comparison (EXP_271)
+   - Supports: §4.2 — temporal explosion + severity divergence
+   - Size: Quarter-page
+
+   **If strict 3-figure limit:** Prioritize Figures 1, 2, and 4 — they jointly carry the core contribution and novelty.
+
+5. **Propositions are now reconciled:** The original P1–P5 (theoretical) have been reconciled with the six Session 2 empirical patterns into P1–P6: (1) CIO centrality, (2) TR×IR complementarity mechanism, (3) governance theater / risk-tiering failure, (4) commercial opacity barrier, (5) sector-calibrated governance, (6) transparency-without-agency paradox. Each proposition includes evidence mapping and falsifiability criteria.
 
 ---
 
