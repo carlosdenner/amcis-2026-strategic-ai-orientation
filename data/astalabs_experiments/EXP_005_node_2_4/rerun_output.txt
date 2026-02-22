@@ -1,0 +1,45 @@
+Current working directory: C:\Users\carlo\Dropbox\Projeto - Universite de Sherbrooke\AMCIS 2026\data\astalabs
+Loading dataset from: astalabs_discovery_all_data.csv
+Filtered EO 13960 records: 1757
+
+Unique values in '16_dev_stage':
+16_dev_stage
+Operation and Maintenance         627
+Acquisition and/or Development    351
+Initiated                         329
+Implementation and Assessment     275
+Retired                           133
+Planned                            20
+In production                      14
+In mission                          4
+NaN                                 4
+Name: count, dtype: int64
+
+Unique values in '52_impact_assessment':
+52_impact_assessment
+NaN                        1600
+No                           65
+Yes                          60
+Planned or in-progress.      31
+YES                           1
+Name: count, dtype: int64
+
+--- Summary Statistics ---
+               Total Systems  Compliant Systems  Compliance Rate
+stage_group                                                     
+Operation                641                 56         0.087363
+Pre-Operation            351                  2         0.005698
+
+--- Contingency Table ---
+is_compliant     0   1
+stage_group           
+Operation      585  56
+Pre-Operation  349   2
+
+Chi-Square Statistic: 26.0141
+P-Value: 3.3893e-07
+Result: The difference in compliance rates is statistically significant.
+[SAVED] figure_1.png
+[SAVED] figure_2.png (remaining)
+
+--- STDERR ---

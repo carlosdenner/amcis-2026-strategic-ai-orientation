@@ -1,0 +1,28 @@
+Attempting to load data from: context_crosswalk_evidence.json
+Data loaded. Shape: (42, 4)
+Unique Bundles found: ['Trust Readiness' 'Integration Readiness']
+Refining domains based on statement content...
+
+Group counts for analysis:
+analysis_group
+Other             34
+Security           4
+Explainability     2
+Fairness           2
+Name: count, dtype: int64
+
+--- Statistical Analysis ---
+Kruskal-Wallis Test across all groups: H=4.2731, p-value=0.2334
+
+Mann-Whitney U Test: Security vs Fairness
+  U-statistic: 5.00, p-value: 0.7237
+  Mean Controls: Security=2.25, Fairness=2.00
+
+Mann-Whitney U Test: Security vs Explainability
+  U-statistic: 3.00, p-value: 0.7799
+  Mean Controls: Security=2.25, Explainability=2.50
+[SAVED] figure_1.png
+[SAVED] figure_2.png (remaining)
+[SAVED] figure_3.png (remaining)
+
+--- STDERR ---

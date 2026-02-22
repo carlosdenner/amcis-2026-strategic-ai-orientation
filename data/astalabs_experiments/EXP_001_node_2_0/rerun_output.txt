@@ -1,0 +1,86 @@
+Starting Refined Adversarial Tactic-Gap Analysis...
+Subset 'step3_incident_coding' shape: (52, 196)
+Column 'competency_gaps' has 1 unique atomic values.
+Column 'competency_domains' has 16 unique atomic values.
+Column 'missing_controls' has 31 unique atomic values.
+
+Selected Gap Column: missing_controls
+Processed 52 incidents.
+Unique Atomic Tactics: 16
+Unique Atomic Gaps: 31
+
+--- Top 20 Strongest Correlations (Absolute Value) ---
+Tactic                                   | Gap                                      | Phi   
+------------------------------------------------------------------------------------------
+AML.TA0005                               | AML.M0003: Model Hardening               | -0.647
+AML.TA0005                               | AML.M0020: Generative AI Guardrails      | 0.607
+AML.TA0012                               | AML.M0021: Generative AI Guidelines      | 0.594
+AML.TA0012                               | AML.M0022: Generative AI Model Alignment | 0.594
+AML.TA0012                               | AML.M0026: Privileged AI Agent Permissions Configuration | 0.551
+AML.TA0005                               | AML.M0021: Generative AI Guidelines      | 0.548
+AML.TA0005                               | AML.M0022: Generative AI Model Alignment | 0.548
+AML.TA0012                               | AML.M0020: Generative AI Guardrails      | 0.525
+AML.TA0005                               | AML.M0010: Input Restoration             | -0.518
+AML.TA0001                               | AML.M0003: Model Hardening               | 0.505
+AML.TA0005                               | AML.M0024: AI Telemetry Logging          | 0.503
+AML.TA0005                               | AML.M0026: Privileged AI Agent Permissions Configuration | 0.488
+AML.TA0015                               | AML.M0031: Memory Hardening              | 0.480
+AML.TA0001                               | AML.M0004: Restrict Number of AI Model Queries | 0.474
+AML.TA0005                               | AML.M0006: Use Ensemble Methods          | -0.462
+AML.TA0001                               | AML.M0002: Passive AI Output Obfuscation | 0.413
+AML.TA0009                               | AML.M0017: AI Model Distribution Methods | 0.410
+AML.TA0004                               | AML.M0000: Limit Public Release of Information | -0.396
+AML.TA0005                               | AML.M0000: Limit Public Release of Information | -0.394
+AML.TA0005                               | AML.M0033: Input and Output Validation for AI Agent Components | 0.394
+
+--- Hypothesis Check ---
+Hypothesis Tactic                        | Hypothesis Gap                           | Phi   
+AML.TA0012                               | AML.M0026: Privileged AI Agent Permissions Configuration | 0.551
+AML.TA0012                               | AML.M0005: Control Access to AI Models and Data at Rest | -0.195
+AML.TA0012                               | AML.M0019: Control Access to AI Models and Data in Production | -0.091
+AML.TA0012                               | AML.M0027: Single-User AI Agent Permissions Configuration | -0.064
+Starting Refined Adversarial Tactic-Gap Analysis...
+Subset 'step3_incident_coding' shape: (52, 196)
+Column 'competency_gaps' has 1 unique atomic values.
+Column 'competency_domains' has 16 unique atomic values.
+Column 'missing_controls' has 31 unique atomic values.
+
+Selected Gap Column: missing_controls
+Processed 52 incidents.
+Unique Atomic Tactics: 16
+Unique Atomic Gaps: 31
+
+--- Top 20 Strongest Correlations (Absolute Value) ---
+Tactic                                   | Gap                                      | Phi   
+------------------------------------------------------------------------------------------
+AML.TA0005                               | AML.M0003: Model Hardening               | -0.647
+AML.TA0005                               | AML.M0020: Generative AI Guardrails      | 0.607
+AML.TA0012                               | AML.M0021: Generative AI Guidelines      | 0.594
+AML.TA0012                               | AML.M0022: Generative AI Model Alignment | 0.594
+AML.TA0012                               | AML.M0026: Privileged AI Agent Permissions Configuration | 0.551
+AML.TA0005                               | AML.M0021: Generative AI Guidelines      | 0.548
+AML.TA0005                               | AML.M0022: Generative AI Model Alignment | 0.548
+AML.TA0012                               | AML.M0020: Generative AI Guardrails      | 0.525
+AML.TA0005                               | AML.M0010: Input Restoration             | -0.518
+AML.TA0001                               | AML.M0003: Model Hardening               | 0.505
+AML.TA0005                               | AML.M0024: AI Telemetry Logging          | 0.503
+AML.TA0005                               | AML.M0026: Privileged AI Agent Permissions Configuration | 0.488
+AML.TA0015                               | AML.M0031: Memory Hardening              | 0.480
+AML.TA0001                               | AML.M0004: Restrict Number of AI Model Queries | 0.474
+AML.TA0005                               | AML.M0006: Use Ensemble Methods          | -0.462
+AML.TA0001                               | AML.M0002: Passive AI Output Obfuscation | 0.413
+AML.TA0009                               | AML.M0017: AI Model Distribution Methods | 0.410
+AML.TA0004                               | AML.M0000: Limit Public Release of Information | -0.396
+AML.TA0005                               | AML.M0000: Limit Public Release of Information | -0.394
+AML.TA0005                               | AML.M0033: Input and Output Validation for AI Agent Components | 0.394
+
+--- Hypothesis Check ---
+Hypothesis Tactic                        | Hypothesis Gap                           | Phi   
+AML.TA0012                               | AML.M0026: Privileged AI Agent Permissions Configuration | 0.551
+AML.TA0012                               | AML.M0005: Control Access to AI Models and Data at Rest | -0.195
+AML.TA0012                               | AML.M0019: Control Access to AI Models and Data in Production | -0.091
+AML.TA0012                               | AML.M0027: Single-User AI Agent Permissions Configuration | -0.064
+[SAVED] figure_1.png
+[SAVED] figure_2.png (remaining)
+
+--- STDERR ---

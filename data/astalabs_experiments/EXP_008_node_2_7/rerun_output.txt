@@ -1,0 +1,51 @@
+Loading dataset from astalabs_discovery_all_data.csv...
+AIID Incidents subset size: 1362
+Unique Autonomy Values: ['Autonomy1' 'Autonomy2' 'Autonomy3' 'unclear' nan]
+Unique Harm Values: ['none' 'AI tangible harm event' 'unclear' 'AI tangible harm near-miss'
+ nan 'AI tangible harm issue']
+Data points after cleaning mappings: 177
+
+--- Spearman Correlation ---
+Correlation: 0.2331, p-value: 0.0018
+
+--- Ordinal Logistic Regression ---
+Using sectors: ['information and communication', 'transportation and storage', 'Arts, entertainment and recreation, information and communication', 'human health and social work activities', 'wholesale and retail trade'] and 'Other'
+                             OrderedModel Results                             
+==============================================================================
+Dep. Variable:               harm_ord   Log-Likelihood:                -141.00
+Model:                   OrderedModel   AIC:                             300.0
+Method:            Maximum Likelihood   BIC:                             328.6
+Date:                Sat, 21 Feb 2026                                         
+Time:                        20:36:51                                         
+No. Observations:                 177                                         
+Df Residuals:                     168                                         
+Df Model:                           6                                         
+========================================================================================================================
+                                                           coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------------------------
+autonomy_ord                                             0.4720      0.199      2.371      0.018       0.082       0.862
+sector_group_Other                                       1.3040      1.084      1.203      0.229      -0.821       3.429
+sector_group_human health and social work activities     1.2875      1.275      1.010      0.313      -1.212       3.787
+sector_group_information and communication               0.6388      1.142      0.559      0.576      -1.599       2.877
+sector_group_transportation and storage                  3.4391      1.151      2.987      0.003       1.182       5.696
+sector_group_wholesale and retail trade                  1.5214      1.263      1.204      0.228      -0.954       3.997
+0/1                                                      2.9902      1.088      2.747      0.006       0.857       5.123
+1/2                                                     -1.2008      0.325     -3.693      0.000      -1.838      -0.564
+2/3                                                     -1.2364      0.346     -3.577      0.000      -1.914      -0.559
+========================================================================================================================
+
+--- Odds Ratios (Effect Size) ---
+                                                        2.5%  ...         OR
+autonomy_ord                                        1.085282  ...   1.603214
+sector_group_Other                                  0.440117  ...   3.683820
+sector_group_human health and social work activ...  0.297640  ...   3.623646
+sector_group_information and communication          0.202056  ...   1.894216
+sector_group_transportation and storage             3.262512  ...  31.158344
+sector_group_wholesale and retail trade             0.385093  ...   4.578644
+0/1                                                 2.356168  ...  19.888871
+1/2                                                 0.159120  ...   0.300942
+2/3                                                 0.147502  ...   0.290434
+
+[9 rows x 3 columns]
+
+--- STDERR ---

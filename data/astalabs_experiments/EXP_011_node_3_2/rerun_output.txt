@@ -1,0 +1,34 @@
+
+--- STDERR ---
+Traceback (most recent call last):
+  File "C:\Users\carlo\Dropbox\Projeto - Universite de Sherbrooke\AMCIS 2026\data\astalabs_experiments\EXP_011_node_3_2\_runner.py", line 23, in <module>
+    exec(open(r"C:\Users\carlo\Dropbox\Projeto - Universite de Sherbrooke\AMCIS 2026\data\astalabs_experiments\EXP_011_node_3_2\code.py").read())
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 5, in <module>
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\seaborn\__init__.py", line 12, in <module>
+    from .widgets import *  # noqa: F401,F403
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\seaborn\widgets.py", line 6, in <module>
+    from ipywidgets import interact, FloatSlider, IntSlider
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\ipywidgets\__init__.py", line 27, in <module>
+    from IPython import get_ipython
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\__init__.py", line 56, in <module>
+    from .core.application import Application
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\core\application.py", line 26, in <module>
+    from IPython.core import release, crashhandler
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\core\crashhandler.py", line 28, in <module>
+    from IPython.core import ultratb
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\core\ultratb.py", line 92, in <module>
+    from .doctb import DocTB
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\core\doctb.py", line 15, in <module>
+    from .tbtools import (
+    ...<7 lines>...
+    )
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\core\tbtools.py", line 14, in <module>
+    from IPython.core import debugger
+  File "C:\Users\carlo\AppData\Roaming\Python\Python313\site-packages\IPython\core\debugger.py", line 144, in <module>
+    from pdb import Pdb as _OldPdb
+  File "C:\Python313\Lib\pdb.py", line 288, in <module>
+    class _PdbInteractiveConsole(code.InteractiveConsole):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'code' has no attribute 'InteractiveConsole' (consider renaming 'C:\Users\carlo\Dropbox\Projeto - Universite de Sherbrooke\AMCIS 2026\data\astalabs_experiments\EXP_011_node_3_2\code.py' since it has the same name as the standard library module named 'code' and prevents importing that standard library module)
