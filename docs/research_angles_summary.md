@@ -146,9 +146,48 @@ The EO 13960 dataset (1,757 use cases × 62 variables × 38 agencies) reveals a 
 
 ---
 
-## Next Steps (pending co-author input)
+## Decision: Option A Confirmed (Feb 22, 2026)
 
-1. Decide which angle to pursue
-2. Build the cross-taxonomy mapping (ATLAS ↔ AIID ↔ EO 13960)
-3. Update the analysis pipeline scripts
-4. Draft the paper outline aligned with the chosen angle
+Co-author agreed with the recommendation. **Option A (Threat → Gap → Safeguard)** is the chosen research angle.
+
+---
+
+## Analysis Plan — Option A: Threat → Gap → Safeguard
+
+**Status:** AstaLabs AutoDiscovery experiments completed (Session 1: 100 experiments, Session 2: 300 experiments). Full analysis documents available:
+- Session 1 analysis: `data/astalabs_experiments_session1/ANALYSIS_by_research_angle.md`
+- Session 2 Option A analysis: `data/astalabs_experiments_session2/ANALYSIS_option_A.md`
+
+### Evidence Inventory (400 experiments total)
+
+| Source | Tier 1 (Citable) | Tier 2 (Directional) | Tier 3 (Informative Contradictions) | Total |
+|--------|:-:|:-:|:-:|:-:|
+| Session 1 | 7 | 10 | 15 | 100 |
+| Session 2 | 28 | 35 | 50+ | 300 |
+| **Combined** | **35** | **45** | **65+** | **400** |
+
+### Six Propositions for the Paper
+
+| # | Proposition | Evidence Base | Convergent Experiments |
+|---|------------|---------------|:---------------------:|
+| P1 | Risk-tiering fails in practice | EXP_146, 207, 230, 256, 282, 290 (S2) | 9 |
+| P2 | Commercial procurement = primary governance barrier | EXP_106, 131, 174, 202, 210, 237, 245, 247, etc. (S2) | 14 |
+| P3 | Sector-specific threat fingerprints | EXP_158, 168, 170, 187, 242, 252 (S2) | 5 |
+| P4 | Threat-Reality Misalignment (ATLAS ≠ AIID ≠ EO 13960) | EXP_108, 156, 164 (S2); EXP_017/041 (S1) | 5 |
+| P5 | Governance controls bundle in coherent clusters | EXP_066, 167, 206, 224, 261, 265 (S2) | 7 |
+| P6 | Forced Participation Paradox | EXP_085, 134, 160, 180 (S2) | 4 |
+
+### Next Steps
+
+1. ~~Decide which angle to pursue~~ ✅ Option A confirmed
+2. ~~Run AstaLabs AutoDiscovery experiments~~ ✅ 400 experiments complete
+3. ~~Analyze experiments for chosen angle~~ ✅ Analysis documents complete
+4. **Generate publication-quality figures:**
+   - Governance gap histogram (62.7% ATO → 5.9% Disparity Mitigation)
+   - Commercial vs In-House governance radar chart
+   - Sector-harm heatmap (AIID)
+   - Temporal GenAI explosion line chart
+   - Threat-Reality Mismatch Sankey diagram
+5. **Draft paper outline** aligned with P1–P6 propositions
+6. **Write the paper** (10-page AMCIS format)
+7. **Literature integration** — connect findings to vendor lock-in, AI ethics, regulatory design literatures
