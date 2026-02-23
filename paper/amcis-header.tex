@@ -1,0 +1,64 @@
+% AMCIS 2026 formatting — Georgia 10pt body, custom heading sizes
+% Loaded via pandoc --include-in-header
+
+%%% Font setup (XeLaTeX) — Georgia with fallback %%%
+\usepackage{fontspec}
+\setmainfont{Georgia}[
+  BoldFont       = Georgia Bold,
+  ItalicFont     = Georgia Italic,
+  BoldItalicFont = Georgia Bold Italic
+]
+
+%%% Heading customization via titlesec %%%
+\usepackage{titlesec}
+
+% H1 (##) → 13pt bold, left-justified, no numbering
+\titleformat{\section}
+  {\fontsize{13pt}{15.6pt}\selectfont\bfseries}
+  {}    % no label/number
+  {0pt} % no sep
+  {}
+\titlespacing*{\section}{0pt}{12pt plus 2pt minus 2pt}{4pt plus 1pt minus 1pt}
+
+% H2 (###) → 11pt bold italic
+\titleformat{\subsection}
+  {\fontsize{11pt}{13.2pt}\selectfont\bfseries\itshape}
+  {}
+  {0pt}
+  {}
+\titlespacing*{\subsection}{0pt}{10pt plus 2pt minus 2pt}{3pt plus 1pt minus 1pt}
+
+% H3 (####) → 10pt bold
+\titleformat{\subsubsection}
+  {\fontsize{10pt}{12pt}\selectfont\bfseries}
+  {}
+  {0pt}
+  {}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 2pt minus 2pt}{2pt plus 1pt minus 1pt}
+
+%%% Title formatting — 20pt bold, centered %%%
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@maketitle}
+  {\huge}
+  {\fontsize{20pt}{24pt}\selectfont\bfseries}
+  {}{}
+\makeatother
+
+%%% Justified text (default in LaTeX, but ensure it) %%%
+\usepackage{ragged2e}
+\justifying
+
+%%% Reduce spacing around figures and tables %%%
+\usepackage{caption}
+\captionsetup{font={bf,small}, labelsep=period}
+
+%%% Tighten paragraph spacing %%%
+\setlength{\parskip}{0pt plus 1pt}
+\setlength{\parindent}{0.5em}
+
+%%% Remove header/footer page numbers for cleaner look %%%
+% (keep page numbers; AMCIS allows them)
+
+%%% No section numbering %%%
+\setcounter{secnumdepth}{0}
