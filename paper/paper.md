@@ -98,13 +98,7 @@ Integration readiness provides the architectural context for these patterns. The
 
 ### Contextual Calibration: Sector-Specific Harm Fingerprints
 
-AI harms are sector-structured rather than autonomy-driven, carrying important implications for governance design. Multiple experiments converge on sector-specific incident fingerprints: finance incidents skew toward economic harm, healthcare toward physical harm, and government and public-sector incidents toward civil rights harm (EXP_158, EXP_170, EXP_187, EXP_242, EXP_252 — all significant). Biometrics incidents show a disproportionate civil-rights association (EXP_168, p<0.01). Across technical failure types, fairness failures map to intangible harms while safety failures map to tangible harms ($\chi^2$=12.97, p=0.0003) — the most statistically robust cross-level pattern in the AIID analyses.
-
-![Sector–Failure Heatmap: Technical Failure Type × Sector of Deployment (AIID, n=135)](figures/fig3_sector_harm_heatmap.png)
-
-The incident landscape is also evolving temporally: post-2022 generative AI incidents have increased sharply in relative share, yet physical-world AI systems (robotics, autonomous vehicles) remain more severe per incident. The governance challenge therefore bifurcates into high-frequency, often intangible-harm GenAI failures (misinformation, discrimination) and lower-frequency but higher-severity physical safety failures. Notably, across 15 experiments the hypothesis "higher autonomy → more physical harm" was repeatedly contradicted, cautioning against governance designs that treat autonomy as the primary risk stratifier while overlooking sector and modality effects that exhibit stronger empirical signal.
-
-Cross-source triangulation reveals a threat–reality–practice divergence: ATLAS adversarial research emphases differ from AIID incident sector distributions (EXP_164; confirmed), and federal deployment sectors do not mirror incident concentration (EXP_108; +0.171). Governance programs derived primarily from adversarial threat research may therefore misallocate attention relative to incident reality. This reinforces the argument that trust readiness must be configurable — calibrated to empirically observed sector-specific harm patterns rather than applied uniformly from generic threat models.
+AIID incident analysis reveals that AI harms are sector-structured rather than autonomy-driven: finance incidents cluster around economic harm, healthcare around physical harm, and government deployments around civil rights harm (EXP_158, EXP_170, EXP_187, EXP_242, EXP_252 — all significant; $\chi^2$=12.97, p=0.0003 for failure-type–harm mapping). Across 15 experiments the hypothesis "higher autonomy → more physical harm" was repeatedly contradicted, cautioning against governance designs that treat autonomy as the primary risk stratifier. Cross-source triangulation further shows that adversarial threat research emphases diverge from real-world incident distributions (EXP_164; confirmed), reinforcing the argument that trust readiness must be configurable — calibrated to empirically observed sector-specific harm patterns rather than applied uniformly from generic threat models. A detailed sector–failure heatmap and supporting analyses appear in the Online Companion (Figure A1).
 
 ---
 
@@ -153,6 +147,16 @@ The governance practice data is federal-only and U.S.-contextual, and the EO inv
 ### Conclusion
 
 This paper demonstrates that adversarial threat knowledge and real-world AI failures expose a persistent governance readiness gap in a large, policy-salient deployment portfolio. While 61% of federal AI systems report internal review, fewer than 9% report substantive safeguards, and integration readiness — not trust readiness — is the dominant predictor of operational deployment (OR=1.40). Commercial procurement emerges as a structural opacity barrier that undermines implementable governance (OR=0.29 for impact assessment). By triangulating threats, incidents, and governance practice, we offer a replicable method and a reconciled proposition set to guide IS research on how CIO-driven AI orientation can be converted into safe, scalable AI value.
+
+---
+
+## Online Companion
+
+### Figure A1. Sector–Failure Heatmap
+
+![Sector–Failure Heatmap: Technical Failure Type × Sector of Deployment (AIID, n=135)](figures/fig3_sector_harm_heatmap.png)
+
+Multiple experiments converge on sector-specific incident fingerprints: finance incidents skew toward economic harm, healthcare toward physical harm, and government and public-sector incidents toward civil rights harm. Biometrics incidents show a disproportionate civil-rights association (EXP_168, p<0.01). The incident landscape is also evolving temporally: post-2022 generative AI incidents have increased sharply in relative share, yet physical-world AI systems (robotics, autonomous vehicles) remain more severe per incident. The governance challenge therefore bifurcates into high-frequency, often intangible-harm GenAI failures (misinformation, discrimination) and lower-frequency but higher-severity physical safety failures. Federal deployment sectors do not mirror incident concentration (EXP_108; +0.171), suggesting that governance programs derived primarily from adversarial threat research may misallocate attention relative to incident reality.
 
 ---
 
