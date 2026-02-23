@@ -83,9 +83,9 @@ This gap persists precisely where governance should intensify. Among the 227 use
 
 Risk-tiering, the foundational design principle of contemporary AI governance, fails to rescue governance depth. High-impact systems are no more likely to report independent evaluation (EXP_146, n=1,718, p<0.0001; contradicted), nor are rights-impacting systems more likely to report impact assessment (EXP_207, n=1,757; contradicted). Multiple experiments replicate this null. In institutional-theory terms, this constitutes policy-practice decoupling [@meyer1977; @bromley2012]: adopted classification policies do not translate into differentiated operational practice.
 
-A preliminary pathway test reinforces this interpretation. Table 3 reports nested logistic regressions predicting operational deployment (52.4% of use cases). Integration readiness is the dominant predictor (M4: OR=1.40, 95% CI [1.33, 1.48], p<0.001), while trust readiness shows no independent effect (p=0.287) and the TR$\times$IR interaction is marginally negative (p=0.052), suggesting weak substitution rather than the theorized complementarity.
+A preliminary pathway test reinforces this interpretation. Table 2 reports nested logistic regressions predicting operational deployment (52.4% of use cases). Integration readiness is the dominant predictor (M4: OR=1.40, 95% CI [1.33, 1.48], p<0.001), while trust readiness shows no independent effect (p=0.287) and the TR$\times$IR interaction is marginally negative (p=0.052), suggesting weak substitution rather than the theorized complementarity.
 
-**Table 3.** Nested logistic regression: DV = Operational deployment (0/1)
+**Table 2.** Nested logistic regression: DV = Operational deployment (0/1)
 
 | Variable | M1 | M2 | M3 | M4 |
 |:---------|:--:|:--:|:--:|:--:|
@@ -119,7 +119,7 @@ Integration readiness provides the architectural context for these patterns. The
 
 AIID incident analysis reveals that AI harms are sector-structured rather than autonomy-driven: finance incidents cluster around economic harm, healthcare around physical harm, and government deployments around civil rights harm ($\chi^2$=12.97, p=0.0003). Across 15 experiments the hypothesis "higher autonomy $\rightarrow$ more physical harm" was repeatedly contradicted, reinforcing the argument that trust readiness must be sector-calibrated rather than applied uniformly from generic threat models.
 
-![Sector-Failure Heatmap: Technical Failure Type × Sector of Deployment (AIID, n=135)](figures/fig3_sector_harm_heatmap.png)
+![Sector-Failure Heatmap: Technical Failure Type x Sector of Deployment (AIID, n=69)](figures/fig3_sector_harm_heatmap.png){width=75%}
 
 Biometrics incidents show a disproportionate civil-rights association (EXP_168, p<0.01), and federal deployment sectors do not mirror incident concentration (EXP_108; +0.171), suggesting that governance programs derived from adversarial threat research may misallocate attention relative to incident reality.
 
@@ -127,9 +127,9 @@ Biometrics incidents show a disproportionate civil-rights association (EXP_168, 
 
 ## Propositions
 
-Based on the triangulated evidence, we advance three propositions and one extension (Table 2).
+Based on the triangulated evidence, we advance three propositions and one extension (Table 3).
 
-: Propositions and primary evidence anchors {#tbl:props}
+**Table 3.** Propositions and primary evidence anchors
 
 | ID | Proposition | Primary Evidence Anchor |
 |----|-------------|------------------------|
@@ -142,7 +142,7 @@ Based on the triangulated evidence, we advance three propositions and one extens
 
 ## Discussion
 
-**TR/IR complementarity: aspiration versus reality.** Table 3 shows IR dominates deployment prediction (OR=1.40) while TR shows no effect and the interaction is marginally negative. We interpret this as a maturity threshold: with mean TR at 1.49 out of 9, governance is too thin to interact meaningfully with architecture. Complementarity characterizes the *target state* (deep governance paired with deep architecture) rather than the *current state* (theatrical governance alongside functional architecture). High-IR systems show significantly higher bundled safeguard prevalence (14.9% vs. 1.6%), indicating that preconditions for complementarity exist in the high-IR tail but remain too rare to generate a population-level interaction.
+**TR/IR complementarity: aspiration versus reality.** Table 2 shows IR dominates deployment prediction (OR=1.40) while TR shows no effect and the interaction is marginally negative. We interpret this as a maturity threshold: with mean TR at 1.49 out of 9, governance is too thin to interact meaningfully with architecture. Complementarity characterizes the *target state* (deep governance paired with deep architecture) rather than the *current state* (theatrical governance alongside functional architecture). High-IR systems show significantly higher bundled safeguard prevalence (14.9% vs. 1.6%), indicating that preconditions for complementarity exist in the high-IR tail but remain too rare to generate a population-level interaction.
 
 **Governance theater as capability failure.** We characterize governance theater as the systematic decoupling of formal AI governance structures from the operational routines needed to enact them, an AI-specific instantiation of institutional decoupling [@meyer1977; @bromley2012]. Three reinforcing mechanisms sustain it: (i) *procurement opacity* blocks access to model artifacts needed for substantive safeguards; (ii) *missing evaluation infrastructure* leaves the highest-demand mitigations dependent on monitoring pipelines that only 5–9% of systems report; and (iii) *capability bundling thresholds* mean that governance requires coordinated investment across complete safeguard clusters: partial investment yields no functional governance, echoing DMC logic [@teece2007]. Governance theater therefore signals *microfoundation deficit*, not merely motivational deficit.
 
