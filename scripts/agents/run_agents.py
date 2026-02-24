@@ -18,14 +18,16 @@ BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 if BASE not in sys.path:
     sys.path.insert(0, BASE)
 
-from analysis.agents import (step1_extract, step2_crosswalk, step3_enrich,
-                              step4_synthesize, step5_validate)
-from analysis.agents.llm import print_usage_summary
+from scripts.agents import (step1_extract, step2_crosswalk, step3_enrich,
+                              step4_synthesize, step5_validate,
+                              step6_writing_quality, step7_ref_check,
+                              step8_peer_review)
+from scripts.agents.llm import print_usage_summary
 
 
 def main():
     parser = argparse.ArgumentParser(description="AMCIS 2026 Agentic Analysis Pipeline")
-    parser.add_argument("--step", type=int, choices=[1, 2, 3, 4, 5],
+    parser.add_argument("--step", type=int, choices=[1, 2, 3, 4, 5, 6, 7, 8],
                         help="Run only a specific step (default: all)")
     args = parser.parse_args()
 
@@ -38,7 +40,8 @@ def main():
     print()
 
     results = {"step1": None, "step2": None, "step3": None,
-               "step4": None, "step5": None}
+               "step4": None, "step5": None, "step6": None,
+               "step7": None, "step8": None}
     steps_run = []
 
     try:
@@ -82,6 +85,24 @@ def main():
                 step4_results=results["step4"],
             )
             steps_run.append(("Step 5 -- Claim Validation", time.time() - t1, "OK"))
+            print()
+
+        if args.step == 6 or args.step is None:
+            t1 = time.time()
+            results["step6"] = step6_writing_quality.run()
+            steps_run.append(("Step 6 -- Writing Quality", time.time() - t1, "OK"))
+            print()
+
+        if args.step == 7 or args.step is None:
+            t1 = time.time()
+            results["step7"] = step7_ref_check.run()
+            steps_run.append(("Step 7 -- Reference Integrity", time.time() - t1, "OK"))
+            print()
+
+        if args.step == 8 or args.step is None:
+            t1 = time.time()
+            results["step8"] = step8_peer_review.run()
+            steps_run.append(("Step 8 -- Peer Review Simulation", time.time() - t1, "OK"))
             print()
 
     except Exception as e:
