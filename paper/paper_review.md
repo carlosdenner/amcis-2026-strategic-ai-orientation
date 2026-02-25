@@ -8,12 +8,9 @@ link-citations: true
 
 *Indicate Submission Type: Full Paper*
 
-<!-- AMCIS PCS fields, abstract, keywords, and authors entered in the submission system, not in this file.
-
 **Abstract.** Organizations are scaling artificial intelligence (AI) with unprecedented ambition, yet governance readiness lags far behind deployment pace. Drawing on upper echelons theory, dynamic capabilities, and institutional decoupling, we investigate how *trust readiness* (governance capability) and *integration readiness* (architecture capability) shape the link between organizational AI portfolio scope and operational deployment. Triangulating MITRE ATLAS, the AI Incident Database, and the U.S. EO 13960 Federal AI Use Case Inventory (1,757 deployments), our analysis reveals governance theater: while 61% of federal AI deployments report internal review approval, fewer than 9% report substantive safeguards such as impact assessments, bias mitigation, or independent evaluation, and risk-tiering does not rescue governance depth. Splitting trust readiness into surface compliance and substantive safeguards uncovers a suppression effect: surface approvals facilitate deployment (OR=1.39, p<0.01) while substantive safeguards dampen it (OR=0.92, p<0.05), a divergence masked by the composite index. Integration readiness remains the dominant predictor (OR=1.25, p<0.001). Among systems with identified development method (n=1,107), vendor-supplied systems are roughly half as likely to report impact assessment after controls (OR=0.43, p=0.002), identifying evaluability constraints as a structural antecedent of governance failure.
 
 **Keywords:** AI governance, governance theater, trust readiness, integration readiness, evaluability constraints, secondary data triangulation
--->
 
 ---
 
