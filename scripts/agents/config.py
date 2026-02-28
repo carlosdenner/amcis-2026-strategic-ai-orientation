@@ -29,8 +29,8 @@ MAX_CHUNK_CHARS   = 60_000   # ~15k tokens per chunk
 MAX_OUTPUT_TOKENS = 16_000   # Reasonably long structured outputs
 
 # ── Retry / rate-limit ───────────────────────────────────────────────────────
-MAX_RETRIES  = 3
-RETRY_DELAY  = 5  # seconds
+MAX_RETRIES  = 6
+RETRY_DELAY  = 15  # seconds
 
 # ── Literature file mapping ─────────────────────────────────────────────────
 # Maps source IDs used in the framework to actual filenames.
