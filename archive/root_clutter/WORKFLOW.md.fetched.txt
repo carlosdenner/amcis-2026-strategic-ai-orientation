@@ -1,0 +1,430 @@
+# Workflow: From Seed Paper to First Draft
+
+A step-by-step guide to starting a new research paper using the full template pipeline.
+
+**What you need to start:**
+- A seed paper (PDF) you want to build on
+- A rough idea of what you want to investigate
+- An OpenAI API key
+
+**What you will have at the end:**
+- A literature corpus loaded and profiled
+- LLM-extracted construct definitions with grounded evidence
+- Cross-taxonomy mappings and enriched data
+- Synthesized propositions with devil's advocate challenges
+- Validated claims (automated + LLM adversarial review)
+- Publication-quality figures
+- A first draft of your paper with readability metrics
+- A simulated peer review with actionable revision suggestions
+
+**Time estimate:** ~4-6 hours for a focused first pass (plus LLM processing time)
+
+---
+
+## Phase 1: Setup (30 min)
+
+### 1.1 Create your project from the template
+
+`ash
+# Option A: Use GitHub's template feature
+# Go to https://github.com/carlosdenner/paper-research-template
+# Click "Use this template" > "Create a new repository"
+
+# Option B: Clone directly
+git clone https://github.com/carlosdenner/paper-research-template.git my-new-paper
+cd my-new-paper
+`
+
+### 1.2 Set up your environment
+
+`ash
+# Create and activate virtual environment
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+`
+
+### 1.3 Configure API keys
+
+`ash
+cp .env.example .env
+# Edit .env and paste your OpenAI API key
+`
+
+Verify with a quick test:
+`python
+python -c "from openai import OpenAI; c = OpenAI(); print(c.models.list().data[0].id)"
+`
+
+### 1.4 Install Pandoc (for paper builds)
+
+Download from https://pandoc.org/installing.html. You will also need a LaTeX distribution (e.g., MiKTeX on Windows, TeX Live on macOS/Linux) for PDF output.
+
+---
+
+## Phase 2: Seed Your Research (1-2 hours)
+
+This is the **most important phase**. The quality of your inputs determines the quality of everything downstream.
+
+### 2.1 Drop your seed paper into literature/
+
+Copy your seed PDF into the literature/ folder. Name it consistently:
+
+`
+literature/
+  01_Author-Year_Short-Title.pdf
+`
+
+### 2.2 Build your literature corpus
+
+Add 10-30 more sources. The pipeline works best with a mix of source types:
+
+| Type | Examples | Format | Goal |
+|------|----------|--------|------|
+| **Academic** | Journal articles, conference papers | PDF, MD | Theoretical grounding |
+| **Standards** | NIST, ISO, regulatory frameworks | HTML, PDF | Construct operationalization |
+| **Practitioner** | McKinsey, Gartner, HBR, Deloitte | HTML, MD | Real-world evidence |
+
+**Pro tips:**
+- Save HTML pages as .html (browser "Save As > Web Page, HTML Only")
+- Convert paywalled PDFs to markdown manually (even a rough summary helps)
+- Aim for at least 3 sources per construct for triangulation
+- The pipeline handles PDFs (via PyMuPDF), HTML (via BeautifulSoup), and Markdown natively
+
+### 2.3 Register sources in scripts/agents/config.py
+
+Open scripts/agents/config.py and populate the LITERATURE_FILES dictionary:
+
+`python
+LITERATURE_FILES = {
+    "#01": {"file": "01_Author-2024_Seed-Paper.pdf",
+            "label": "Author (2024) - Your Seed Paper Title", "type": "pdf"},
+    "#02": {"file": "02_NIST_AI-RMF.html",
+            "label": "NIST - AI Risk Management Framework", "type": "html"},
+    "#03": {"file": "03_Journal_Related-Work.md",
+            "label": "Author (2023) - Related Work Title", "type": "md"},
+    # ... add all sources
+}
+`
+
+Classify each source for triangulation:
+`python
+SOURCE_TYPES = {
+    "#01": "academic",
+    "#02": "standard",
+    "#03": "academic",
+}
+`
+
+Group sources by construct relevance:
+`python
+CONSTRUCT_A_SOURCES = ["#01", "#03", "#05"]
+CONSTRUCT_B_SOURCES = ["#02", "#04", "#06"]
+CONSTRUCT_C_SOURCES = ["#01", "#02", "#07"]
+`
+
+### 2.4 Write your research goal
+
+Edit docs/goal.md with your working title, research question, theoretical lens, core constructs, and expected contributions. This file anchors everything. Even rough notes are valuable — you will refine as you go.
+
+### 2.5 Write your planning notes
+
+Edit docs/planning.md with your conceptual framework, preliminary propositions, method design, and timeline.
+
+### 2.6 Profile your sources
+
+`ash
+python scripts/00_profile_sources.py
+`
+
+This scans literature/ and reports what was loaded, quality tiers (full/partial/stub/unusable), and any missing files. Fix any issues before proceeding.
+
+---
+
+## Phase 3: Run the Agentic Pipeline (1-2 hours of LLM processing)
+
+The pipeline has 8 steps. You can run them all at once or step by step.
+
+### 3.1 Run the full pipeline
+
+`ash
+python -m scripts.agents.run_agents
+`
+
+Or run individual steps:
+`ash
+python -m scripts.agents.run_agents --step 1   # Evidence extraction
+python -m scripts.agents.run_agents --step 2   # Cross-taxonomy mapping
+python -m scripts.agents.run_agents --step 3   # Data enrichment
+python -m scripts.agents.run_agents --step 4   # Proposition synthesis
+python -m scripts.agents.run_agents --step 5   # Claim validation
+`
+
+### What each step produces:
+
+| Step | What it does | Key output |
+|------|-------------|------------|
+| **1 — Extract** | Reads literature, extracts evidence per construct | step1_evidence.json |
+| **2 — Crosswalk** | Maps requirements across taxonomies/frameworks | step2_crosswalk.json |
+| **3 — Enrich** | Codes incidents/cases, maps to constructs | step3_enrichments.json |
+| **4 — Synthesize** | Generates grounded propositions with counter-arguments | step4_propositions.json |
+| **5 — Validate** | 3-phase validation: auto-check + LLM adversarial + consistency | step5_validation.json |
+
+All outputs land in data/processed/enriched/.
+
+### 3.2 Review Step 5 validation
+
+**Always read the validation report before writing.** It catches:
+- Citation errors (references to non-existent sources)
+- Statistic mismatches (numbers that don't match data)
+- Overclaimed evidence (high confidence with thin support)
+- Cross-step inconsistencies (Step 4 claims vs Step 2/3 data)
+
+`ash
+# Human-readable report:
+cat data/processed/enriched/step5_validation_report.md
+
+# Detailed issues CSV (for triage):
+# Open data/processed/enriched/step5_validation_issues.csv
+`
+
+Fix any critical or major issues by adjusting your Step 1 prompts or source groupings in config.py, then re-run affected steps.
+
+---
+
+## Phase 4: Generate Figures (30 min)
+
+### 4.1 Data figures
+
+Edit and run scripts/02_generate_figures.py to produce statistical plots and data visualizations. Output goes to paper/figures/.
+
+### 4.2 Framework/conceptual diagrams (optional)
+
+The illustrator/ module uses an agentic pipeline (Planner > Stylist > Visualizer > Critic) to generate publication-quality academic diagrams.
+
+`ash
+cd illustrator
+cp configs/model_config.template.yaml configs/model_config.yaml
+# Edit model_config.yaml with your API keys
+
+python demo.py --description "Conceptual model showing [your framework]"
+`
+
+See illustrator/README.md for full documentation.
+
+---
+
+## Phase 5: Write the Paper (2-3 hours)
+
+### 5.1 Open the paper template
+
+Edit paper/paper.md. The template has all standard sections pre-scaffolded with placeholder prompts telling you what goes where.
+
+### 5.2 Fill sections using pipeline outputs
+
+Work through the paper systematically, pulling from your pipeline outputs:
+
+| Section | Primary source |
+|---------|---------------|
+| **Introduction** | docs/goal.md + your own framing |
+| **Theoretical Background** | step1_evidence.json (construct definitions and grounded evidence) |
+| **Methodology** | docs/planning.md + data source descriptions |
+| **Findings** | step2_crosswalk.json + step3_enrichments.json + your analysis scripts |
+| **Discussion** | step4_propositions.json (mechanisms, counter-arguments, boundary conditions) |
+| **Limitations** | step5_validation.json (known weaknesses flagged by validation) |
+
+### 5.3 Use the ChatGPT/Claude handoff package (optional accelerator)
+
+For AI-assisted drafting, use the pre-built prompt package:
+
+1. Open a new ChatGPT or Claude conversation
+2. Copy the prompt from chatgpt_package/PROMPT.md
+3. Upload the files listed in that prompt (pipeline outputs + goal + draft)
+4. The LLM will review your draft, fill gaps, and flag where evidence is thin
+
+**Important:** Always verify LLM-drafted text against your pipeline evidence. The handoff prompt instructs the LLM not to fabricate, but you should still check.
+
+### 5.4 Add references
+
+Populate paper/references.bib with BibTeX entries for every source you cite. Use [@key] format in the markdown (Pandoc citeproc handles the rest).
+
+---
+
+## Phase 6: Quality Assurance (30-60 min)
+
+### 6.1 Build PDF and DOCX
+
+`ash
+cd paper
+
+# PDF (requires LaTeX)
+pandoc paper.md -o paper.pdf \
+  --pdf-engine=xelatex \
+  --include-in-header=header.tex \
+  --citeproc --csl=apa.csl --bibliography=references.bib \
+  -V geometry:margin=1in -V fontsize=10pt \
+  -V colorlinks=true -V linkcolor=blue -V urlcolor=blue
+
+# DOCX (for co-author review)
+pandoc paper.md -o paper.docx \
+  --citeproc --csl=apa.csl --bibliography=references.bib
+`
+
+### 6.2 Run the readability audit (free, no LLM)
+
+`ash
+python scripts/local_readability_audit.py
+`
+
+This reports:
+- Flesch-Kincaid grade level (target: 15-19 for academic IS)
+- Gunning Fog index
+- Per-section metrics (spots which sections are hardest to read)
+- Top 15 longest sentences (candidates for splitting)
+- Top 10 most jargon-dense sentences
+- Passive voice percentage
+
+**Act on it:** Split sentences over 40 words. Simplify jargon-heavy sentences. Target FK grade under 19.
+
+### 6.3 Run reference integrity check (LLM)
+
+`ash
+python -m scripts.agents.run_agents --step 7
+`
+
+This cross-checks every [@citation] against 
+eferences.bib, catches missing/unused refs, and uses LLM to verify citations are used in correct context.
+
+### 6.4 Run the LLM writing quality review (LLM)
+
+`ash
+python -m scripts.agents.run_agents --step 6
+`
+
+Reviews each section for clarity, coherence, academic tone, and venue fit.
+
+### 6.5 Simulate peer review (LLM)
+
+`ash
+python -m scripts.agents.run_agents --step 8
+`
+
+Three simulated reviewers (Methodologist, Domain Expert, Skeptic) plus a meta-review from an Associate Editor. This is your **pre-submission stress test**. Read the output carefully:
+
+`
+cat data/processed/enriched/step8_peer_review.json
+`
+
+Prioritize addressing any "critical" or "major" weaknesses before submitting.
+
+---
+
+## Phase 7: Iterate and Submit
+
+### 7.1 Revision loop
+
+`
+Write/edit paper.md
+    -> Build PDF
+    -> Run readability audit (free)
+    -> Fix longest sentences, jargon
+    -> Rebuild PDF
+    -> Run Steps 6-8 when ready for deeper review
+    -> Address issues
+    -> Repeat
+`
+
+### 7.2 Archive your submission
+
+`ash
+mkdir -p paper/master-copy
+cp paper/paper.pdf paper/master-copy/paper-v1-submitted.pdf
+cp paper/paper.md paper/master-copy/paper-v1-submitted.md
+git add -A && git commit -m "v1 submitted to [Venue]"
+`
+
+### 7.3 Co-author review
+
+Share the DOCX build with co-authors. When you receive tracked changes, reconcile them back into paper.md (the single source of truth).
+
+---
+
+## Quick Reference: File Map
+
+`
+my-paper/
+├── .env                          # API keys (never commit)
+├── .env.example                  # Template for .env
+├── docs/
+│   ├── goal.md                   # Research question, constructs, contributions
+│   └── planning.md               # Method design, timeline
+├── literature/
+│   ├── 01_Author_Title.pdf       # Your literature corpus
+│   ├── 02_Source_Title.html
+│   └── ...
+├── scripts/
+│   ├── agents/
+│   │   ├── config.py             # CONFIGURE THIS — sources, models, paths
+│   │   ├── run_agents.py         # Pipeline runner
+│   │   ├── step1_extract.py      # Evidence extraction
+│   │   ├── step2_crosswalk.py    # Cross-taxonomy mapping
+│   │   ├── step3_enrich.py       # Data enrichment
+│   │   ├── step4_synthesize.py   # Proposition synthesis
+│   │   ├── step5_validate.py     # 3-phase claim validation
+│   │   ├── step6_writing_quality.py  # LLM writing review
+│   │   ├── step7_ref_check.py    # Reference integrity
+│   │   └── step8_peer_review.py  # Peer review simulation
+│   ├── local_readability_audit.py  # Free offline readability check
+│   ├── 00_profile_sources.py     # Source profiling
+│   ├── 01_prepare_datasets.py    # Dataset preparation
+│   └── 02_generate_figures.py    # Figure generation
+├── data/
+│   ├── raw/                      # Raw data files
+│   └── processed/enriched/       # All pipeline outputs land here
+├── paper/
+│   ├── paper.md                  # Your paper (single source of truth)
+│   ├── references.bib            # BibTeX bibliography
+│   ├── header.tex                # LaTeX preamble for PDF builds
+│   ├── apa.csl                   # APA citation style
+│   ├── figures/                  # Generated figures
+│   └── master-copy/              # Archived submitted versions
+├── illustrator/                  # AI figure generation (optional)
+├── chatgpt_package/              # LLM handoff for assisted drafting
+└── WORKFLOW.md                   # This file
+`
+
+---
+
+## Estimated API Costs
+
+| Step | Model | Approx. cost |
+|------|-------|-------------|
+| Steps 1-5 (full pipeline) | gpt-4.1-mini + gpt-4.1 | -8 |
+| Step 6 (writing quality) | gpt-4.1 | .50-1 |
+| Step 7 (ref check) | gpt-4.1 | .50-1 |
+| Step 8 (peer review, 3 reviewers + meta) | gpt-4.1 | -4 |
+| Readability audit | None (local) | Free |
+| **Total per full run** | | **-14** |
+
+Costs vary with literature corpus size and paper length. The pipeline tracks token usage and prints a summary after each run.
+
+---
+
+## Tips from the Trenches
+
+1. **Start with docs/goal.md**, not with writing. A clear research question saves hours of wandering.
+
+2. **The literature loader is quality-aware.** A 200-char stub from a paywalled paper is flagged as "unusable." Either find the full text or note it as a manual-review source.
+
+3. **Run Step 5 validation seriously.** It is your automated co-author catching overclaims. Do not ignore "critical" issues.
+
+4. **The readability audit is free.** Run it after every major edit. Target: no sentences over 40 words, FK grade under 19.
+
+5. **Version your outputs.** After each pipeline run, the enriched artifacts in data/processed/enriched/ reflect your current configuration. If you change source groupings, re-run from Step 1.
+
+6. **The peer review simulator (Step 8) is your best friend before submission.** It consistently catches issues that human reviewers will also catch. Address everything rated "critical" or "major."
