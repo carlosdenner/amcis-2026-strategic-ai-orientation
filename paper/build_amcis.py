@@ -141,13 +141,47 @@ def _clean_math(text):
     text = re.sub(r'\$([^$]+)\$', lambda m: _clean_math(m.group(1)), text)  # recurse on $...$
     return text
 
+# Bare citation author-name lookup (for sentence-opening @key references)
+# Format: key -> short author string used in-text
+_CITE_NAMES = {
+    'teece2007':        'Teece (2007)',
+    'milgrom1990':      'Milgrom and Roberts (1990)',
+    'meyer1977':        'Meyer and Rowan (1977)',
+    'bromley2012':      'Bromley and Powell (2012)',
+    'creswell2018':     'Creswell and Plano Clark (2018)',
+    'ali2023':          'Ali et al. (2023)',
+    'chawla2023':       'Chawla et al. (2023)',
+    'mckinseyai2025':   'Singla et al. (2025)',
+    'mckinsey2026':     'Reil-Jerenz et al. (2026)',
+    'bcg2025':          'Bobier et al. (2025)',
+    'gartner2026':      'Sánchez Reina (2025)',
+    'nist2023':         'NIST (2023)',
+    'euaiact2024':      'European Parliament and Council (2024)',
+    'li2021':           'Li et al. (2021)',
+    'gregor2006':       'Gregor (2006)',
+    'papagiannidis2025':'Papagiannidis et al. (2025)',
+    'hanelt2025':       'Hanelt et al. (2025)',
+    'iso42001':         'ISO/IEC 42001 (2023)',
+    'iso23894':         'ISO/IEC 23894 (2023)',
+}
+
 def _clean_text(text):
-    """Remove citation markers, clean escapes, strip trailing spaces."""
-    text = re.sub(r'\\(\*)', r'\1', text)           # unescape \*
-    text = re.sub(r'\\([\\])', r'\1', text)         # unescape \\
-    text = re.sub(r'\[[@\w;,\s@.]+\]', '', text)   # remove [@cite] blocks
-    text = re.sub(r'@[\w]+', '', text)              # remove bare @key
-    text = re.sub(r'  +', ' ', text)               # collapse multiple spaces
+    """Remove citation markers, clean escapes, fix spacing artifacts."""
+    text = re.sub(r'\\(\*)', r'\1', text)            # unescape \*
+    text = re.sub(r'\\([\\])', r'\1', text)          # unescape \\
+    # Step 1: Remove bracketed citation blocks entirely: [@key], [e.g., @key; @key2]
+    # Must do this BEFORE resolving bare @key so bracketed ones disappear cleanly
+    text = re.sub(r'\[(?:[^[\]]*@[\w][^[\]]*)\]', '', text)
+    # Step 2: Resolve bare sentence-opening @key -> "Author (year)"
+    def _resolve_bare(m):
+        return _CITE_NAMES.get(m.group(1), '')
+    text = re.sub(r'@([\w]+)', _resolve_bare, text)
+    # Step 3: Remove any empty brackets left over
+    text = re.sub(r'\[\s*\]', '', text)
+    # Step 4: Fix space before punctuation artifact: "word ." -> "word."
+    text = re.sub(r'\s+([.,;:!?])', r'\1', text)
+    # Step 5: Collapse multiple spaces
+    text = re.sub(r'  +', ' ', text)
     return text.strip()
 
 def apply_inline(para, text):
