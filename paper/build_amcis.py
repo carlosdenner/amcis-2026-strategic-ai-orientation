@@ -163,6 +163,8 @@ _CITE_NAMES = {
     'hanelt2025':       'Hanelt et al. (2025)',
     'iso42001':         'ISO/IEC 42001 (2023)',
     'iso23894':         'ISO/IEC 23894 (2023)',
+    'pinski2024':       'Pinski et al. (2024)',
+    'bendig2023':       'Bendig et al. (2023)',
 }
 
 def _fmt_cite_block(block_inner):
