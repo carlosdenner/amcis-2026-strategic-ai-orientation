@@ -394,8 +394,7 @@ r = p.add_run('Governance Readiness Gaps in Organizational AI Deployment: '
 r.font.size = Pt(20); r.bold = True
 
 p = doc.add_paragraph(style='normal'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-r1 = p.add_run('Indicate Submission Type: '); r1.bold = True; r1.italic = True
-r2 = p.add_run('Full Paper'); r2.italic = True
+r2 = p.add_run('Full Paper'); r2.bold = True; r2.italic = True
 
 def _add_table_caption(doc, text):
     """Add a table caption paragraph (bold, left-aligned, Table Text style)."""
