@@ -381,9 +381,6 @@ _set_header_text(doc, SHORT_TITLE)
 
 # ── 7 (was 6). Title block ────────────────────────────────────────────────────
 p = doc.add_paragraph(style='Title'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-r = p.add_run('AMCIS 2026 Reno'); r.font.size = Pt(20); r.bold = True
-
-p = doc.add_paragraph(style='Title'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r = p.add_run('Governance Readiness Gaps in Organizational AI Deployment: '
               'A Triangulated Analysis of Threats, Incidents, and Practice')
 r.font.size = Pt(20); r.bold = True
@@ -391,7 +388,6 @@ r.font.size = Pt(20); r.bold = True
 p = doc.add_paragraph(style='normal'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r1 = p.add_run('Indicate Submission Type: '); r1.bold = True; r1.italic = True
 r2 = p.add_run('Full Paper'); r2.italic = True
-r2.font.color.rgb = RGBColor(0xC0, 0x50, 0x00)
 
 def _add_table_caption(doc, text):
     """Add a table caption paragraph (bold, left-aligned, Table Text style)."""
