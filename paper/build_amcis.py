@@ -64,6 +64,7 @@ print(f'Parsed {len(blocks)} blocks')
 
 # ── 3. Generate formatted references via pandoc ───────────────────────────────
 def get_formatted_references():
+    """Return list of complete APA reference strings, one per entry."""
     with open(os.path.join(PAPER_DIR, 'paper.md'), encoding='utf-16') as f:
         paper_text = f.read()
     keys = list(dict.fromkeys(re.findall(r'@([\w]+)', paper_text)))
@@ -82,7 +83,20 @@ def get_formatted_references():
     refs = []
     if r.returncode == 0 and os.path.exists(tmp_out):
         with open(tmp_out, encoding='utf-8') as f:
-            refs = [l.rstrip() for l in f.readlines() if l.strip()]
+            raw_lines = f.readlines()
+        # pandoc plain wraps each entry across multiple lines separated by blank lines
+        # Rejoin each entry into a single string
+        current = []
+        for line in raw_lines:
+            stripped = line.rstrip()
+            if stripped:
+                current.append(stripped)
+            else:
+                if current:
+                    refs.append(' '.join(current))
+                    current = []
+        if current:
+            refs.append(' '.join(current))
     for tmp in [tmp_in, tmp_out]:
         if os.path.exists(tmp): os.remove(tmp)
     return refs
@@ -100,8 +114,46 @@ for child in list(body):
         body.remove(child)
 
 # ── 5. Helpers ───────────────────────────────────────────────────────────────
+# Math/symbol substitution table for Unicode rendering
+_MATH_SUBS = [
+    (r'\\rho',       'ρ'),
+    (r'\\chi\^2',    'χ²'),
+    (r'\\chi\^\{2\}','χ²'),
+    (r'\\times',     '×'),
+    (r'\\rightarrow','→'),
+    (r'\\to',        '→'),
+    (r'\\approx',    '≈'),
+    (r'\\leq',       '≤'),
+    (r'\\geq',       '≥'),
+    (r'\\neq',       '≠'),
+    (r'\\alpha',     'α'),
+    (r'\\beta',      'β'),
+    (r'\\Delta',     'Δ'),
+    (r'\\times',     '×'),
+]
+
+def _clean_math(text):
+    """Replace LaTeX math commands with Unicode equivalents."""
+    for pattern, replacement in _MATH_SUBS:
+        text = re.sub(pattern, replacement, text)
+    # Handle superscripts like x^2 -> x²  and subscripts
+    text = re.sub(r'\^\{([^}]+)\}', lambda m: m.group(1), text)  # remove braces
+    text = re.sub(r'\$([^$]+)\$', lambda m: _clean_math(m.group(1)), text)  # recurse on $...$
+    return text
+
+def _clean_text(text):
+    """Remove citation markers, clean escapes, strip trailing spaces."""
+    text = re.sub(r'\\(\*)', r'\1', text)           # unescape \*
+    text = re.sub(r'\\([\\])', r'\1', text)         # unescape \\
+    text = re.sub(r'\[[@\w;,\s@.]+\]', '', text)   # remove [@cite] blocks
+    text = re.sub(r'@[\w]+', '', text)              # remove bare @key
+    text = re.sub(r'  +', ' ', text)               # collapse multiple spaces
+    return text.strip()
+
 def apply_inline(para, text):
-    text = re.sub(r'\\(\*)', r'\1', text)
+    # Pre-process: unescape, strip citations, normalise spaces
+    text = _clean_text(text)
+    # Split on inline markup — order matters: *** before ** before *
     pattern = re.compile(r'(\*\*\*[^*]+\*\*\*|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\$[^$]+\$)')
     parts = pattern.split(text)
     for part in parts:
@@ -116,11 +168,9 @@ def apply_inline(para, text):
         elif part.startswith('`') and part.endswith('`'):
             run.text = part[1:-1]; run.font.name = 'Courier New'
         elif part.startswith('$') and part.endswith('$'):
-            run.text = part[1:-1]; run.italic = True
+            run.text = _clean_math(part[1:-1]); run.italic = True
         else:
-            cleaned = re.sub(r'\[[@\w;,\s]+\]', '', part)
-            cleaned = re.sub(r'@[\w]+', '', cleaned)
-            run.text = cleaned
+            run.text = _clean_math(part)
 
 def add_table(doc, rows):
     if not rows: return
@@ -129,13 +179,21 @@ def add_table(doc, rows):
     ncols  = len(header)
     tbl = doc.add_table(rows=1 + len(data), cols=ncols)
     tbl.style = 'TableNormal'
+    # Header row — bold, apply_inline for any formatting
     for j, txt in enumerate(header):
         cell = tbl.rows[0].cells[j]; cell.text = ''
-        r = cell.paragraphs[0].add_run(txt); r.bold = True; r.font.size = Pt(9)
+        p = cell.paragraphs[0]
+        apply_inline(p, txt)
+        for run in p.runs:
+            run.bold = True; run.font.size = Pt(9)
+    # Data rows — use apply_inline so math/markdown render correctly
     for i, rdata in enumerate(data):
         for j, txt in enumerate(rdata[:ncols]):
             cell = tbl.rows[i+1].cells[j]; cell.text = ''
-            r = cell.paragraphs[0].add_run(txt); r.font.size = Pt(9)
+            p = cell.paragraphs[0]
+            apply_inline(p, txt)
+            for run in p.runs:
+                run.font.size = Pt(9)
 
 def add_figure(doc, caption, path, attrs):
     img = os.path.join(PAPER_DIR, path)
@@ -175,7 +233,17 @@ for block in blocks:
         if sec.lower() == 'references':
             p = doc.add_paragraph(style='Heading 1'); p.add_run('References')
             for ref in ref_entries:
-                rp = doc.add_paragraph(style='References'); rp.add_run(ref)
+                rp = doc.add_paragraph(style='References')
+                # Hanging indent: first line flush, subsequent lines indented
+                from docx.shared import Pt as _Pt, Inches as _In
+                from docx.oxml import OxmlElement as _OE
+                from docx.oxml.ns import qn as _qn
+                pPr = rp._p.get_or_add_pPr()
+                ind = _OE('w:ind')
+                ind.set(_qn('w:left'), '720')    # 0.5in indent for wrapped lines
+                ind.set(_qn('w:hanging'), '720') # first line flush left
+                pPr.append(ind)
+                rp.add_run(ref)
         else:
             p = doc.add_paragraph(style='Heading 1'); apply_inline(p, sec)
     elif btype == 'h2':
