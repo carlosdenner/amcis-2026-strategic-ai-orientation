@@ -144,31 +144,31 @@ def _clean_math(text):
 # Bare citation author-name lookup (for sentence-opening @key references)
 # Format: key -> short author string used in-text
 _CITE_NAMES = {
-    'teece2007':        'Teece (2007)',
-    'milgrom1990':      'Milgrom and Roberts (1990)',
-    'meyer1977':        'Meyer and Rowan (1977)',
-    'bromley2012':      'Bromley and Powell (2012)',
-    'creswell2018':     'Creswell and Plano Clark (2018)',
-    'ali2023':          'Ali et al. (2023)',
-    'chawla2023':       'Chawla et al. (2023)',
-    'mckinseyai2025':   'Singla et al. (2025)',
-    'mckinsey2026':     'Reil-Jerenz et al. (2026)',
-    'bcg2025':          'Bobier et al. (2025)',
-    'gartner2026':      'Sánchez Reina (2025)',
-    'nist2023':         'NIST (2023)',
-    'euaiact2024':      'European Parliament and Council (2024)',
-    'li2021':           'Li et al. (2021)',
-    'gregor2006':       'Gregor (2006)',
-    'papagiannidis2025':'Papagiannidis et al. (2025)',
-    'hanelt2025':       'Hanelt et al. (2025)',
-    'iso42001':         'ISO/IEC 42001 (2023)',
-    'iso23894':         'ISO/IEC 23894 (2023)',
-    'pinski2024':       'Pinski et al. (2024)',
-    'bendig2023':       'Bendig et al. (2023)',
+    'teece2007':        'Teece, 2007',
+    'milgrom1990':      'Milgrom and Roberts, 1990',
+    'meyer1977':        'Meyer and Rowan, 1977',
+    'bromley2012':      'Bromley and Powell, 2012',
+    'creswell2018':     'Creswell and Plano Clark, 2018',
+    'ali2023':          'Ali et al., 2023',
+    'chawla2023':       'Chawla et al., 2023',
+    'mckinseyai2025':   'Singla et al., 2025',
+    'mckinsey2026':     'Reil-Jerenz et al., 2026',
+    'bcg2025':          'Bobier et al., 2025',
+    'gartner2026':      'Sánchez Reina, 2025',
+    'nist2023':         'NIST, 2023',
+    'euaiact2024':      'European Parliament and Council, 2024',
+    'li2021':           'Li et al., 2021',
+    'gregor2006':       'Gregor, 2006',
+    'papagiannidis2025':'Papagiannidis et al., 2025',
+    'hanelt2025':       'Hanelt et al., 2025',
+    'iso42001':         'ISO/IEC 42001, 2023',
+    'iso23894':         'ISO/IEC 23894, 2023',
+    'pinski2024':       'Pinski et al., 2024',
+    'bendig2023':       'Bendig et al., 2023',
 }
 
 def _fmt_cite_block(block_inner):
-    """Convert '@key1; @key2' inner text to '(Author year; Author year)'."""
+    """Convert '@key1; @key2' inner text to '(Author, year; Author, year)'."""
     keys = re.findall(r'@([\w]+)', block_inner)
     parts = [_CITE_NAMES.get(k, k) for k in keys]
     return '(' + '; '.join(parts) + ')' if parts else ''
@@ -177,12 +177,18 @@ def _clean_text(text):
     """Resolve citations, clean escapes, fix spacing artifacts."""
     text = re.sub(r'\\(\*)', r'\1', text)            # unescape \*
     text = re.sub(r'\\([\\])', r'\1', text)          # unescape \\
-    # Step 1: Replace bracketed citation blocks with (Author year) form
+    # Step 1: Replace bracketed citation blocks with (Author, year) form
     text = re.sub(r'\[([^[\]]*@[\w][^[\]]*)\]',
                   lambda m: _fmt_cite_block(m.group(1)), text)
     # Step 2: Resolve remaining bare @key (sentence-opening) -> "Author (year)"
     def _resolve_bare(m):
-        return _CITE_NAMES.get(m.group(1), '')
+        v = _CITE_NAMES.get(m.group(1), '')
+        if not v: return ''
+        # bare @key renders as "Author (year)" — split at last comma
+        if ', ' in v:
+            author, year = v.rsplit(', ', 1)
+            return f'{author} ({year})'
+        return v
     text = re.sub(r'@([\w]+)', _resolve_bare, text)
     # Step 3: Remove any empty brackets left over
     text = re.sub(r'\[\s*\]', '', text)
