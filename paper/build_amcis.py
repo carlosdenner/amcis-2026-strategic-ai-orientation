@@ -116,6 +116,7 @@ for child in list(body):
 # ── 5. Helpers ───────────────────────────────────────────────────────────────
 # Math/symbol substitution table for Unicode rendering
 _MATH_SUBS = [
+    (r'\\text\{([^}]+)\}', r'\1'),   # \text{word} -> word
     (r'\\rho',       'ρ'),
     (r'\\chi\^2',    'χ²'),
     (r'\\chi\^\{2\}','χ²'),
@@ -129,7 +130,6 @@ _MATH_SUBS = [
     (r'\\alpha',     'α'),
     (r'\\beta',      'β'),
     (r'\\Delta',     'Δ'),
-    (r'\\times',     '×'),
 ]
 
 def _clean_math(text):
@@ -165,14 +165,20 @@ _CITE_NAMES = {
     'iso23894':         'ISO/IEC 23894 (2023)',
 }
 
+def _fmt_cite_block(block_inner):
+    """Convert '@key1; @key2' inner text to '(Author year; Author year)'."""
+    keys = re.findall(r'@([\w]+)', block_inner)
+    parts = [_CITE_NAMES.get(k, k) for k in keys]
+    return '(' + '; '.join(parts) + ')' if parts else ''
+
 def _clean_text(text):
-    """Remove citation markers, clean escapes, fix spacing artifacts."""
+    """Resolve citations, clean escapes, fix spacing artifacts."""
     text = re.sub(r'\\(\*)', r'\1', text)            # unescape \*
     text = re.sub(r'\\([\\])', r'\1', text)          # unescape \\
-    # Step 1: Remove bracketed citation blocks entirely: [@key], [e.g., @key; @key2]
-    # Must do this BEFORE resolving bare @key so bracketed ones disappear cleanly
-    text = re.sub(r'\[(?:[^[\]]*@[\w][^[\]]*)\]', '', text)
-    # Step 2: Resolve bare sentence-opening @key -> "Author (year)"
+    # Step 1: Replace bracketed citation blocks with (Author year) form
+    text = re.sub(r'\[([^[\]]*@[\w][^[\]]*)\]',
+                  lambda m: _fmt_cite_block(m.group(1)), text)
+    # Step 2: Resolve remaining bare @key (sentence-opening) -> "Author (year)"
     def _resolve_bare(m):
         return _CITE_NAMES.get(m.group(1), '')
     text = re.sub(r'@([\w]+)', _resolve_bare, text)
@@ -366,6 +372,7 @@ def _set_header_text(doc, text):
     else:
         hp = header.add_paragraph()
     hp.style = doc.styles['Header']
+    hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     run = hp.add_run(text)
     run.font.name = 'Georgia'
     run.font.size = Pt(10)
