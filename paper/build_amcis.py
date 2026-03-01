@@ -343,7 +343,10 @@ def add_figure(doc, caption, path, attrs):
     except Exception as e: print(f'  WARN: {e}')
     cp = doc.add_paragraph(style='FigureCaption')
     cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    cr = cp.add_run(caption); cr.bold = True; cr.font.size = Pt(10)
+    cr = cp.add_run(caption)
+    cr.bold = True
+    cr.font.size = Pt(11)
+    cr.font.name = 'Georgia'
 
 # ── 6. Short title in page header ────────────────────────────────────────────
 SHORT_TITLE = 'Governance Readiness Gaps in AI Deployment'  # max 8 words
