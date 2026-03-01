@@ -172,28 +172,100 @@ def apply_inline(para, text):
         else:
             run.text = _clean_math(part)
 
+def _set_col_widths(tbl, widths_twips):
+    """Set explicit column widths on a table."""
+    from docx.oxml import OxmlElement as _OE
+    from docx.oxml.ns import qn as _qn
+    tblPr = tbl._tbl.find(_qn('w:tblPr'))
+    # Set fixed layout
+    tblLayout = _OE('w:tblLayout')
+    tblLayout.set(_qn('w:type'), 'fixed')
+    tblPr.append(tblLayout)
+    # Set total width
+    tblW = tblPr.find(_qn('w:tblW'))
+    if tblW is None:
+        tblW = _OE('w:tblW'); tblPr.append(tblW)
+    total = str(sum(widths_twips))
+    tblW.set(_qn('w:w'), total); tblW.set(_qn('w:type'), 'dxa')
+    # Set per-column widths via tblGrid
+    tblGrid = _OE('w:tblGrid')
+    for w in widths_twips:
+        col = _OE('w:gridCol'); col.set(_qn('w:w'), str(w))
+        tblGrid.append(col)
+    # Insert tblGrid after tblPr
+    tbl._tbl.insert(list(tbl._tbl).index(tblPr) + 1, tblGrid)
+    # Set each cell width
+    for row in tbl.rows:
+        for i, cell in enumerate(row.cells):
+            if i < len(widths_twips):
+                tcPr = cell._tc.get_or_add_tcPr()
+                tcW = tcPr.find(_qn('w:tcW'))
+                if tcW is None:
+                    tcW = _OE('w:tcW'); tcPr.insert(0, tcW)
+                tcW.set(_qn('w:w'), str(widths_twips[i]))
+                tcW.set(_qn('w:type'), 'dxa')
+
+# Column width presets (in twips, 1 inch = 1440 twips, page width 6.5in = 9360 twips)
+# Table 1: 4 cols — Source | Records | Coverage | Licence
+_COL_WIDTHS_T1 = [1800, 2000, 3060, 1500]   # total 8360
+# Table 2: 5 cols — Variable | M1 | M2 | M3 | M4
+_COL_WIDTHS_T2 = [1800, 1800, 1800, 1800, 1800]  # total 9000
+# Table 3: 3 cols — ID | Proposition | Primary Evidence Anchor
+_COL_WIDTHS_T3 = [480, 4560, 4320]  # total 9360
+_TABLE_COL_WIDTHS = [_COL_WIDTHS_T1, _COL_WIDTHS_T2, _COL_WIDTHS_T3]
+_table_count = [0]  # mutable counter
+
 def add_table(doc, rows):
     if not rows: return
+    from docx.oxml import OxmlElement as _OE
+    from docx.oxml.ns import qn as _qn
+
     header = [c.strip() for c in rows[0].strip('|').split('|')]
     data   = [[c.strip() for c in r.strip('|').split('|')] for r in rows[1:]]
     ncols  = len(header)
+
     tbl = doc.add_table(rows=1 + len(data), cols=ncols)
+
+    # Apply Table1 style (AMCIS bordered style)
     tbl.style = 'TableNormal'
-    # Header row — bold, apply_inline for any formatting
-    for j, txt in enumerate(header):
-        cell = tbl.rows[0].cells[j]; cell.text = ''
+    tblPr = tbl._tbl.find(_qn('w:tblPr'))
+    # Set Table1 style reference
+    tblStyle = tblPr.find(_qn('w:tblStyle'))
+    if tblStyle is None:
+        tblStyle = _OE('w:tblStyle'); tblPr.insert(0, tblStyle)
+    tblStyle.set(_qn('w:val'), 'Table1')
+    # Center the table
+    jc = tblPr.find(_qn('w:jc'))
+    if jc is None:
+        jc = _OE('w:jc'); tblPr.append(jc)
+    jc.set(_qn('w:val'), 'center')
+
+    # Apply column widths for the known tables
+    idx = _table_count[0]
+    if idx < len(_TABLE_COL_WIDTHS):
+        _set_col_widths(tbl, _TABLE_COL_WIDTHS[idx])
+    _table_count[0] += 1
+
+    # Helper: fill a cell with text using Table Text paragraph style
+    def fill_cell(cell, txt, bold=False):
+        cell.text = ''
+        # Change paragraph style to Table Text
         p = cell.paragraphs[0]
+        p.style = doc.styles['Table Text']
         apply_inline(p, txt)
         for run in p.runs:
-            run.bold = True; run.font.size = Pt(9)
-    # Data rows — use apply_inline so math/markdown render correctly
+            run.font.size = Pt(9)
+            if bold:
+                run.bold = True
+
+    # Header row
+    for j, txt in enumerate(header):
+        fill_cell(tbl.rows[0].cells[j], txt, bold=True)
+
+    # Data rows
     for i, rdata in enumerate(data):
         for j, txt in enumerate(rdata[:ncols]):
-            cell = tbl.rows[i+1].cells[j]; cell.text = ''
-            p = cell.paragraphs[0]
-            apply_inline(p, txt)
-            for run in p.runs:
-                run.font.size = Pt(9)
+            fill_cell(tbl.rows[i+1].cells[j], txt, bold=False)
 
 def add_figure(doc, caption, path, attrs):
     img = os.path.join(PAPER_DIR, path)
