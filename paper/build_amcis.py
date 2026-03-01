@@ -207,27 +207,57 @@ def apply_inline(para, text):
             run.text = _clean_math(part)
 
 def _set_col_widths(tbl, widths_twips):
-    """Set explicit column widths on a table."""
+    """Set explicit column widths and borders on a table."""
     from docx.oxml import OxmlElement as _OE
     from docx.oxml.ns import qn as _qn
     tblPr = tbl._tbl.find(_qn('w:tblPr'))
+
+    # Fix tblLook to 0000 (no conditional-format overrides that suppress borders)
+    tblLook = tblPr.find(_qn('w:tblLook'))
+    if tblLook is None:
+        tblLook = _OE('w:tblLook'); tblPr.append(tblLook)
+    tblLook.set(_qn('w:val'), '0000')
+    for attr in ('w:firstRow','w:lastRow','w:firstColumn','w:lastColumn','w:noHBand','w:noVBand'):
+        if tblLook.get(_qn(attr)): del tblLook.attrib[_qn(attr)]
+
+    # Add explicit tblBorders (single line, 0.5pt = sz 4, black)
+    tblBorders = tblPr.find(_qn('w:tblBorders'))
+    if tblBorders is None:
+        tblBorders = _OE('w:tblBorders')
+        tblPr.append(tblBorders)
+    else:
+        for child in list(tblBorders): tblBorders.remove(child)
+    for border_name in ('top','left','bottom','right','insideH','insideV'):
+        b = _OE(f'w:{border_name}')
+        b.set(_qn('w:val'), 'single')
+        b.set(_qn('w:sz'), '4')
+        b.set(_qn('w:space'), '0')
+        b.set(_qn('w:color'), '000000')
+        tblBorders.append(b)
+
     # Set fixed layout
-    tblLayout = _OE('w:tblLayout')
+    tblLayout = tblPr.find(_qn('w:tblLayout'))
+    if tblLayout is None:
+        tblLayout = _OE('w:tblLayout'); tblPr.append(tblLayout)
     tblLayout.set(_qn('w:type'), 'fixed')
-    tblPr.append(tblLayout)
+
     # Set total width
     tblW = tblPr.find(_qn('w:tblW'))
     if tblW is None:
         tblW = _OE('w:tblW'); tblPr.append(tblW)
     total = str(sum(widths_twips))
     tblW.set(_qn('w:w'), total); tblW.set(_qn('w:type'), 'dxa')
-    # Set per-column widths via tblGrid
+
+    # Remove existing tblGrid and replace
+    old_grid = tbl._tbl.find(_qn('w:tblGrid'))
+    if old_grid is not None:
+        tbl._tbl.remove(old_grid)
     tblGrid = _OE('w:tblGrid')
     for w in widths_twips:
         col = _OE('w:gridCol'); col.set(_qn('w:w'), str(w))
         tblGrid.append(col)
-    # Insert tblGrid after tblPr
     tbl._tbl.insert(list(tbl._tbl).index(tblPr) + 1, tblGrid)
+
     # Set each cell width
     for row in tbl.rows:
         for i, cell in enumerate(row.cells):
@@ -329,7 +359,31 @@ r1 = p.add_run('Indicate Submission Type: '); r1.bold = True; r1.italic = True
 r2 = p.add_run('Full Paper'); r2.italic = True
 r2.font.color.rgb = RGBColor(0xC0, 0x50, 0x00)
 
+def _add_table_caption(doc, text):
+    """Add a table caption paragraph (bold, left-aligned, Table Text style)."""
+    from docx.oxml import OxmlElement as _OE
+    from docx.oxml.ns import qn as _qn
+    cp = doc.add_paragraph(style='TableCaption')
+    cp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    apply_inline(cp, text)
+
+def _add_ref_entries(doc, ref_entries):
+    from docx.oxml import OxmlElement as _OE
+    from docx.oxml.ns import qn as _qn
+    for ref in ref_entries:
+        rp = doc.add_paragraph(style='References')
+        pPr = rp._p.get_or_add_pPr()
+        ind = _OE('w:ind')
+        ind.set(_qn('w:left'), '720')
+        ind.set(_qn('w:hanging'), '720')
+        pPr.append(ind)
+        rp.add_run(ref)
+
 # ── 7. Body ──────────────────────────────────────────────────────────────────
+# Table captions in the markdown appear BEFORE the table rows.
+# We buffer them and emit AFTER the table.
+_pending_table_caption = [None]
+
 for block in blocks:
     btype = block[0]
     if btype == 'title':
@@ -337,19 +391,13 @@ for block in blocks:
     elif btype == 'h1':
         sec = block[1]
         if sec.lower() == 'references':
-            p = doc.add_paragraph(style='Heading 1'); p.add_run('References')
-            for ref in ref_entries:
-                rp = doc.add_paragraph(style='References')
-                # Hanging indent: first line flush, subsequent lines indented
-                from docx.shared import Pt as _Pt, Inches as _In
-                from docx.oxml import OxmlElement as _OE
-                from docx.oxml.ns import qn as _qn
-                pPr = rp._p.get_or_add_pPr()
-                ind = _OE('w:ind')
-                ind.set(_qn('w:left'), '720')    # 0.5in indent for wrapped lines
-                ind.set(_qn('w:hanging'), '720') # first line flush left
-                pPr.append(ind)
-                rp.add_run(ref)
+            p = doc.add_paragraph(style='Heading 1')
+            r = p.add_run('References'); r.font.size = Pt(13); r.bold = True
+            # AMCIS subtitle line
+            sub = doc.add_paragraph(style='Heading 1')
+            sr = sub.add_run('(Ensure that all references are complete and accurate)')
+            sr.font.size = Pt(13); sr.bold = True
+            _add_ref_entries(doc, ref_entries)
         else:
             p = doc.add_paragraph(style='Heading 1'); apply_inline(p, sec)
     elif btype == 'h2':
@@ -360,13 +408,18 @@ for block in blocks:
         _, caption, path, attrs = block
         add_figure(doc, caption, path, attrs)
     elif btype == 'table':
-        _, rows = block; add_table(doc, rows)
+        _, rows = block
+        add_table(doc, rows)
+        # Emit buffered caption BELOW the table
+        if _pending_table_caption[0]:
+            _add_table_caption(doc, _pending_table_caption[0])
+            _pending_table_caption[0] = None
     elif btype == 'para':
         text = block[1].strip()
         if not text: continue
-        if re.match(r'^\*\*Table\s+\d+', text):
-            p = doc.add_paragraph(style='TableCaption')
-            p.alignment = WD_ALIGN_PARAGRAPH.LEFT; apply_inline(p, text)
+        if re.match(r'^\*\*Table\s+\d+\.\*\*', text):
+            # Buffer the caption — will be emitted after the next table block
+            _pending_table_caption[0] = text
         else:
             p = doc.add_paragraph(style='normal'); apply_inline(p, text)
 
