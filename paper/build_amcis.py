@@ -345,7 +345,31 @@ def add_figure(doc, caption, path, attrs):
     cp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     cr = cp.add_run(caption); cr.bold = True; cr.font.size = Pt(10)
 
-# ── 6. Title block ───────────────────────────────────────────────────────────
+# ── 6. Short title in page header ────────────────────────────────────────────
+SHORT_TITLE = 'Governance Readiness Gaps in AI Deployment'  # max 8 words
+
+def _set_header_text(doc, text):
+    """Set the default page header to the short title."""
+    from docx.oxml import OxmlElement as _OE
+    from docx.oxml.ns import qn as _qn
+    section = doc.sections[0]
+    section.different_first_page_header_footer = False
+    header = section.header
+    # Clear existing paragraphs
+    for p in header.paragraphs:
+        p.clear()
+    if header.paragraphs:
+        hp = header.paragraphs[0]
+    else:
+        hp = header.add_paragraph()
+    hp.style = doc.styles['Header']
+    run = hp.add_run(text)
+    run.font.name = 'Georgia'
+    run.font.size = Pt(10)
+
+_set_header_text(doc, SHORT_TITLE)
+
+# ── 7 (was 6). Title block ────────────────────────────────────────────────────
 p = doc.add_paragraph(style='Title'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r = p.add_run('AMCIS 2026 Reno'); r.font.size = Pt(20); r.bold = True
 
@@ -393,10 +417,6 @@ for block in blocks:
         if sec.lower() == 'references':
             p = doc.add_paragraph(style='Heading 1')
             r = p.add_run('References'); r.font.size = Pt(13); r.bold = True
-            # AMCIS subtitle line
-            sub = doc.add_paragraph(style='Heading 1')
-            sr = sub.add_run('(Ensure that all references are complete and accurate)')
-            sr.font.size = Pt(13); sr.bold = True
             _add_ref_entries(doc, ref_entries)
         else:
             p = doc.add_paragraph(style='Heading 1'); apply_inline(p, sec)
