@@ -1,4 +1,11 @@
-# AMCIS 2026 — Strategic AI Orientation Enabled by Trust & Integration Readiness
+# Governance Readiness Gaps in Organizational AI Deployment
+### A Triangulated Analysis of Threats, Incidents, and Practice
+
+**AMCIS 2026 Full Paper** · Carlos Santos · Université de Sherbrooke
+
+> **Replication package** — see [REPLICATION.md](REPLICATION.md) for the full analysis pipeline, construct operationalization, and Bayesian exploratory protocol documentation.
+
+---
 
 Research project for the **Americas Conference on Information Systems (AMCIS) 2026**.
 

@@ -12,7 +12,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 
 PAPER_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE  = os.path.join(PAPER_DIR, '..', 'AMCIS-2026-Full-ERF-Template_Initial-submission-1.docx')
+TEMPLATE  = os.path.join(PAPER_DIR, 'Camera Ready', 'Final-AMCIS-2026-ERF-Camera-Ready-Template.docx')
 OUTPUT    = os.path.join(PAPER_DIR, 'paper_amcis.docx')
 PDF_OUT   = os.path.join(PAPER_DIR, 'paper_submission.pdf')
 
@@ -160,6 +160,7 @@ _CITE_NAMES = {
     'li2021':           'Li et al., 2021',
     'gregor2006':       'Gregor, 2006',
     'papagiannidis2025':'Papagiannidis et al., 2025',
+    'deAlmeida2025':    'de Almeida and dos Santos Júnior, 2025',
     'hanelt2025':       'Hanelt et al., 2025',
     'iso42001':         'ISO/IEC 42001, 2023',
     'iso23894':         'ISO/IEC 23894, 2023',
@@ -393,8 +394,48 @@ r = p.add_run('Governance Readiness Gaps in Organizational AI Deployment: '
               'A Triangulated Analysis of Threats, Incidents, and Practice')
 r.font.size = Pt(20); r.bold = True
 
-p = doc.add_paragraph(style='normal'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+p = doc.add_paragraph(style='Normal'); p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 r2 = p.add_run('Full Paper'); r2.bold = True; r2.italic = True
+
+# ── Author block ─────────────────────────────────────────────────────────────
+AUTHORS = [
+    ('Carlos Denner dos Santos', "École de Gestion, Université de Sherbrooke", 'carlos.denner@usherbrooke.ca'),
+    ('Elaine Mosconi',           "École de Gestion, Université de Sherbrooke", 'elaine.mosconi@usherbrooke.ca'),
+]
+for name, affil, email in AUTHORS:
+    pa = doc.add_paragraph(style='Author'); pa.add_run(name)
+    pf = doc.add_paragraph(style='Affiliation'); pf.add_run(affil)
+    pe = doc.add_paragraph(style='Email'); pe.add_run(email)
+
+# ── Abstract ─────────────────────────────────────────────────────────────────
+ABSTRACT_TEXT = (
+    'Artificial intelligence has shifted from boardroom aspiration to '
+    'organizational imperative, yet governance readiness lags deployment pace. '
+    'Drawing on dynamic capabilities and institutional decoupling, we investigate '
+    'how trust readiness (governance capability) and integration readiness '
+    '(implementation capability) shape AI governance outcomes. Triangulating '
+    'MITRE ATLAS, the AI Incident Database, and the U.S. Federal AI Use Case '
+    'Inventory (1,757 deployments), our analysis reveals governance theater: a '
+    'majority of AI deployments report internal review approval, yet only a small '
+    'fraction report substantive safeguards. Risk-tiering does not rescue '
+    'governance depth. Splitting trust readiness uncovers a suppression effect: '
+    'surface approvals facilitate deployment while substantive safeguards dampen '
+    'it. Integration readiness remains the dominant predictor of operational '
+    'deployment. Evaluability constraints\u2014limits on control rights and system '
+    'access in vendor-developed systems\u2014emerge as a structural antecedent of '
+    'governance failure. These findings offer IS researchers a replicable '
+    'framework for governance gap analysis and provide CIOs with actionable '
+    'guidance on bundle-based capability building and procurement governance.'
+)
+KEYWORDS_TEXT = (
+    'AI governance, governance theater, trust readiness, integration readiness, '
+    'AI evaluation, AI deployment'
+)
+
+p_ah = doc.add_paragraph(style='AbstractHeader'); p_ah.add_run('Abstract')
+p_ab = doc.add_paragraph(style='AbstractText'); p_ab.add_run(ABSTRACT_TEXT)
+p_kh = doc.add_paragraph(style='AbstractHeader'); p_kh.add_run('Keywords')
+p_kb = doc.add_paragraph(style='Keyword'); p_kb.add_run(KEYWORDS_TEXT)
 
 def _add_table_caption(doc, text):
     """Add a table caption paragraph (bold, left-aligned, Table Text style)."""
@@ -454,7 +495,7 @@ for block in blocks:
             # Buffer the caption — will be emitted after the next table block
             _pending_table_caption[0] = text
         else:
-            p = doc.add_paragraph(style='normal'); apply_inline(p, text)
+            p = doc.add_paragraph(style='Normal'); apply_inline(p, text)
 
 if sectPr is not None:
     body.append(sectPr)
