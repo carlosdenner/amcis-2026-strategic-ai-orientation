@@ -23,8 +23,8 @@ We triangulate three public datasets — MITRE ATLAS (52 adversarial case studie
 ## Reproducing the Analysis
 
 ```bash
-git clone https://github.com/<your-fork>/governance-readiness
-cd governance-readiness
+git clone https://github.com/carlosdenner/amcis-2026-strategic-ai-orientation
+cd amcis-2026-strategic-ai-orientation
 python -m venv .venv
 .venv\Scripts\activate          # Windows
 # source .venv/bin/activate     # macOS / Linux

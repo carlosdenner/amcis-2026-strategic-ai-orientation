@@ -210,4 +210,4 @@ If you use this code or data, please cite:
 ## License
 
 Code: MIT License. See `LICENSE`.  
-Data: Subject to terms of the original sources (MITRE ATLAS, AIID, ai.gov). See `data/README.md`.
+Data: Subject to terms of the original sources (MITRE ATLAS, AIID, ai.gov).
