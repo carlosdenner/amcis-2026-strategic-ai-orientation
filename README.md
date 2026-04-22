@@ -1,137 +1,79 @@
 # Governance Readiness Gaps in Organizational AI Deployment
-### A Triangulated Analysis of Threats, Incidents, and Practice
 
-**AMCIS 2026 Full Paper** · Carlos Santos · Université de Sherbrooke
+**A Triangulated Analysis of Threats, Incidents, and Practice**
 
-> **Replication package** — see [REPLICATION.md](REPLICATION.md) for the full analysis pipeline, construct operationalization, and Bayesian exploratory protocol documentation.
+AMCIS 2026 Full Paper · Carlos Denner dos Santos & Elaine Mosconi · Université de Sherbrooke
+
+📄 Paper: [`paper/AMCIS2026_Santos&Mosconi_GovernanceReadiness.pdf`](paper/AMCIS2026_Santos&Mosconi_GovernanceReadiness.pdf)
+📘 Replication details: [REPLICATION.md](REPLICATION.md)
 
 ---
 
-Research project for the **Americas Conference on Information Systems (AMCIS) 2026**.
+## Summary
 
-## Thesis
+We triangulate three public datasets — MITRE ATLAS (52 adversarial case studies), the AI Incident Database (1,362 incidents), and the EO 13960 Federal AI Use Case Inventory (1,757 deployments × 38 agencies) — to characterize the gap between formal AI governance adoption and substantive implementation. Two capability bundles (Trust Readiness and Integration Readiness) are operationalized from the EO 13960 fields and used to test a pathway model of operational deployment.
 
-CIOs shape a firm's **AI orientation** (strategic intent / direction for AI), but the ability to realise that orientation depends on two enabling capability bundles:
+**Key findings**
 
-1. **Trust / Governance Readiness** — grounded in NIST AI RMF, EU AI Act, OWASP Top-10 for LLMs, and MITRE ATLAS.
-2. **Integration / Architecture Readiness** — grounded in agentic-AI design patterns, Azure Well-Architected AI guidance, and GenAIOps practices.
+- **Governance theater**: 60.7% of federal AI systems report internal review, but substantive safeguards (impact assessment, independent evaluation, bias mitigation) cluster at 5–9%.
+- **Risk-tiering does not rescue depth**: theater rates *rise* from 53.9% (non-flagged) to 63.0% (rights/safety-impacting).
+- **Suppression effect**: TR-surface facilitates deployment (OR=1.39, p<0.01) while TR-substantive dampens it (OR=0.92, p<0.05); IR is the dominant predictor (OR=1.25, p<0.001).
+- **Evaluability constraints**: vendor-supplied systems are roughly half as likely to report impact assessment (OR=0.43, p=0.002, robust to agency fixed effects).
 
-## Repository Structure
-
-```
-├── README.md
-├── requirements.txt              # Python dependencies
-│
-├── data/
-│   ├── raw/                      # Immutable source data (do NOT edit)
-│   │   ├── atlas/                # MITRE ATLAS adversarial-threat KB
-│   │   ├── aiid/                 # AI Incident Database snapshot
-│   │   └── eo13960/              # EO 13960 federal AI inventory
-│   └── processed/                # Analysis-ready artefacts (regenerable)
-│       ├── cross_taxonomy_map.csv
-│       ├── aiid_incidents_classified.csv
-│       ├── atlas_cases_enriched.csv
-│       ├── eo13960_scored.csv
-│       ├── unified_evidence_base.csv
-│       ├── step1–4 legacy outputs
-│       └── enriched/             # LLM-enriched artefacts
-│
-├── scripts/                      # Reproducible analysis pipeline
-│   ├── 00_profile_sources.py     # Profile all 3 raw data sources
-│   ├── 01_cross_taxonomy_mapping.py  # Cross-taxonomy bridging table
-│   ├── 02_prepare_datasets.py    # Merge & score → analysis CSVs
-│   ├── 03_generate_figures.py    # Publication-ready figures
-│   ├── 04_profile_eo13960.py     # Deep EO 13960 governance profiling
-│   ├── agents/                   # LLM-powered enrichment pipeline
-│   └── legacy/                   # Original 4-step pipeline (archived)
-│
-├── paper/
-│   ├── paper.md                  # Manuscript (Markdown)
-│   └── figures/                  # Publication-ready PNGs
-│
-├── literature/                   # Reference documents (HTML, MD, PDF)
-│
-└── docs/                         # Project planning & design documents
-    ├── Goal.txt
-    ├── Planning - Concepts, Framework and Methods.*
-    └── research_angles_summary.md
-```
-
-## Data Sources (3 secondary data repositories)
-
-| Source | Records | Type | Licence |
-|--------|--------:|------|---------|
-| MITRE ATLAS | 52 case studies, 16 tactics, 155 techniques, 35 mitigations | Adversarial threat knowledge base | Apache 2.0 |
-| AI Incident Database (AIID) | 1,362 incidents, 6,681 reports | Real-world AI failure repository | CC BY-SA 4.0 |
-| EO 13960 Federal AI Inventory | 1,757 use cases × 62 variables × 38 agencies | Government AI practice data | Public domain |
-
-## McKinsey "Constraints to Scale" Alignment
-
-The cross-taxonomy mapping anchors all three data sources to McKinsey's
-Exhibit 5 barriers (Feb 2026, "The new CIO mandate"):
-
-| ID | Constraint | % | Primary Data Evidence |
-|----|-----------|---:|----------------------|
-| C1 | Talent / capability gaps | 31% | ATLAS (reconnaissance), AIID (misuse) |
-| C2 | Integration complexity | 29% | ATLAS (lateral movement, agent segmentation), AIID (latency) |
-| C3 | Security / reliability / hallucinations | 26% | ATLAS (65 links), AIID (generalization, bias), EO 13960 (Tier-2 gap) |
-| C4 | Regulatory / privacy / compliance | 24% | ATLAS (exfiltration), AIID (transparency, bias), EO 13960 (safeguards) |
-| C5 | Lack of modern data foundations | 21% | ATLAS (collection/discovery), AIID (data noise) |
-| C7 | Difficulty measuring ROI / value | 17% | EO 13960 (post-deploy monitoring) |
-| C8 | Internal resistance / change management | 16% | ATLAS (HITL), AIID (misuse), EO 13960 (stakeholders) |
-
-## Reproducibility
-
-### Prerequisites
+## Reproducing the Analysis
 
 ```bash
+git clone https://github.com/<your-fork>/governance-readiness
+cd governance-readiness
 python -m venv .venv
-.venv\Scripts\activate        # Windows
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # macOS / Linux
 pip install -r requirements.txt
 ```
 
-### Running the Pipeline
+All three raw datasets are bundled under `data/raw/` (MITRE ATLAS, AIID snapshot, EO 13960 inventory). To refresh from upstream sources, run `python scripts/download_data.py`.
 
-From the project root:
-
-```bash
-# Step 0 — Profile raw sources (optional, exploratory)
-python scripts/00_profile_sources.py
-
-# Step 1 — Build cross-taxonomy bridging table → data/processed/cross_taxonomy_map.csv
-python scripts/01_cross_taxonomy_mapping.py
-
-# Step 2 — Prepare analysis-ready datasets → data/processed/*.csv
-python scripts/02_prepare_datasets.py
-
-# Step 3 — Generate publication figures → paper/figures/*.png
-python scripts/03_generate_figures.py
-
-# Step 4 — Deep EO 13960 governance profiling (optional)
-python scripts/04_profile_eo13960.py
-```
-
-### Agentic Enrichment Pipeline (optional)
-
-The `scripts/agents/` directory contains an LLM-powered enrichment pipeline that
-reads literature sources, extracts evidence passages, and generates grounded
-artefacts with auditable citation trails.
+Then run, in order:
 
 ```bash
-# Requires OPENAI_API_KEY environment variable
-python -m scripts.agents.run_agents          # full pipeline
-python -m scripts.agents.run_agents --step 1 # single step
+python scripts/01_cross_taxonomy_mapping.py     # cross-taxonomy bridging table
+python scripts/02_prepare_datasets.py           # analysis-ready CSVs
+python scripts/09_pathway_model.py              # nested logistic regressions (Table 2)
+python scripts/17_table2_split_tr.py            # split-TR suppression model
+python scripts/18_tr_weighting_robustness.py    # TR weighting robustness (PCA, inv-prevalence)
+python scripts/12_procurement_confounding.py    # vendor / evaluability analyses
+python scripts/13_aiid_coverage_robustness.py   # sector-harm fingerprints
+python scripts/03_generate_figures.py           # figures 2–4
 ```
 
-| Step | Agent | Purpose |
-|------|-------|---------|
-| 1 | `step1_extract.py` | Extract evidence from literature → enriched construct definitions |
-| 2 | `step2_crosswalk.py` | Generate crosswalk with source-passage citations |
-| 3 | `step3_enrich.py` | Fix mitigation mapping + LLM competency gap descriptions |
-| 4 | `step4_synthesize.py` | Compute cross-step statistics + grounded propositions |
+See [REPLICATION.md](REPLICATION.md) for the full script catalog, construct operationalization, robustness checks, and the Bayesian exploratory protocol.
 
-Uses `gpt-4.1-mini` for extraction and `gpt-4.1` for synthesis.
+## Repository Layout
+
+```
+README.md                  # this file
+REPLICATION.md             # full replication documentation
+requirements.txt
+data/
+  raw/                     # immutable source data (do not edit)
+  processed/               # regenerable analysis artefacts
+scripts/                   # numbered, runnable analysis pipeline
+paper/
+  AMCIS2026_Santos&Mosconi_GovernanceReadiness.pdf
+```
+
+## Citation
+
+```bibtex
+@inproceedings{santos2026governance,
+  author    = {Santos, Carlos Denner and Mosconi, Elaine},
+  title     = {Governance Readiness Gaps in Organizational {AI} Deployment:
+               A Triangulated Analysis of Threats, Incidents, and Practice},
+  booktitle = {Proceedings of the Americas Conference on Information Systems (AMCIS 2026)},
+  year      = {2026}
+}
+```
 
 ## License
 
-Private academic research — all rights reserved.
+Code: MIT (see `LICENSE`). Data: governed by the licences of the original sources (MITRE ATLAS — Apache 2.0; AIID — CC BY-SA 4.0; EO 13960 — public domain).

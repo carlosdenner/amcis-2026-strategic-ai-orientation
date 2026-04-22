@@ -3,7 +3,7 @@
 ## Governance Readiness Gaps in Organizational AI Deployment: A Triangulated Analysis of Threats, Incidents, and Practice
 
 **AMCIS 2026 | Full Paper**  
-Carlos Santos · Université de Sherbrooke
+Carlos Denner dos Santos & Elaine Mosconi · Université de Sherbrooke
 
 ---
 
@@ -30,7 +30,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Download the EO 13960 raw inventory (`2024_consolidated_ai_inventory_raw.csv`) from [ai.gov](https://ai.gov/ai-use-cases/) and place it in `data/raw/eo13960/`.
+All three raw datasets are bundled under `data/raw/` (MITRE ATLAS, AIID snapshot, EO 13960 inventory). To refresh from upstream sources, run `python scripts/download_data.py`.
 
 ---
 
@@ -52,6 +52,7 @@ Run scripts in numbered order from the `scripts/` directory:
 | `13_aiid_coverage_robustness.py` | AIID sector harm fingerprints |
 | `14_atlas_threat_characterization.py` | ATLAS threat characterization |
 | `17_table2_split_tr.py` | Split-TR suppression-effect model |
+| `18_tr_weighting_robustness.py` | TR weighting robustness (equal vs PCA-1 vs inverse-prevalence) |
 
 ---
 
@@ -185,6 +186,7 @@ Governance theater is operationalized as TR-surface > 0 AND TR-substantive = 0: 
 | Vendor analysis with 650 excluded use cases included | `scripts/16_vendor_divergence_diagnostic.py` | Bivariate vendor direction reverses — confirms sensitivity to sample composition; addressed in Limitations |
 | Agency fixed effects for vendor finding | `scripts/12_procurement_confounding.py` | Vendor OR for impact assessment robust: 0.47 (p=0.046) |
 | TR composite vs split-TR model comparison | `scripts/17_table2_split_tr.py` | Split model improves AIC (2,080 vs 2,089); suppression effect confirmed |
+| Alternative TR weighting (PCA-1, inverse-prevalence) | `scripts/18_tr_weighting_robustness.py` | M4 suppression signature preserved across all schemes (TR-surface OR=1.39–1.42, p≤0.006; TR-substantive OR≈0.92, p≤0.023; IR OR≈1.25, p<0.001) |
 | Sector-harm association sensitivity | `scripts/13_aiid_coverage_robustness.py` | χ²=12.97, p=0.0003, robust to taxonomy subsets |
 
 ---
@@ -195,7 +197,7 @@ If you use this code or data, please cite:
 
 ```bibtex
 @inproceedings{santos2026governance,
-  author    = {Santos, Carlos},
+  author    = {Santos, Carlos Denner and Mosconi, Elaine},
   title     = {Governance Readiness Gaps in Organizational {AI} Deployment:
                A Triangulated Analysis of Threats, Incidents, and Practice},
   booktitle = {Proceedings of the Americas Conference on Information Systems (AMCIS 2026)},
