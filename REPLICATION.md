@@ -146,7 +146,7 @@ Hypotheses that survived the surprise filter were translated into the four testa
 - Chi-square tests for sector-harm associations (`scripts/13_aiid_coverage_robustness.py`)
 - Vendor-stratified sub-analyses (`scripts/12_procurement_confounding.py`)
 
-The full experiment archives (`data/astalabs_experiments_session1/`, `data/astalabs_experiments_session2/`) are included in this repository, enabling complete audit of the exploratory phase.
+The full experiment archives (400 runs across two sessions) are available from the authors on request, enabling complete audit of the exploratory phase.
 
 ---
 
